@@ -1,0 +1,64 @@
+swagger: "2.0"
+info:
+  description: "Virtual platform data source API"
+  version: "v0.1"
+  title: "Virtual platform data source API"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+basePath: "/"
+schemes:
+- "https"
+paths:
+  /individuals:
+    post:
+      summary: "Create a new request to count individuals available at the data source (i.e. patients)"
+      description: ""
+      operationId: "individuals_request"
+      parameters: 
+      - in: "body"
+        name: "body"
+        required: false
+        schema: 
+          $ref: "#/definitions/IndividualRequest"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "400":
+          description: Input data malformed
+        "200":
+          $ref: "#/definitions/IndividualResponse"
+        "403":
+          description: The data source does not allow counting entities
+definitions:
+  IndividualRequest:
+    type: "object"
+    description: "Placeholder for any input parameters"
+  IndividualResponse:
+      description: |
+        Response of a query over individuals.
+      type: object
+      required:
+        - response
+      properties:
+        response:
+          $ref: '#/definitions/IndividualResponseContent'
+  IndividualResponseContent:
+      description: |
+        Description pending
+      type: object
+      required:
+        - exists
+        - numTotalResults
+      properties:
+        exists:
+          description: |
+            Indicator of whether any individual was observed in any of the
+            datasets queried. This should be non-null, unless there was an
+            error, in which case `error` has to be non-null.
+          type: boolean
+        numTotalResults:
+          type: integer
+          minimum: 0
