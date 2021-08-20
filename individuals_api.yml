@@ -41,9 +41,30 @@ definitions:
         Response of a query over individuals.
       type: object
       required:
+        - meta
         - response
       properties:
+        meta:
+          $ref: '#/definitions/ResponseMeta'
         response:
+          $ref: '#/definitions/IndividualResponseContent'
+  ResponseMeta:
+      description: |
+        Meta information about the reponse.
+      type: object
+      properties:
+        beaconId:
+          description: |
+            Identifier of the API, as defined in `Beacon`.
+          type: string
+        apiVersion:
+          description: >-
+            Version of the API. If specified, the value must match `apiVersion`
+            in specs document
+          type: string
+        receivedRequest:
+          $ref: '#/definitions/IndividualRequest'
+        returnedSchemas:
           $ref: '#/definitions/IndividualResponseContent'
   IndividualResponseContent:
       description: |
