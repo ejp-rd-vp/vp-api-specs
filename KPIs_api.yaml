@@ -1,0 +1,86 @@
+openapi: 3.0.0
+info:
+  version: '0.1'
+  title: 'KPIs API'
+  description: 'Virtual Platform Key Performance Indicators (KPIs) API'
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+paths: 
+  /KPIs/{diseaseID}/onset-firstVisit:
+    description: Get time from onset to first HCP visit based on the disease of the patients.
+    get:
+      parameters:
+        - $ref: '#/components/parameters/DiseaseParam'
+      responses:
+        200:
+          description: Successful Query.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulResponse'
+        400:
+          description: The server cannot process the request due to a client error.
+        404:
+          description: Requested resource not found.
+  /KPIs/{diseaseID}/onset-therapy:
+    description: Get time from onset to the therapy or treatment based on the disease of the patients.
+    get:
+      parameters:
+        - $ref: '#/components/parameters/DiseaseParam'
+      responses:
+        200:
+          description: Successful Query.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulResponse'
+        400:
+          description: The server cannot process the request due to a client error.
+        404:
+          description: Requested resource not found.
+  /KPIs/{diseaseID}/onset-diagnosis:
+    description: Get time from onset to the diagnosis based on the disease of the patients.
+    get:
+      parameters:
+        - $ref: '#/components/parameters/DiseaseParam'
+      responses:
+        200:
+          description: Successful Query.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulResponse'
+        400:
+          description: The server cannot process the request due to a client error.
+        404:
+          description: Requested resource not found.
+
+components:
+  schemas:
+    SuccessfulResponse:
+      type: array
+      items:
+        properties:
+          onsetDate:
+            description: Date of onset (formatted as YYYY-MM-DD)
+            type: string
+            format: date
+            example: 2020-02-21
+          endDate:
+            description: Date of the end of the timeframe
+                        (formatted as YYYY-MM-DD)
+            type: string
+            format: date
+            example: 2020-02-21
+  parameters:
+    DiseaseParam:
+      in: path
+      description: ID of the disease as it appears on the endpoint.
+      name: diseaseID
+      required: true
+      schema:
+        type: string
+        example: ORPHA:589
+      style: simple
+      explode: true
