@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
-  description: "Virtual platform data source API"
-  version: "v0.1"
-  title: "Virtual platform data source API"
+  description: "EJPRD virtual platform data record API"
+  version: "v1.0"
+  title: "Virtual platform data record API"
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -12,7 +12,7 @@ schemes:
 paths:
   /individuals:
     post:
-      summary: "Create a new request to count individuals available at the data source (i.e. patients)"
+      summary: "Request to count individuals in a data source (i.e. patients)"
       description: ""
       operationId: "individuals_request"
       parameters:
@@ -35,14 +35,14 @@ paths:
 definitions:
   IndividualRequest:
     type: "object"
-    description: "Request to return count of individuals with CDEs input parameters"
+    description: "Request to return individuals count for given CDEs input parameters"
     required:
       - query
     properties:
         query:
           $ref: '#/definitions/RequestQuery'
   RequestQuery:
-      description: "CDEs as input for query"
+      description: "CDEs as input of the query"
       type: object
       properties:
         disease:
@@ -81,7 +81,7 @@ definitions:
           example: ["="]
   IndividualResponse:
       description: |
-        Response of a query over individuals.
+        Response of a query over individuals counts.
       type: object
       required:
         - response
@@ -90,7 +90,7 @@ definitions:
           $ref: '#/definitions/IndividualResponseContent'
   IndividualResponseContent:
       description: |
-        Description pending
+        Response of the query indicating if the query yield any results. If the query is successful then the count will be returned as a response.
       type: object
       required:
         - exists
@@ -98,9 +98,8 @@ definitions:
       properties:
         exists:
           description: |
-            Indicator of whether any individual was observed in any of the
-            datasets queried. This should be non-null, unless there was an
-            error, in which case `error` has to be non-null.
+            Indicator of whether any individual was observed in the
+            data source for the given query with CDEs parameter. This should be non-null, unless there was an error, in which case `error` has to be non-null.
           type: boolean
         numTotalResults:
           type: integer
