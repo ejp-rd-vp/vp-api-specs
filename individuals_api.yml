@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
-  description: "EJPRD virtual platform data record API"
+  description: "EJPRD virtual platform data record APIs"
   version: "v1.0"
-  title: "Virtual platform data record API"
+  title: "Virtual platform data record APIs"
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
