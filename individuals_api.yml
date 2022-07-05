@@ -15,11 +15,11 @@ paths:
       summary: "Create a new request to count individuals available at the data source (i.e. patients)"
       description: ""
       operationId: "individuals_request"
-      parameters: 
+      parameters:
       - in: "body"
         name: "body"
         required: false
-        schema: 
+        schema:
           $ref: "#/definitions/IndividualRequest"
       consumes:
       - "application/json"
@@ -35,36 +35,58 @@ paths:
 definitions:
   IndividualRequest:
     type: "object"
-    description: "Placeholder for any input parameters"
+    description: "Request to return count of individuals with CDEs input parameters"
+    required:
+      - query
+    properties:
+        query:
+          $ref: '#/definitions/RequestQuery'
+  RequestQuery:
+      description: "CDEs as input for query"
+      type: object
+      properties:
+        disease:
+          $ref: '#/definitions/DiseaseField'
+        gender:
+          $ref: '#/definitions/GenderField'
+  DiseaseField:
+      description: |
+        Field to filter by disease.
+      type: object
+      properties:
+        id:
+          description: |
+            Orphanet disease concept url.
+          type: string
+          example: ["http://www.orpha.net/ORDO/Orphanet_558"]
+  GenderField:
+      description: |
+        Field to filter by gender.
+      type: object
+      properties:
+        id:
+          description: |
+            CDE gender concept url.
+          type: string
+          enum: ["http://purl.obolibrary.org/obo/NCIT_C16576",
+          "http://purl.obolibrary.org/obo/NCIT_C20197",
+          "http://purl.obolibrary.org/obo/NCIT_C124294",
+          "http://purl.obolibrary.org/obo/NCIT_C17998"]
+          example: ["http://purl.obolibrary.org/obo/NCIT_C16576"]
+        operator:
+          description: |
+            Logical operator's (e.g '=', '!=')
+          type: string
+          enum: ["=", "!="]
+          example: ["="]
   IndividualResponse:
       description: |
         Response of a query over individuals.
       type: object
       required:
-        - meta
         - response
       properties:
-        meta:
-          $ref: '#/definitions/ResponseMeta'
         response:
-          $ref: '#/definitions/IndividualResponseContent'
-  ResponseMeta:
-      description: |
-        Meta information about the reponse.
-      type: object
-      properties:
-        beaconId:
-          description: |
-            Identifier of the API, as defined in `Beacon`.
-          type: string
-        apiVersion:
-          description: >-
-            Version of the API. If specified, the value must match `apiVersion`
-            in specs document
-          type: string
-        receivedRequest:
-          $ref: '#/definitions/IndividualRequest'
-        returnedSchemas:
           $ref: '#/definitions/IndividualResponseContent'
   IndividualResponseContent:
       description: |
