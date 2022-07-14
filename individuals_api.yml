@@ -1,106 +1,113 @@
-swagger: "2.0"
+openapi: 3.0.1
 info:
-  description: "EJPRD virtual platform data record APIs"
-  version: "v1.0"
-  title: "Virtual platform data record APIs"
+  title: Virtual platform data record APIs
+  description: EJPRD virtual platform data record APIs
   license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-basePath: "/"
-schemes:
-- "https"
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: v1.0
+servers:
+- url: /
 paths:
   /individuals:
     post:
-      summary: "Request to count individuals in a data source (i.e. patients)"
-      description: ""
-      operationId: "individuals_request"
-      parameters:
-      - in: "body"
-        name: "body"
+      summary: Request to count individuals in a data source (i.e. patients)
+      operationId: individuals_request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IndividualRequest'
         required: false
-        schema:
-          $ref: "#/definitions/IndividualRequest"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
       responses:
-        "400":
+        200:
+          $ref: '#/components/schemas/IndividualResponse'
+        400:
           description: Input data malformed
-        "200":
-          $ref: "#/definitions/IndividualResponse"
-        "403":
+          content: {}
+        403:
           description: The data source does not allow counting entities
-definitions:
-  IndividualRequest:
-    type: "object"
-    description: "Request to return individuals count for given CDEs input parameters"
-    required:
+          content: {}
+      security:
+      - bearerAuth: []
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    IndividualRequest:
+      required:
       - query
-    properties:
+      type: object
+      properties:
         query:
-          $ref: '#/definitions/RequestQuery'
-  RequestQuery:
-      description: "CDEs as input of the query"
+          $ref: '#/components/schemas/RequestQuery'
+      description: Request to return individuals count for given CDEs input parameters
+    RequestQuery:
       type: object
       properties:
         disease:
-          $ref: '#/definitions/DiseaseField'
+          $ref: '#/components/schemas/DiseaseField'
         gender:
-          $ref: '#/definitions/GenderField'
-  DiseaseField:
-      description: |
-        Field to filter by disease.
+          $ref: '#/components/schemas/GenderField'
+      description: CDEs as input of the query
+    DiseaseField:
       type: object
       properties:
         id:
+          type: string
           description: |
             Orphanet disease concept url.
-          type: string
-          example: ["http://www.orpha.net/ORDO/Orphanet_558"]
-  GenderField:
+          example: ""
       description: |
-        Field to filter by gender.
+        Field to filter by disease.
+    GenderField:
       type: object
       properties:
         id:
+          type: string
           description: |
             CDE gender concept url.
-          type: string
-          enum: ["http://purl.obolibrary.org/obo/NCIT_C16576",
-          "http://purl.obolibrary.org/obo/NCIT_C20197",
-          "http://purl.obolibrary.org/obo/NCIT_C124294",
-          "http://purl.obolibrary.org/obo/NCIT_C17998"]
-          example: ["http://purl.obolibrary.org/obo/NCIT_C16576"]
+          example: ""
+          enum:
+          - http://purl.obolibrary.org/obo/NCIT_C16576
+          - http://purl.obolibrary.org/obo/NCIT_C20197
+          - http://purl.obolibrary.org/obo/NCIT_C124294
+          - http://purl.obolibrary.org/obo/NCIT_C17998
         operator:
+          type: string
           description: |
             Logical operator's (e.g '=', '!=')
-          type: string
-          enum: ["=", "!="]
-          example: ["="]
-  IndividualResponse:
+          example: ""
+          enum:
+          - =
+          - '!='
       description: |
-        Response of a query over individuals counts.
-      type: object
+        Field to filter by gender.
+    IndividualResponse:
       required:
-        - response
+      - response
+      type: object
       properties:
         response:
-          $ref: '#/definitions/IndividualResponseContent'
-  IndividualResponseContent:
+          $ref: '#/components/schemas/IndividualResponseContent'
       description: |
-        Response of the query indicating if the query yield any results. If the query is successful then the count will be returned as a response.
-      type: object
+        Response of a query over individuals counts.
+    IndividualResponseContent:
       required:
-        - exists
-        - numTotalResults
+      - exists
+      - numTotalResults
+      type: object
       properties:
         exists:
+          type: boolean
           description: |
             Indicator of whether any individual was observed in the
             data source for the given query with CDEs parameter. This should be non-null, unless there was an error, in which case `error` has to be non-null.
-          type: boolean
         numTotalResults:
           type: integer
-          minimum: 0
+      description: |
+        Response of the query indicating if the query yield any results. If the query is successful then the count will be returned as a response.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
