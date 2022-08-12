@@ -1,0 +1,105 @@
+openapi: 3.0.1
+info:
+  title: Virtual platform data record APIs
+  description: EJPRD virtual platform data record APIs
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: v1.0
+servers:
+- url: /
+paths:
+  /individuals:
+    post:
+      summary: "Request to retrive count of individuals from a data source (i.e. patients)"
+      operationId: individuals_request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IndividualRequest'
+        required: false
+      responses:
+        200:
+          $ref: '#/components/schemas/IndividualResponse'
+        400:
+          description: "Input data malformed"
+          content: {}
+        403:
+          description: "The data source does not allow this API call"
+          content: {}
+      security:
+      - bearerAuth: []
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    IndividualRequest:
+      required:
+      - query
+      type: object
+      properties:
+        description:
+          type: string
+        properties:
+          $ref: '#/components/schemas/RequestProperties'
+      description: "Request to return individuals count for given CDEs input parameters"
+    RequestProperties:
+      type: object
+      properties:
+        query:
+          $ref: '#/components/schemas/RequestQuery'
+    RequestQuery:
+      type: object
+      properties:
+        description:
+          type: string
+        filters:
+          $ref: '#/components/schemas/RequestFilter'
+      description: "Input of the query"
+    RequestFilter:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            description: "Concept ID of CDEs. e.g sex(obo:NCIT_C28421)"
+            example: "obo:NCIT_C28421"
+          id:
+            type: string
+            description: "The actual values of the CDE. e.g in case of sex(obo:NCIT_C28421) one of the CDE sex terms Female(obo:NCIT_C16576)"
+            example: "obo:NCIT_C16576"
+          operator:
+            type: string
+            description: "This is a advance filter option to include comparison operators in the query."
+            example: "="
+        description: "Query parameters to filter individuals based on CDEs."
+    IndividualResponse:
+      required:
+      - response
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/IndividualResponseContent'
+      description: |
+        Response of a query over individuals counts.
+    IndividualResponseContent:
+      required:
+      - exists
+      - numTotalResults
+      type: object
+      properties:
+        exists:
+          type: boolean
+          description: |
+            Indicator of whether any individual was observed in the
+            data source for the given query with CDEs parameter. This should be non-null, unless there was an error, in which case `error` has to be non-null.
+        numTotalResults:
+          type: integer
+      description: |
+        Response of the query indicating if the query yield any results. If the query is successful then the count will be returned as a response.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
