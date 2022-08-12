@@ -11,7 +11,7 @@ servers:
 paths:
   /individuals:
     post:
-      summary: Request to count individuals in a data source (i.e. patients)
+      summary: "Request to retrive count of individuals from a data source (i.e. patients)"
       operationId: individuals_request
       requestBody:
         content:
@@ -23,10 +23,10 @@ paths:
         200:
           $ref: '#/components/schemas/IndividualResponse'
         400:
-          description: Input data malformed
+          description: "Input data malformed"
           content: {}
         403:
-          description: The data source does not allow counting entities
+          description: "The data source does not allow this API call"
           content: {}
       security:
       - bearerAuth: []
@@ -38,50 +38,42 @@ components:
       - query
       type: object
       properties:
+        description:
+          type: string
+        properties:
+          $ref: '#/components/schemas/RequestProperties'
+      description: "Request to return individuals count for given CDEs input parameters"
+    RequestProperties:
+      type: object
+      properties:
         query:
           $ref: '#/components/schemas/RequestQuery'
-      description: Request to return individuals count for given CDEs input parameters
     RequestQuery:
       type: object
       properties:
-        disease:
-          $ref: '#/components/schemas/DiseaseField'
-        gender:
-          $ref: '#/components/schemas/GenderField'
-      description: CDEs as input of the query
-    DiseaseField:
-      type: object
-      properties:
-        id:
+        description:
           type: string
-          description: |
-            Orphanet disease concept url.
-          example: ""
-      description: |
-        Field to filter by disease.
-    GenderField:
-      type: object
-      properties:
-        id:
-          type: string
-          description: |
-            CDE gender concept url.
-          example: ""
-          enum:
-          - http://purl.obolibrary.org/obo/NCIT_C16576
-          - http://purl.obolibrary.org/obo/NCIT_C20197
-          - http://purl.obolibrary.org/obo/NCIT_C124294
-          - http://purl.obolibrary.org/obo/NCIT_C17998
-        operator:
-          type: string
-          description: |
-            Logical operator's (e.g '=', '!=')
-          example: ""
-          enum:
-          - =
-          - '!='
-      description: |
-        Field to filter by gender.
+        filters:
+          $ref: '#/components/schemas/RequestFilter'
+      description: "Input of the query"
+    RequestFilter:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            description: "Concept ID of CDEs. e.g sex(obo:NCIT_C28421)"
+            example: "obo:NCIT_C28421"
+          id:
+            type: string
+            description: "The actual values of the CDE. e.g in case of sex(obo:NCIT_C28421) one of the CDE sex terms Female(obo:NCIT_C16576)"
+            example: "obo:NCIT_C16576"
+          operator:
+            type: string
+            description: "This is a advance filter option to include comparison operators in the query."
+            example: "="
+        description: "Query parameters to filter individuals based on CDEs."
     IndividualResponse:
       required:
       - response
