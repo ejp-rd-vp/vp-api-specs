@@ -10,7 +10,7 @@ In this work we present API specifications for querying RD patient registries. W
 ### individuals endpoint
 > Method : POST
 
-[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/develop/individuals_api.yml) endpoint returns count of individuals from a patient registry. This endpoint specification is drafted based on [beacon-v2 API specification](https://github.com/ga4gh-beacon/beacon-v2). The request can also contain filters which are CDE based filter parameters to filter individuals. These filters are provided as a part of request body. An example filters json is shown below.
+[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api.yml) endpoint returns count of individuals from a patient registry. This endpoint specification is drafted based on [beacon-v2 API specification](https://github.com/ga4gh-beacon/beacon-v2). The request can also contain filters which are CDE based filter parameters to filter individuals. These filters are provided as a part of request body. An example filters json is shown below.
 
 ```JSON
 "query": {
