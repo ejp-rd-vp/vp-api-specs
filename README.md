@@ -30,8 +30,47 @@ In this work we present API specifications for querying RD patient registries. W
     }
 ```   
 
-##### List of all filters and allowed values
--- TODO--
+##### List of filters and its permitted values
+<table>
+<thead>
+  <tr>
+    <th>CDE name</th>
+    <th>Type term</th>
+    <th>Permitted values</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td rowspan="4">Sex</td>
+    <td rowspan="4">obo:NCIT_C28421</td>
+    <td>obo:NCIT_C16576</td>
+  </tr>
+  <tr>
+    <td>obo:NCIT_C20197</td>
+  </tr>
+  <tr>
+    <td>obo:NCIT_C124294</td>
+  </tr>
+  <tr>
+    <td>obo:NCIT_C17998</td>
+  </tr>
+  <tr>
+    <td>Diagnosis of the rare<br>disease</td>
+    <td>sio:SIO_001003</td>
+    <td>Any orphanet term. e.g. ordo:Orphanet_558 </td>
+  </tr>
+  <tr>
+    <td>Phenotype</td>
+    <td>sio:SIO_010056</td>
+    <td>Any hpo term. e.g. obo:HP_0001251</td>
+  </tr>
+  <tr>
+    <td>Age (This is a non CDE attribute)</td>
+    <td>obo:NCIT_C25150</td>
+    <td>Any positive integer. e.g. 43</td>
+  </tr>
+</tbody>
+</table>
 
 ## Helpful Tools
 
