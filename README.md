@@ -57,17 +57,17 @@ In this work we present API specifications for querying RD patient registries. W
   <tr>
     <td>Diagnosis of the rare<br>disease</td>
     <td>sio:SIO_001003</td>
-    <td>Any orphanet term. e.g. ordo:Orphanet_558 </td>
+    <td>Any orphanet term. <b>e.g. ordo:Orphanet_558</b></td>
   </tr>
   <tr>
     <td>Phenotype</td>
     <td>sio:SIO_010056</td>
-    <td>Any hpo term. e.g. obo:HP_0001251</td>
+    <td>Any hpo term. <b>e.g. obo:HP_0001251</b></td>
   </tr>
   <tr>
     <td>Age (This is a non CDE attribute)</td>
     <td>obo:NCIT_C25150</td>
-    <td>Any positive integer. e.g. 43</td>
+    <td>Any positive integer. <b>e.g. 43</b></td>
   </tr>
 </tbody>
 </table>
