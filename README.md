@@ -30,11 +30,11 @@ In this work we present API specifications for querying RD patient registries. W
     }
 ```   
 
-##### List of filters and its permitted values
+##### List of filters and permitted values
 <table>
 <thead>
   <tr>
-    <th>CDE name</th>
+    <th>Filter name</th>
     <th>Type term</th>
     <th>Permitted values</th>
   </tr>
@@ -55,7 +55,7 @@ In this work we present API specifications for querying RD patient registries. W
     <td>obo:NCIT_C17998</td>
   </tr>
   <tr>
-    <td>Diagnosis of the rare<br>disease</td>
+    <td>Diagnosis of the rare<br />disease</td>
     <td>sio:SIO_001003</td>
     <td>Any orphanet term. <b>e.g. ordo:Orphanet_558</b></td>
   </tr>
@@ -65,9 +65,53 @@ In this work we present API specifications for querying RD patient registries. W
     <td>Any hpo term. <b>e.g. obo:HP_0001251</b></td>
   </tr>
   <tr>
-    <td>Age (This is a non CDE attribute)</td>
+    <td>Causative genes</td>
+    <td>obo:NCIT_C16612</td>
+    <td>any HGNC gene symbol</td>
+  </tr>
+  <tr>
+    <td>Age this year</td>
     <td>obo:NCIT_C25150</td>
-    <td>Any positive integer. <b>e.g. 43</b></td>
+    <td>any integer</td>
+  </tr>
+  <tr>
+    <td>Age at disease manifestation</td>
+    <td>efo:EFO_0004847</td>
+    <td>any integer</td>
+  </tr>
+  <tr>
+    <td>Age at diagnosis</td>
+    <td>obo:NCIT_C156420</td>
+    <td>any integer</td>
+  </tr>
+  <tr>
+    <td rowspan="9">Available materials</td>
+    <td rowspan="9"></td>
+        <td>Whole Genome Sequence</td>
+  </tr>
+  <tr>
+    <td>Whole Exome Sequence</td>
+  </tr>
+  <tr>
+    <td>Exome panel sequence</td>
+  </tr>
+  <tr>
+    <td>RNA sequence</td>
+  </tr>
+  <tr>
+    <td>methylomics</td>
+  </tr>
+  <tr>
+    <td>Epigenomics</td>
+  </tr>
+  <tr>
+    <td>Pedigree data</td>
+  </tr>
+  <tr>
+    <td>Clinical data</td>
+  </tr>
+  <tr>
+    <td>Biosamples</td>
   </tr>
 </tbody>
 </table>
@@ -87,15 +131,15 @@ All filters are to be handled independently, see below example for clarification
           "operator": "="
         },
         {
-          "type": "causative gene",
-          "id": "ZFAS1",
+          "type": "obo:NCIT_C16612",
+          "id": "LAMP2",
           "operator": "="
         }
       ]
     }
 ```
 
-This filter is asking for individuals which have been diagnosed with Danon disease (obo:HP_0004322) and where ZFAS1 gene has been identified as causative. These filters are handled independently, this means that individuals with danon disease where ZFAS1 has been identified as a causative gene, specifically for Danon disease, will match the query. It also means that individuals with Danon disease and where ZSAF1 has been identified as a causative gene for a second rare disease, other than Danon disease, will also match this query.
+This filter is asking for individuals which have been diagnosed with Danon disease (ordo:Orphanet_34587) and where LAMP2 gene has been identified as causative. These filters are handled independently, this means that individuals with danon disease where LAMP2 has been identified as a causative gene, specifically for Danon disease, will match the query. It also means that individuals with Danon disease and where LAMP2 has been identified as a causative gene for a second rare disease, other than Danon disease, will also match this query.
 
 
 <table>
@@ -113,7 +157,7 @@ This filter is asking for individuals which have been diagnosed with Danon disea
     <td></td>
   </tr>
   <tr>
-    <td>Diagnosis of the rare<br>disease</td>
+    <td>Diagnosis of the rare<br />disease</td>
     <td>All rare diseases that have been diagnosed within an individual, to encompase, but not distinguish between, all levels of diagnosis such as definitive, differential, provisional etc.</td>
     <td>To be handled independently of other filters</td>
   </tr>
@@ -133,14 +177,14 @@ This filter is asking for individuals which have been diagnosed with Danon disea
     <td>-/+ 1 will be added to all age queries</td>
   </tr>
   <tr>
-    <td>Age at disease <br> manifestation</td>
+    <td>Age at disease <br /> manifestation</td>
     <td>Age at the manifestation of a rare disease</td>
-    <td>For individuals with more than one rare disease this filter will look at all age of manifestations independently. <br> -/+ 1 will be added to all age queries</td>
+    <td>For individuals with more than one rare disease this filter will look at all age of manifestations independently. <br /> -/+ 1 will be added to all age queries</td>
   </tr>
   <tr>
     <td>Age at diagnosis</td>
     <td>Age at the diagnosis of a rare disease</td>
-    <td>For individuals with more than one rare disease this filter will look at all age of diagnosis independently. <br> -/+ 1 will be added to all age queries</td>
+    <td>For individuals with more than one rare disease this filter will look at all age of diagnosis independently. <br /> -/+ 1 will be added to all age queries</td>
   </tr>
   <tr>
     <td>Available materials</td>
