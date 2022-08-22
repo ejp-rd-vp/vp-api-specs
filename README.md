@@ -279,7 +279,7 @@ This request is sent to a resource which does not hold information about causati
 }
 ```
 
-This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources Beacon engine.    
+This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine.    
 
 ## Helpful Tools
 
