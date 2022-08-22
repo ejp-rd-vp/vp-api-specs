@@ -2,15 +2,15 @@
 ![GitHub](https://img.shields.io/github/license/ejp-rd-vp/vp-api-specs)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/vp-api-specs)
 
-> This API specifications are defined in the contrast of the EJPRD project.
+> This API specifications are defined in the context of the EJPRD project.
 
-In this work we present API specifications for querying RD patient registries. We assume that the patient registries which implements this specification collects   [the set of common data elements for rare diseases registration](https://eu-rd-platform.jrc.ec.europa.eu/sites/default/files/CDS/EU_RD_Platform_CDS_Final.pdf) recommended by the European commission Joint Research Centre. In this specifications we also make use of ontological terms recommended by the [CDE semantic data model group](https://github.com/ejp-rd-vp/CDE-semantic-model)
+In this work we present API specifications for querying RD patient registries, biobanks and similar resources at the safe record level (i.e, resources whose available assets are described by RD patient data). Resources that implement this specification would ideally collect data based on the set of common data elements for rare diseases registration, as recommended by the European commission Joint Research Centre. In this specification, where possible, we also make use of ontological terms recommended by the CDE semantic data model group.
 
 ## Specification
 ### individuals endpoint
 > Method : POST
 
-[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api.yml) endpoint returns count of individuals from a patient registry. This endpoint specification is drafted based on [beacon-v2 API specification](https://github.com/ga4gh-beacon/beacon-v2). The request can also contain filters which are CDE based filter parameters to filter individuals. These filters are provided as a part of request body. An example filters json is shown below.
+[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api.yml) endpoint returns the count of individuals from a RD resource. This endpoint specification is drafted based on [beacon-v2 API specification](https://github.com/ga4gh-beacon/beacon-v2). The request can also contain filters which are CDE based filter parameters to filter individuals. These filters are provided as a part of request body. An example filters json is shown below.
 
 ```JSON
 "query": {
@@ -174,17 +174,17 @@ This filter is asking for individuals which have been diagnosed with Danon disea
   <tr>
     <td>Age this year</td>
     <td>Age at the end of the current year</td>
-    <td>-/+ 1 will be added to all age queries</td>
+    <td>-/+ 1 will be added to all age queries when executed by the query engine at the resource</td>
   </tr>
   <tr>
     <td>Age at disease <br /> manifestation</td>
     <td>Age at the manifestation of a rare disease</td>
-    <td>For individuals with more than one rare disease this filter will look at all age of manifestations independently. <br /> -/+ 1 will be added to all age queries</td>
+    <td>For individuals with more than one rare disease this filter will look at all age of manifestations independently. <br /> -/+ 1 will be added to all age queries when executed by the query engine at the resource</td>
   </tr>
   <tr>
     <td>Age at diagnosis</td>
     <td>Age at the diagnosis of a rare disease</td>
-    <td>For individuals with more than one rare disease this filter will look at all age of diagnosis independently. <br /> -/+ 1 will be added to all age queries</td>
+    <td>For individuals with more than one rare disease this filter will look at all age of diagnosis independently. <br /> -/+ 1 will be added to all age queries when executed by the query engine at the resource</td>
   </tr>
   <tr>
     <td>Available materials</td>
@@ -222,9 +222,64 @@ There are no OR operators available with beacon queries.
 
 All of the defined filters are optional, the user can provide as many or as few as wanted and the resource does not have to implement all filters.
 
-If a user sends a query with a filter not supported by a resource then the resource should complete the query but ignore the unsupported filter(s) and respond as usual, but with a warning noting that certain filters were ignored as they are unsupported [THIS NEEDS TO BE DEFINED EXACTLY HOW THIS IS FLAGGED UP AND WHERE IN THE RESPONSE IT LIVES]
+If a user sends a query with a filter not supported by a resource then the resource should complete the query but ignore the unsupported filter(s) and respond as usual, but with a warning noting that certain filters were ignored as they are unsupported.
 
-    
+The warning messages will be provided within the 'info' section of the Beacon.
+
+## Example Beacon usage with warning messages
+
+An example request which can be sent to a resource is shown below:
+
+
+```JSON
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "meta":{},
+  "query":{
+    "requestParameters": [],
+    "filters": [
+        {
+          "type": "	sio:SIO_001003",
+          "id": "ordo:Orphanet_34587",
+          "operator": "="
+        },
+        {
+          "type": "obo:NCIT_C16612",
+          "id": "LAMP2",
+          "operator": "="
+        },
+        {
+          "type": "obo:NCIT_C28421",
+          "id": "obo:NCIT_C16576",
+          "operator": "="
+        },
+    ]
+  }
+}
+```
+This request is asking for females with Danon disease with LAMP2 being identified as a causative gene.
+
+This request is sent to a resource which does not hold information about causative genes but does hold information about diagnoses and sex, an example response which could be returned is outlined below:
+
+```JSON
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "meta": {},
+  "responseSummary":{
+    "exists": "true",
+    "numTotalResults": 10
+  },
+  "info": {
+    "warnings":{
+      "unsupportedFilters": [
+        "obo:NCIT_C16612"
+      ]
+    }
+  }
+}
+```
+
+This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources Beacon engine.    
 
 ## Helpful Tools
 
