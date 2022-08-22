@@ -72,6 +72,116 @@ In this work we present API specifications for querying RD patient registries. W
 </tbody>
 </table>
 
+
+## Understanding the filters
+
+
+All filters are to be handled independently, see below example for clarification.
+
+```JSON
+"query": {
+      "filters": [
+        {
+          "type": "	sio:SIO_001003",
+          "id": "ordo:Orphanet_34587",
+          "operator": "="
+        },
+        {
+          "type": "causative gene",
+          "id": "ZFAS1",
+          "operator": "="
+        }
+      ]
+    }
+```
+
+This filter is asking for individuals which have been diagnosed with Danon disease (obo:HP_0004322) and where ZFAS1 gene has been identified as causative. These filters are handled independently, this means that individuals with danon disease where ZFAS1 has been identified as a causative gene, specifically for Danon disease, will match the query. It also means that individuals with Danon disease and where ZSAF1 has been identified as a causative gene for a second rare disease, other than Danon disease, will also match this query.
+
+
+<table>
+<thead>
+  <tr>
+    <th>Filter</th>
+    <th>Filter description</th>
+    <th>Filter interpretation</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Sex</td>
+    <td>The biological sex of the patient</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Diagnosis of the rare<br>disease</td>
+    <td>All rare diseases that have been diagnosed within an individual, to encompase, but not distinguish between, all levels of diagnosis such as definitive, differential, provisional etc.</td>
+    <td>To be handled independently of other filters</td>
+  </tr>
+  <tr>
+    <td>Phenotypes observed</td>
+    <td>HPO terms of all phenotypes observed within an individual</td>
+    <td>To be handled independently of other filters</td>
+  </tr>
+  <tr>
+    <td>Causative genes</td>
+    <td>All genes which have been deemed as causative of one or more of the diagnosed rare diseased, encompassing and not distinguishing between all certainty levels of causality</td>
+    <td>To be handled independently of other filters</td>
+  </tr>
+  <tr>
+    <td>Age this year</td>
+    <td>Age at the end of the current year</td>
+    <td>-/+ 1 will be added to all age queries</td>
+  </tr>
+  <tr>
+    <td>Age at disease <br> manifestation</td>
+    <td>Age at the manifestation of a rare disease</td>
+    <td>For individuals with more than one rare disease this filter will look at all age of manifestations independently. <br> -/+ 1 will be added to all age queries</td>
+  </tr>
+  <tr>
+    <td>Age at diagnosis</td>
+    <td>Age at the diagnosis of a rare disease</td>
+    <td>For individuals with more than one rare disease this filter will look at all age of diagnosis independently. <br> -/+ 1 will be added to all age queries</td>
+  </tr>
+  <tr>
+    <td>Available materials</td>
+    <td>A list of what information is available about an individual</td>
+    <td></td>
+  </tr>
+</tbody>
+</table>
+
+## Understanding the query
+
+Beacon queries require the use of the AND logical operator between filters and each filter can have at most one possible value.
+
+To query for individuals with more than one instance of any of the filters you can send multiple of the same filter, such as in the below example:
+
+```JSON
+"query": {
+      "filters": [
+        {
+          "type": "	sio:SIO_001003",
+          "id": "ordo:Orphanet_34587",
+          "operator": "="
+        },
+        {
+          "type": "	sio:SIO_001003",
+          "id": "ordo:Orphanet_1653",
+          "operator": "="
+        }
+      ]
+```
+
+This query is looking for individuals with Danon disease ("ordo:Orphanet_34587") AND Dentin dysplasia ("ordo:Orphanet_1653").
+
+There are no OR operators available with beacon queries.
+
+All of the defined filters are optional, the user can provide as many or as few as wanted and the resource does not have to implement all filters.
+
+If a user sends a query with a filter not supported by a resource then the resource should complete the query but ignore the unsupported filter(s) and respond as usual, but with a warning noting that certain filters were ignored as they are unsupported [THIS NEEDS TO BE DEFINED EXACTLY HOW THIS IS FLAGGED UP AND WHERE IN THE RESPONSE IT LIVES]
+
+    
+
 ## Helpful Tools
 
 - The [Swagger Software](https://swagger.io "https://swagger.io") offers several free tools that help build APIs that are compliant with the OpenAPI specification:
@@ -80,3 +190,5 @@ In this work we present API specifications for querying RD patient registries. W
   - [Swagger Inspector](https://inspector.swagger.io/builder "https://inspector.swagger.io/builder") is a browser extension that can be used to validate API calls.
   
 - [OpenAPI Examples](https://github.com/OAI/OpenAPI-Specification/tree/master/examples "https://github.com/OAI/OpenAPI-Specification/tree/master/examples")
+
+
