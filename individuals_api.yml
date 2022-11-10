@@ -1,6 +1,7 @@
 openapi: 3.0.1
 info:
   title: Virtual platform data record APIs
+  x-beaconVersion: v2.0
   description: EJPRD virtual platform data record APIs
   license:
     name: Apache 2.0
