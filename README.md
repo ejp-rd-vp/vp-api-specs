@@ -2,11 +2,16 @@
 ![GitHub](https://img.shields.io/github/license/ejp-rd-vp/vp-api-specs)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/vp-api-specs)
 
-> This API specifications are defined in the context of the EJPRD project.
+> This API specifications are defined in the context of the EJPRD project, complying with the latest [Beacon v2 Specification](https://github.com/ga4gh-beacon/beacon-v2).
 
 In this work we present API specifications for querying RD patient registries, biobanks and similar resources at the safe record level (i.e, resources whose available assets are described by RD patient data). Resources that implement this specification would ideally collect data based on the set of common data elements for rare diseases registration, as recommended by the European commission Joint Research Centre. In this specification, where possible, we also make use of ontological terms recommended by the CDE semantic data model group.
 
-## Specification
+## Try out the API:
+Try this API here: https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v1.0#/ 
+
+# Specification
+The request and response comforms to the Beacon Reference Framework.
+## Query Endpoints
 ### individuals endpoint
 > Method : POST
 
@@ -281,13 +286,18 @@ This request is sent to a resource which does not hold information about causati
 
 This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine.    
 
-## Helpful Tools
+## Informational (GET) Endpoints
+The following endpoints respond with basic information related to this Beacon Implementation. 
+### info: Get information about the Beacon
 
-- The [Swagger Software](https://swagger.io "https://swagger.io") offers several free tools that help build APIs that are compliant with the OpenAPI specification:
+### service-info: Get this Beacon's basic metadata concerning its service based on the [reference specification](https://github.com/ga4gh-discovery/ga4gh-service-info/).
 
-  - [Swagger Editor](https://swagger.io/tools/swagger-editor/ "https://swagger.io/tools/swagger-editor/") can be used to build valid API calls.
-  - [Swagger Inspector](https://inspector.swagger.io/builder "https://inspector.swagger.io/builder") is a browser extension that can be used to validate API calls.
-  
-- [OpenAPI Examples](https://github.com/OAI/OpenAPI-Specification/tree/master/examples "https://github.com/OAI/OpenAPI-Specification/tree/master/examples")
+### configuration: Get Beacon Configuration
+
+### entry_types: Get list of entry types in this Beacon
+
+### filtering_terms: Get information about available individual filtters for this beacon's entry types. 
+
+### map: Get the Beacon map with information related to the list of endpoints included in this Beacon instance.
 
 
