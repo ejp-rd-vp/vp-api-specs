@@ -1,15 +1,54 @@
 openapi: 3.0.1
 info:
-  title: Virtual platform data record APIs
+  title: Virtual platform Beacon API
   x-beaconVersion: v2.0
   description: EJPRD virtual platform data record APIs
+  contact:
+    email: admin@cafevariome.org
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: v1.0
 servers:
-- url: /
+- url: https://rdnexusdev.molgeniscloud.org/cv2/BeaconAPI/
+  description: Development server
 paths:
+  /info:
+    get:
+      summary: "Get information regarding this beacon."
+      responses:
+        200:
+          $ref: '#/components/schemas/InfoResponse'
+  /filtering_terms:
+    get:
+      summary: "Get the valid filtering terms to be used in querying/handled by this beacon."
+      responses:
+        200:
+          $ref: '#/components/schemas/FilterTermsResponse'
+  /map:
+    get:
+      summary: "Get the list of endpoints included in this beacon i.e., individuals."
+      responses:
+        200:
+          $ref: '#/components/schemas/MapResponse'
+  /service-info:
+    get:
+      summary: "Get information about the beacon using GA4GH ServiceInfo format."
+      responses:
+        200:
+          $ref: '#/components/schemas/ServiceInfoResponse'
+  /configuration:
+    get:
+      summary: "Get the configuration of this beacon."
+      responses:
+        200:
+          $ref: '#/components/schemas/ConfigurationResponse'
+  /entry_types:
+    get:
+      summary: "Get the list of beacon entry types."
+      responses:
+        200:
+          $ref: '#/components/schemas/EntryTypesResponse'
   /individuals:
     post:
       summary: "Request to retrive count of individuals from a data source (i.e. patients)"
@@ -19,7 +58,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/IndividualRequest'
-        required: false
+        required: true
       responses:
         200:
           $ref: '#/components/schemas/IndividualResponse'
@@ -30,25 +69,27 @@ paths:
           description: "The data source does not allow this API call"
           content: {}
       security:
-      - bearerAuth: []
-      x-codegen-request-body-name: body
+      - apiAuth: []
 components:
   schemas:
     IndividualRequest:
       required:
+      - meta
       - query
       type: object
       properties:
-        description:
-          type: string
-        properties:
-          $ref: '#/components/schemas/RequestProperties'
-      description: "Request to return individuals count for given CDEs input parameters"
-    RequestProperties:
-      type: object
-      properties:
+        meta: 
+          $ref: '#/components/schemas/MetaContent'
         query:
           $ref: '#/components/schemas/RequestQuery'
+      description: "Request to return individuals count for given CDEs input parameters"
+    # RequestProperties:
+    #   type: object
+    #   properties:
+    #     meta: 
+    #       $ref: '#/components/schemas/MetaContent'
+    #     query:
+    #       $ref: '#/components/schemas/RequestQuery'
     RequestQuery:
       type: object
       properties:
@@ -58,32 +99,177 @@ components:
           $ref: '#/components/schemas/RequestFilter'
       description: "Input of the query"
     RequestFilter:
+      required:
+      - type
+      - id
+      - operator
       type: array
       items:
         type: object
         properties:
           type:
             type: string
-            description: "Concept ID of CDEs. e.g sex(obo:NCIT_C28421)"
+            # enum: [obo:NCIT_C28421, sio:SIO_001003, sio:SIO_010056, obo:NCIT_C16612, obo:NCIT_C25150,  efo:EFO_0004847, obo:NCIT_C156420]
+            description: >
+                  Concept ID of CDEs. 
+                    Allowed terms:
+                     * `obo:NCIT_C28421` - Sex
+                     * `sio:SIO_001003` - Diagnosis of the rare disease
+                     * `sio:SIO_010056` - Phenotype
+                     * `obo:NCIT_C16612` - Causative Gene(s)
+                     * `obo:NCIT_C25150` - Age this year
+                     * `efo:EFO_0004847` - Age at disease manifestation
+                     * `obo:NCIT_C156420` - Age at diagnosis
+            # description: "Concept ID of CDEs. e.g sex(obo:NCIT_C28421)"
             example: "obo:NCIT_C28421"
           id:
             type: string
-            description: "The actual values of the CDE. e.g in case of sex(obo:NCIT_C28421) one of the CDE sex terms Female(obo:NCIT_C16576)"
+            description: >
+              The actual values of the CDE. Allowed values:
+                * For `obo:NCIT_C28421`(Sex): 
+                  * `obo:NCIT_C16576`, (Female)
+                  * `obo:NCIT_C20197`, (Male)
+                  * `obo:NCIT_C124294`, (Undetermined)
+                  * `obo:NCIT_C17998` (Unknown)
+                * For `sio:SIO_001003`(Diagnosis) - Any ORPHA term
+                * For `sio:SIO_010056`(Phenotype) - Any HPO term
+                * For `obo:NCIT_C16612`(Causative Gene) - Any HGNC Gene symbol
+                * For `obo:NCIT_C25150`(Age this year) - Any integer
+                * For `efo:EFO_0004847`(Age at disease manifestation) - Any integer
+                * For `obo:NCIT_C156420`(Age at diagnosis) - Any integer
+            # enum: [obo:NCIT_C16576,obo:NCIT_C20197,obo:NCIT_C124294,obo:NCIT_C17998, An Orphanet Term, A HPO Term, An integer for age ranges]
             example: "obo:NCIT_C16576"
           operator:
             type: string
             description: "This is a advance filter option to include comparison operators in the query."
             example: "="
         description: "Query parameters to filter individuals based on CDEs."
-    IndividualResponse:
+    InfoResponse:
       required:
+      - meta
       - response
       type: object
       properties:
+        meta:
+          $ref: '#/components/schemas/MetaContent'
         response:
-          $ref: '#/components/schemas/IndividualResponseContent'
+          $ref: '#/components/schemas/InfoResponseContent'
+      description: |
+        Respond with information regarding this Beacon.
+    FilterTermsResponse:
+      description: |
+        List of filtering terms for querying this Beacon.
+    ServiceInfoResponse:
+      description: |
+        Respond with the Service Info of this Beacon.
+    MapResponse:
+      description: |
+        Respond with the list of available query endpoints in this Beacon.
+    EntryTypesResponse:
+      description: |
+        Respond with the entry types available  in this Beacon Implementation.
+    ConfigurationResponse:
+      description: |
+        Respond with this Beacon's configuration information.
+    MetaContent:
+      description: |
+        Information about the response that could be relevant for the Beacon client in order to interpret the results.
+      required: 
+      - apiVersion
+      - beaconId
+      - returnedSchemas
+      type: object
+      properties: 
+        apiVersion:
+          type: string
+          description: |
+            Version of the API.
+          example: v2.0
+        beaconId:
+          type: string
+          description: |
+            Identifier of the beacon, as defined in Beacon, in reverse domain name notation.
+          example: BeaconAPI.cv2.rdnexusdev.molgeniscloud.org
+        returnedSchemas:
+          type: object
+          description: |
+            Set of schemas to be used in the response to a request.
+          properties:
+            entityType:
+              type: string
+            schema:
+              type: string
+    InfoResponseContent:
+      description: |
+        Metadata describing a Beacon instance.
+      required:
+      - apiVersion
+      - environment
+      - id
+      - name
+      - organisation
+      properties:
+        apiVersion:
+          type: string
+          description: |
+            Version of the API provided by the Beacon. 
+          example: v2.0
+        environment:
+          type: string
+          description: |
+            Environment the service is running in. Use this to distinguish between production, development and testing/staging deployments. Allowed: prod, test, dev, staging
+          example: dev
+        id:
+          type: string
+          description: |
+            Unique identifier of the Beacon. Use reverse domain name notation.
+        name:
+          type: string
+          description: |
+            Name of the Beacon. 
+        organisation:
+          type: object
+          description: |
+            Organization owning the Beacon.
+          required:
+          - id
+          - name
+          properties: 
+            id:
+              type: string
+              description: |
+                Unique identifier of the organization.
+            name:
+              type: string
+              description: |
+                Name of the organization.
+    IndividualResponse:
       description: |
         Response of a query over individuals counts.
+      required:
+      - meta
+      - responseSummary
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/MetaContent'
+        responseSummary:
+          $ref: '#/components/schemas/IndividualResponseContent'
+        info:
+          description: | 
+            Beacon only responds with this info object if there are any unsupported filters in the query.
+          $ref: '#/components/schemas/WarningResponse'
+    WarningResponse:
+      description: |
+        Any unsupported filters go here.
+      required: 
+      - warnings
+      properties:
+        warnings:
+          type: object
+          description: |
+            Respond with a list of unsupported filter(s).
+          example: obo:NCIT_C16612
     IndividualResponseContent:
       required:
       - exists
@@ -100,7 +286,7 @@ components:
       description: |
         Response of the query indicating if the query yield any results. If the query is successful then the count will be returned as a response.
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    apiAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
