@@ -15,7 +15,7 @@ The request and response comforms to the Beacon Reference Framework.
 ### individuals endpoint
 > Method : POST
 
-[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api.yml) endpoint returns the count of individuals from a RD resource. This endpoint specification is drafted based on [beacon-v2 API specification](https://github.com/ga4gh-beacon/beacon-v2). The request can also contain filters which are CDE based filter parameters to filter individuals. These filters are provided as a part of request body. An example filters json is shown below.
+[/individuals](https://github.com/rini21/vp-api-specs-beaconised/blob/main/individuals_api.yml) endpoint returns the count of individuals from a RD resource. This endpoint specification is drafted based on [beacon-v2 API specification](https://github.com/ga4gh-beacon/beacon-v2). The request can also contain filters which are CDE based filter parameters to filter individuals. These filters are provided as a part of request body. An example filters json is shown below.
 
 ```JSON
 "query": {
