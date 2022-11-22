@@ -93,8 +93,6 @@ components:
     RequestQuery:
       type: object
       properties:
-        description:
-          type: string
         filters:
           $ref: '#/components/schemas/RequestFilter'
       description: "Input of the query"
@@ -137,7 +135,7 @@ components:
                 * For `obo:NCIT_C25150`(Age this year) - Any integer
                 * For `efo:EFO_0004847`(Age at disease manifestation) - Any integer
                 * For `obo:NCIT_C156420`(Age at diagnosis) - Any integer
-            # enum: [obo:NCIT_C16576,obo:NCIT_C20197,obo:NCIT_C124294,obo:NCIT_C17998, An Orphanet Term, A HPO Term, An integer for age ranges]
+            enum: [obo:NCIT_C16576,obo:NCIT_C20197,obo:NCIT_C124294,obo:NCIT_C17998, An Orphanet Term, A HPO Term, An integer for age ranges]
             example: "obo:NCIT_C16576"
           operator:
             type: string
@@ -289,4 +287,4 @@ components:
     apiAuth:
       type: apiKey
       in: header
-      name: X-API-KEY
+      name: auth-key
