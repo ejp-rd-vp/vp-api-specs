@@ -2,40 +2,21 @@
 ![GitHub](https://img.shields.io/github/license/ejp-rd-vp/vp-api-specs)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/vp-api-specs)
 
-> This API specifications are defined in the context of the EJPRD project, complying with the latest [Beacon v2 Specification](https://github.com/ga4gh-beacon/beacon-v2).
+> This API specification is defined in the context of the EJPRD project, complying with the latest [Beacon v2 Specification](https://github.com/ga4gh-beacon/beacon-v2).
 
-In this work we present API specifications for querying RD patient registries, biobanks and similar resources at the safe record level (i.e, resources whose available assets are described by RD patient data). Resources that implement this specification would ideally collect data based on the set of common data elements for rare diseases registration, as recommended by the European commission Joint Research Centre. In this specification, where possible, we also make use of ontological terms recommended by the CDE semantic data model group.
+In this work, we present API specification for querying RD patient registries, biobanks and similar resources at the safe record level (i.e, resources whose available assets are described by RD patient data). Resources that implement this specification would ideally collect data based on the set of common data elements for rare diseases registration, as recommended by the European commission Joint Research Centre. In this specification, where possible, we also make use of ontological terms recommended by the CDE semantic data model group.
 
 ## Try out the API:
-Try this API here: https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v1.0#/ 
+See this API come to life in Swagger here: https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v1.0#/ 
 
 # Specification
-The request and response comforms to the Beacon Reference Framework.
-## Query Endpoints
-### individuals endpoint
-> Method : POST
+The request and response conforms to the Beacon Reference Framework. This Specification defines two types of endpoints - **The Informational Endpoints** and **The Query Endpoints**. 
 
-[/individuals](https://github.com/rini21/vp-api-specs-beaconised/blob/main/individuals_api.yml) endpoint returns the count of individuals from a RD resource. This endpoint specification is drafted based on [beacon-v2 API specification](https://github.com/ga4gh-beacon/beacon-v2). The request can also contain filters which are CDE based filter parameters to filter individuals. These filters are provided as a part of request body. An example filters json is shown below.
+Informational Endpoints are simple GET requests without needing a request body, and respond with information relavant to this Beacon Specification. These are: /info, /configuration, /entry_types, /filtering_terms and /map. A special /service-info endpoint (also a GET request), responds with metadata relevant to this Beacon using the [GA4GH ServiceInfo format](https://github.com/ga4gh-discovery/ga4gh-service-info/). 
 
-```JSON
-"query": {
-      "description": "Query to get count of female (obo:NCIT_C16576) individuals with diagnostic opinion (sio:SIO_001003)  marfan syndrome (ordo:Orphanet_558)",
-      "filters": [
-        {
-          "type": "obo:NCIT_C28421",
-          "id": "obo:NCIT_C16576",
-          "operator": "="
-        },
-        {
-          "type": "sio:SIO_001003",
-          "id": "ordo:Orphanet_558",
-          "operator": "="
-        }
-      ]
-    }
-```   
+This specification defines a POST endpoint (aka Query Endpoint) to request resources relating to individuals. The /individuals endpoint makes use of the [Filters](http://docs.genomebeacons.org/filters/) capability of Beacon API, and the following filters are to be used to query resources:
 
-##### List of filters and permitted values
+<h5 id="filters_table"> List of filters and permitted values </h5>
 <table>
 <thead>
   <tr>
@@ -120,6 +101,73 @@ The request and response comforms to the Beacon Reference Framework.
   </tr>
 </tbody>
 </table>
+
+The request body and response format are described [here](#request_body).
+
+More details on Informational Endpoints [here](#info) and Query Endpoints [here](#query).
+
+Since the specification allows for record level queries of individuals, you would have to send the request using an [API Key for request authentication](#auth_header) in the header of the request.
+
+<h2 id="query">Query Endpoints</h2>
+
+### individuals endpoint
+> Method : POST
+
+[/individuals](https://github.com/rini21/vp-api-specs-beaconised/blob/main/individuals_api.yml) endpoint returns the count of individuals from a RD resource. This endpoint specification is drafted based on [beacon-v2 API specification](https://github.com/ga4gh-beacon/beacon-v2). The request can also contain filters which are CDE based filter parameters to filter individuals. These filters are provided as a part of request body. An example filter query JSON is shown below.
+
+```JSON
+"query": {
+      "description": "Query to get count of female (obo:NCIT_C16576) individuals with diagnostic opinion (sio:SIO_001003)  marfan syndrome (ordo:Orphanet_558)",
+      "filters": [
+        {
+          "type": "obo:NCIT_C28421",
+          "id": "obo:NCIT_C16576",
+          "operator": "="
+        },
+        {
+          "type": "sio:SIO_001003",
+          "id": "ordo:Orphanet_558",
+          "operator": "="
+        }
+      ]
+    }
+```   
+
+<h5 id="request_body"> Query Request Body: </h5>
+
+> Method: POST
+
+```JSON{
+  "meta": {
+    "apiVersion": "v2.0",
+    "beaconId": "Unique Beacon ID in reverse domain name notation",
+    "returnedSchemas": {
+      "entityType": "string",
+      "schema": "string"
+    }
+  },
+  "query": {
+    "filters": [
+      {
+        "type": "filter1_type",
+        "id": "filter1_value",
+        "operator": "="
+      },
+      {
+        "type": "filter2_type",
+        "id": "filter2_value",
+        "operator": "="
+      },
+      {
+        "type": "filter3_type",
+        "id": "filter3_value",
+        "operator": "="
+      },
+    ]
+  }
+}
+```
+The type of filter term **SHOULD** be one of the terms from the [filters and permitted values table](#filters_table). If any other terms are given as filter terms, the response should include a [warning message in the 'info' part](#info_response) of the response.
 
 
 ## Understanding the filters
@@ -231,7 +279,7 @@ If a user sends a query with a filter not supported by a resource then the resou
 
 The warning messages will be provided within the 'info' section of the Beacon.
 
-## Example Beacon usage with warning messages
+<h2 id="info_response"> Example Beacon usage with warning messages </h2>
 
 An example request which can be sent to a resource is shown below:
 
@@ -239,7 +287,14 @@ An example request which can be sent to a resource is shown below:
 ```JSON
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "meta":{},
+  "meta":{
+  "apiVersion": "v2.0",
+    "beaconId": "Unique Beacon ID in reverse domain name notation",
+    "returnedSchemas": {
+      "entityType": "string",
+      "schema": "string"
+    }
+  },
   "query":{
     "requestParameters": [],
     "filters": [
@@ -269,7 +324,14 @@ This request is sent to a resource which does not hold information about causati
 ```JSON
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "meta": {},
+  "meta": {
+  "apiVersion": "v2.0",
+    "beaconId": "Responding unique Beacon ID in reverse domain name notation",
+    "returnedSchemas": {
+      "entityType": "string",
+      "schema": "string"
+    }
+  },
   "responseSummary":{
     "exists": "true",
     "numTotalResults": 10
@@ -284,20 +346,34 @@ This request is sent to a resource which does not hold information about causati
 }
 ```
 
-This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine.    
+This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine. Please see the info part of [IndividualResponse](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v1.0#/IndividualResponse) schema on swagger. 
 
-## Informational (GET) Endpoints
-The following endpoints respond with basic information related to this Beacon Implementation. 
-### info: Get information about the Beacon
+<h2 id="auth_header"> Authentication using Header </h2>
+In Swagger, to query using the /individuals endpoint (which is a POST request), you have to authorize the query using the Authorize button beside available servers. 
 
-### service-info: Get this Beacon's basic metadata concerning its service based on the [reference specification](https://github.com/ga4gh-discovery/ga4gh-service-info/).
+![image](https://user-images.githubusercontent.com/24955128/203320000-a9cbc5a5-4c49-4a2b-8666-4e0cb17a5a62.png)
 
-### configuration: Get Beacon Configuration
+![image](https://user-images.githubusercontent.com/24955128/203320193-cb54791a-84f4-47fe-9bab-72a4e1dafec9.png)
 
-### entry_types: Get list of entry types in this Beacon
-
-### filtering_terms: Get information about available individual filtters for this beacon's entry types. 
-
-### map: Get the Beacon map with information related to the list of endpoints included in this Beacon instance.
+Use one of the authentication token provided to perform record level queries.
+![image](https://user-images.githubusercontent.com/24955128/203320249-ef7d1c45-e1a6-48fc-b8e5-0e3524126235.png)
 
 
+<h2 id="info"> Informational Endpoints </h2>
+
+> Method : GET
+
+The following endpoints respond with basic information related to this Beacon Implementation.
+
+##### /info: 
+Get information about the Beacon.
+##### /service-info: 
+Get this Beacon's basic metadata concerning its service, based on the [reference specification](https://github.com/ga4gh-discovery/ga4gh-service-info/).
+##### /configuration: 
+Get Beacon Configuration.
+##### /entry_types: 
+Get list of entry types in this Beacon.
+##### /filtering_terms: 
+Get information about available individual filtters for this beacon's entry types.
+##### /map: 
+Get the Beacon map with information related to the list of endpoints included in this Beacon instance.
