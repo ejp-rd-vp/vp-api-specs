@@ -164,6 +164,15 @@ components:
       description: |
         Respond with the list of available query endpoints in this Beacon.
     EntryTypesResponse:
+      required:
+      - meta
+      - response
+      type: object
+      properties: 
+        meta:
+          $ref: '#/components/schemas/MetaContent'
+        response:
+          $ref: '#/components/schemas/ETResponseContent'
       description: |
         Respond with the entry types available  in this Beacon Implementation.
     ConfigurationResponse:
@@ -241,6 +250,81 @@ components:
               type: string
               description: |
                 Name of the organization.
+    ETResponseContent:
+      required: 
+      - entryTypes
+      type: object
+      properties:
+        entryTypes:
+          required:
+          - Individuals
+          type: object
+          description: |
+            List of entry types. 
+          properties:
+            Individuals:
+              description: |
+                Definition of an element or entry type including the Beacon v2 required and suggested attributes. This schema purpose is to describe each type of entities included in this beacon, hence Beacon clients could have some metadata about such entities.
+              required: 
+              - defaultSchema
+              - id
+              - name
+              - ontologyTermForThisType
+              - partOfSpecification
+              type: object
+              properties: 
+                defaultSchema:
+                  description: |
+                    Definition of an annotated URL address or a file reference.
+                  required:
+                    - id
+                    - name
+                    - referenceToSchemaDefinition
+                  properties:
+                    id:
+                      type: string
+                      description: |
+                        A (unique) identifier of the element.
+                      example: Individuals
+                    name:
+                      type: string
+                      description: |
+                        A distinctive name for the element.
+                      example: Individuals
+                    referenceToSchemaDefinition:
+                      type: string
+                      description: |
+                        Conforming Schema of the element.
+                      example: https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2-Models/main/BEACON-V2-draft4-Model/individuals/defaultSchema.json
+                id:
+                  description: |
+                    A unique identifier of the element.
+                  type: string
+                  example: Individuals
+                name: 
+                  description: |
+                    A distinctive name for the element.
+                  type: string
+                  example: Individuals
+                ontologyTermForThisType: 
+                  description: |
+                    Definition of an ontology term.
+                  type: object
+                  required:
+                  - id
+                  properties: 
+                    id: 
+                      description: |
+                        A CURIE identifier as `id` for ontology term.
+                      example: NCIT:C25190
+                      type: string
+                partOfSpecification:
+                  description: |
+                    This label is to group together entry types that are part of the same specification.
+                  type: string
+                  example: Beacon v2.0
+      description: |
+        Respond with a list of entry types conforming to Beacon v2 spec.
     IndividualResponse:
       description: |
         Response of a query over individuals counts.
