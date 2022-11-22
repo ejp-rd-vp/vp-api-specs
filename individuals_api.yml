@@ -16,42 +16,56 @@ paths:
   /info:
     get:
       summary: "Get information regarding this beacon."
+      tags:
+      - Informational Endpoint
       responses:
         200:
           $ref: '#/components/schemas/InfoResponse'
   /filtering_terms:
     get:
       summary: "Get the valid filtering terms to be used in querying/handled by this beacon."
+      tags:
+      - Informational Endpoint
       responses:
         200:
           $ref: '#/components/schemas/FilterTermsResponse'
   /map:
     get:
       summary: "Get the list of endpoints included in this beacon i.e., individuals."
+      tags:
+      - Informational Endpoint
       responses:
         200:
           $ref: '#/components/schemas/MapResponse'
   /service-info:
     get:
       summary: "Get information about the beacon using GA4GH ServiceInfo format."
+      tags:
+      - Informational Endpoint
       responses:
         200:
           $ref: '#/components/schemas/ServiceInfoResponse'
   /configuration:
     get:
       summary: "Get the configuration of this beacon."
+      tags:
+      - Informational Endpoint
       responses:
         200:
           $ref: '#/components/schemas/ConfigurationResponse'
   /entry_types:
     get:
       summary: "Get the list of beacon entry types."
+      tags:
+      - Informational Endpoint
       responses:
         200:
           $ref: '#/components/schemas/EntryTypesResponse'
   /individuals:
     post:
       summary: "Request to retrive count of individuals from a data source (i.e. patients)"
+      tags:
+      - Query Endpoint
       operationId: individuals_request
       requestBody:
         content:
