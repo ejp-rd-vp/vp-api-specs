@@ -116,6 +116,7 @@ Since the specification allows for record level queries of individuals, you woul
 [/individuals](https://github.com/rini21/vp-api-specs-beaconised/blob/main/individuals_api.yml) endpoint returns the count of individuals from a RD resource. This endpoint specification is drafted based on [beacon-v2 API specification](https://github.com/ga4gh-beacon/beacon-v2). The request can also contain filters which are CDE based filter parameters to filter individuals. These filters are provided as a part of request body. An example filter query JSON is shown below.
 
 ```JSON
+{
 "query": {
       "description": "Query to get count of female (obo:NCIT_C16576) individuals with diagnostic opinion (sio:SIO_001003)  marfan syndrome (ordo:Orphanet_558)",
       "filters": [
@@ -131,13 +132,15 @@ Since the specification allows for record level queries of individuals, you woul
         }
       ]
     }
+}
 ```   
 
 <h5 id="request_body"> Query Request Body: </h5>
 
 > Method: POST
 
-```JSON{
+```JSON
+{
   "meta": {
     "apiVersion": "v2.0",
     "beaconId": "Unique Beacon ID in reverse domain name notation",
@@ -176,10 +179,11 @@ The type of filter term **SHOULD** be one of the terms from the [filters and per
 All filters are to be handled independently, see below example for clarification.
 
 ```JSON
+{
 "query": {
       "filters": [
         {
-          "type": "	sio:SIO_001003",
+          "type": "sio:SIO_001003",
           "id": "ordo:Orphanet_34587",
           "operator": "="
         },
@@ -190,6 +194,7 @@ All filters are to be handled independently, see below example for clarification
         }
       ]
     }
+}
 ```
 
 This filter is asking for individuals which have been diagnosed with Danon disease (ordo:Orphanet_34587) and where LAMP2 gene has been identified as causative. These filters are handled independently, this means that individuals with danon disease where LAMP2 has been identified as a causative gene, specifically for Danon disease, will match the query. It also means that individuals with Danon disease and where LAMP2 has been identified as a causative gene for a second rare disease, other than Danon disease, will also match this query.
@@ -254,19 +259,23 @@ Beacon queries require the use of the AND logical operator between filters and e
 To query for individuals with more than one instance of any of the filters you can send multiple of the same filter, such as in the below example:
 
 ```JSON
-"query": {
+{
+"query": 
+    {
       "filters": [
         {
-          "type": "	sio:SIO_001003",
+          "type": "sio:SIO_001003",
           "id": "ordo:Orphanet_34587",
           "operator": "="
         },
         {
-          "type": "	sio:SIO_001003",
+          "type": "sio:SIO_001003",
           "id": "ordo:Orphanet_1653",
           "operator": "="
         }
       ]
+   }
+}
 ```
 
 This query is looking for individuals with Danon disease ("ordo:Orphanet_34587") AND Dentin dysplasia ("ordo:Orphanet_1653").
@@ -299,7 +308,7 @@ An example request which can be sent to a resource is shown below:
     "requestParameters": [],
     "filters": [
         {
-          "type": "	sio:SIO_001003",
+          "type": "sio:SIO_001003",
           "id": "ordo:Orphanet_34587",
           "operator": "="
         },
@@ -312,7 +321,7 @@ An example request which can be sent to a resource is shown below:
           "type": "obo:NCIT_C28421",
           "id": "obo:NCIT_C16576",
           "operator": "="
-        },
+        }
     ]
   }
 }
