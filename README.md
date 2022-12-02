@@ -66,11 +66,11 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>any HGNC gene symbol</td>
     </tr>
     <tr>
-      <td><b>Age this year</b></td><td>obo:NCIT_C68615</td>
+      <td><b>Age this year</b></td><td>obo:NCIT_C83164</td>
         <td>Numerical</td>
-        <td>NCIT_C68615 </td>
+        <td>NCIT_C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
-        <td>any integer</td>
+        <td>any birth year as an integer</td>
     </tr>
     <tr>
       <td><b>Symptom Onset</b></td><td>obo:NCIT_C124353</td>
