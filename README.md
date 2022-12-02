@@ -27,6 +27,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <th>ID</th>
         <th>Operator</th>
         <th>Permitted Values</th>
+        <th>Scope</th>
     </tr>
     </thead>
     <tbody>
@@ -36,6 +37,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td rowspan="4">NCIT_C28421</td>
         <td rowspan="4">=</td>
         <td>NCIT_C16576</td>
+        <td>Individuals</td>
     </tr>
     <tr>
         <td>NCIT_C20197</td>
@@ -52,6 +54,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>A single value or an array of orphanet terms. <b>e.g. Orphanet_558 or [Orphanet_558, Orphanet_773]</b></td>
         <td>NA</td>
         <td>NA</td>
+        <td>Individuals</td>
     </tr>
     <tr>
       <td><b>Phenotype</b></td><td>sio:SIO_010056</td>
@@ -59,6 +62,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>A single value or an array of HPO terms. <b>e.g. HP_0001251 or [HP_0001251, HP_0012250]</b></td>
         <td>NA</td>
         <td>NA</td>
+        <td>Individuals</td>
     </tr>
     <tr>
       <td><b>Causative Genes</b></td><td>edam:data_2295</td>
@@ -66,6 +70,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>data_2295 </td>
         <td>=</td>
         <td>any HGNC gene symbol</td>
+        <td>Individuals</td>
     </tr>
     <tr>
       <td><b>Age this year</b></td><td>obo:NCIT_C83164</td>
@@ -73,6 +78,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>NCIT_C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any birth year as an integer</td>
+        <td>Individuals</td>
     </tr>
     <tr>
       <td><b>Symptom Onset</b></td><td>obo:NCIT_C124353</td>
@@ -80,6 +86,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>NCIT_C124353</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
+        <td>Individuals</td>
     </tr>
     <tr>
       <td><b>Age at diagnosis</b></td><td>obo:NCIT_C156420</td>
@@ -87,15 +94,17 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>NCIT_C156420</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
+        <td>Individuals</td>
     </tr>
     <tr>
-      <td rowspan="9"><b>Available Materials</b></td><td rowspan="10">NA</td>
-        <td rowspan="9">Alphanumerical</td>
-        <td rowspan="9">Available Materials</td>
-        <td rowspan="9">=</td>
+  <td rowspan="9"><b>Available Materials</b></td><td rowspan="9">NA</td>
+        <td rowspan="9"><phanumerical</td>
+        <td rowspan="9">ailable Materials</td>
+        <td rowspan="9"></td>
     </tr>
     <tr>
         <td>Whole Genome Sequence</td>
+         <td>Individuals</td>
     </tr>
     <tr>
         <td>Exome panel sequence</td>
@@ -117,7 +126,53 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     </tr>
     <tr>
         <td>Biosamples</td>
-    </tr>    
+    </tr>
+    <tr>
+        <td><b>ID</td><td>NA</td>
+    <td>Alphanumerical</td>
+    <td>id</td>
+        <td>=</td>
+        <td>any String</td>
+        <td>Catalog</td>
+</tr>
+            <tr>
+        <td><b>Name</td><td>NA</td>
+    <td>Alphanumerical</td>
+    <td>name</td>
+        <td>=</td>
+        <td>any String</td>
+        <td>Catalog</td>
+</tr>
+            <tr>
+        <td><b>Description</td><td>NA</td>
+    <td>Alphanumerical</td>
+    <td>description</td>
+        <td>=</td>
+        <td>any String</td>
+        <td>Catalog</td>
+</tr>
+            <tr>
+        <td><b>Organisation</td><td>NA</td>
+    <td>Alphanumerical</td>
+    <td>organisation</td>
+        <td>=</td>
+        <td>any String</td>
+        <td>Catalog</td>
+</tr>
+            <tr>
+      <td rowspan="3"><b>Resource Types</b></td><td rowspan="3">NA</td>
+        <td rowspan="3">Alphanumerical</td>
+        <td rowspan="3">resourceTypes</td>
+        <td rowspan="3">=</td>
+        <td>PatientRegistryDataset</td>
+        <td>Catalogs</td>
+    </tr>
+    <tr>
+        <td>BiobankDataset</td>
+    </tr>
+    <tr>
+        <td>KnowledgeBase</td>
+    </tr>
     </tbody>
 </table>
 
@@ -399,6 +454,67 @@ The warning messages will be provided within the 'info' section of the Beacon.
 ```
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#filters_table). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#info_response) indicating which requested filters are unsupported and these were not included in the query.
 
+
+> Method : POST
+
+[/catalogs] endpoint returns the metadata of RD resource. Filters are provided as a part of the request body. An example request JSON is shown below.
+
+<h5 id="request_body"> Query Request Body: </h5>
+
+```JSON
+{ 
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+ "meta":{},
+ "query": {
+      "filters": [
+        {
+          "id": "description",
+          "value": "%genome comparison%",
+        },
+        {
+          "id": "resourceTypes",
+          "value": " BiobankDataset"
+
+        }
+      ]
+    }
+}
+```
+
+**RESPONSE**
+```JSON
+{
+  "meta": {},
+
+  "responseSummary": 
+  {
+    "exists": true,
+    "numTotalResults": 1
+  },
+  "response": {
+    "resultSets": [
+      {
+        "resultsCount": 1,
+        "results": [
+          {
+          "createDateTime": "2017-04-30T00:00:00+00:00",
+          "description": "The Genome in a Bottle Consortium, hosted by the National Institute of Standards and Technology (NIST) is creating reference materials and data for human genome sequencing, as well as methods for genome comparison and benchmarking. ",
+          "externalUrl": "https://www.nature.com/articles/sdata201625, https://jimb.stanford.edu/giab-resources",
+          "id": "EGAD00001008097",
+          "name": "The Genome in a Bottle Consortium (GIAB)",
+          "updateDateTime": "2017-04-30T00:00:00+00:00",
+          "resourceTypes": ["BiobankDataset"],
+          "organisation": ["UOL"]
+
+          }
+        ],
+        "resultsHandover": null
+      }
+    ]
+  },
+  "beaconHandovers": []
+  }
+```
 
 <h2 id="info_response"> Example Beacon usage with warning messages </h2>
 
