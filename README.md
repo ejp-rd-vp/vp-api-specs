@@ -27,7 +27,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <th>ID</th>
         <th>Operator</th>
         <th>Permitted Values</th>
-        <th>Scope</th>
+        <th>Endpoint Use</th>
     </tr>
     </thead>
     <tbody>
@@ -37,7 +37,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td rowspan="4">NCIT_C28421</td>
         <td rowspan="4">=</td>
         <td>NCIT_C16576</td>
-        <td>Individuals</td>
+        <td rowspan="4">Individuals</td>
     </tr>
     <tr>
         <td>NCIT_C20197</td>
@@ -54,7 +54,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>A single value or an array of orphanet terms. <b>e.g. Orphanet_558 or [Orphanet_558, Orphanet_773]</b></td>
         <td>NA</td>
         <td>NA</td>
-        <td>Individuals</td>
+        <td>Individuals/Catalog</td>
     </tr>
     <tr>
       <td><b>Phenotype</b></td><td>sio:SIO_010056</td>
@@ -62,7 +62,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>A single value or an array of HPO terms. <b>e.g. HP_0001251 or [HP_0001251, HP_0012250]</b></td>
         <td>NA</td>
         <td>NA</td>
-        <td>Individuals</td>
+        <td>Individuals/Catalog</td>
     </tr>
     <tr>
       <td><b>Causative Genes</b></td><td>edam:data_2295</td>
@@ -70,7 +70,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>data_2295 </td>
         <td>=</td>
         <td>any HGNC gene symbol</td>
-        <td>Individuals</td>
+        <td>Individuals/Catalog</td>
     </tr>
     <tr>
       <td><b>Age this year</b></td><td>obo:NCIT_C83164</td>
@@ -99,12 +99,12 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     <tr>
   <td rowspan="9"><b>Available Materials</b></td><td rowspan="9">NA</td>
         <td rowspan="9"><phanumerical</td>
-        <td rowspan="9">ailable Materials</td>
-        <td rowspan="9"></td>
+        <td rowspan="9">Available Materials</td>
+        <td rowspan="9">=</td>
     </tr>
     <tr>
         <td>Whole Genome Sequence</td>
-         <td>Individuals</td>
+         <td rowspan="8">Individuals/Catalog</td>
     </tr>
     <tr>
         <td>Exome panel sequence</td>
@@ -165,7 +165,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td rowspan="3">resourceTypes</td>
         <td rowspan="3">=</td>
         <td>PatientRegistryDataset</td>
-        <td>Catalogs</td>
+        <td rowspan="3">Catalog</td>
     </tr>
     <tr>
         <td>BiobankDataset</td>
