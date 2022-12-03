@@ -54,7 +54,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>A single value or an array of orphanet terms. <b>e.g. Orphanet_558 or [Orphanet_558, Orphanet_773]</b></td>
         <td>NA</td>
         <td>NA</td>
-        <td>Individuals/Catalog</td>
+        <td>Individuals/Catalogs</td>
     </tr>
     <tr>
       <td><b>Phenotype</b></td><td>sio:SIO_010056</td>
@@ -62,7 +62,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>A single value or an array of HPO terms. <b>e.g. HP_0001251 or [HP_0001251, HP_0012250]</b></td>
         <td>NA</td>
         <td>NA</td>
-        <td>Individuals/Catalog</td>
+        <td>Individuals/Catalogs</td>
     </tr>
     <tr>
       <td><b>Causative Genes</b></td><td>edam:data_2295</td>
@@ -70,7 +70,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>data_2295 </td>
         <td>=</td>
         <td>any HGNC gene symbol</td>
-        <td>Individuals/Catalog</td>
+        <td>Individuals/Catalogs</td>
     </tr>
     <tr>
       <td><b>Age this year</b></td><td>obo:NCIT_C83164</td>
@@ -104,7 +104,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     </tr>
     <tr>
         <td>Whole Genome Sequence</td>
-         <td rowspan="8">Individuals/Catalog</td>
+         <td rowspan="8">Individuals/Catalogs</td>
     </tr>
     <tr>
         <td>Exome panel sequence</td>
@@ -133,7 +133,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     <td>id</td>
         <td>=</td>
         <td>any String</td>
-        <td>Catalog</td>
+        <td>Catalogs</td>
 </tr>
             <tr>
         <td><b>Name</td><td>NA</td>
@@ -141,7 +141,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     <td>name</td>
         <td>=</td>
         <td>any String</td>
-        <td>Catalog</td>
+        <td>Catalogs</td>
 </tr>
             <tr>
         <td><b>Description</td><td>NA</td>
@@ -149,7 +149,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     <td>description</td>
         <td>=</td>
         <td>any String</td>
-        <td>Catalog</td>
+        <td>Catalogs</td>
 </tr>
             <tr>
         <td><b>Organisation</td><td>NA</td>
@@ -157,7 +157,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     <td>organisation</td>
         <td>=</td>
         <td>any String</td>
-        <td>Catalog</td>
+        <td>Catalogs</td>
 </tr>
             <tr>
       <td rowspan="3"><b>Resource Types</b></td><td rowspan="3">NA</td>
@@ -165,7 +165,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td rowspan="3">resourceTypes</td>
         <td rowspan="3">=</td>
         <td>PatientRegistryDataset</td>
-        <td rowspan="3">Catalog</td>
+        <td rowspan="3">Catalogs</td>
     </tr>
     <tr>
         <td>BiobankDataset</td>
@@ -356,9 +356,9 @@ If a user sends a query with a filter not supported by a resource, then the reso
 
 The warning messages will be provided within the 'info' section of the Beacon.
 
-<h2 id="query">Query Endpoints</h2>
+<h1 id="query">Query Endpoints</h2>
 
-### individuals endpoint
+## Individuals endpoint
 > Method : POST
 
 [/individuals](https://github.com/rini21/vp-api-specs-beaconised/blob/main/individuals_api.yml) endpoint returns the count of individuals from a RD resource. Filters are provided as a part of the request body. An example request JSON is shown below.
@@ -454,10 +454,10 @@ The warning messages will be provided within the 'info' section of the Beacon.
 ```
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#filters_table). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#info_response) indicating which requested filters are unsupported and these were not included in the query.
 
-
+## Catalogs endpoint
 > Method : POST
 
-[/catalogs] endpoint returns the metadata of RD resource. Filters are provided as a part of the request body. An example request JSON is shown below.
+/catalogs endpoint returns the metadata of RD resource. Filters are provided as a part of the request body. An example request JSON is shown below.
 
 <h5 id="request_body"> Query Request Body: </h5>
 
