@@ -7,7 +7,7 @@
 In this work, we present API specification for querying RD patient registries, biobanks and similar resources at the safe record level (i.e, resources whose available assets are described by RD patient data). Resources that implement this specification would ideally collect data based on the set of common data elements for rare diseases registration, as recommended by the European commission Joint Research Centre. In this specification, where possible, we also make use of ontological terms recommended by the CDE semantic data model group.
 
 ## Try out the API:
-See this API come to life in Swagger [here](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v1.0#/).
+Check out [version 0.1 here](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.1) and [version 0.2 here](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2).
 
 # Specification
 The request and response conforms to the [Beacon Reference Framework](https://github.com/ga4gh-beacon/beacon-v2). This Specification defines two types of endpoints - **The Informational Endpoints** and **The Query Endpoints**. 
