@@ -33,58 +33,58 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     <tr>
       <td rowspan="4"><b>Sex</b></td><td rowspan="4">obo:NCIT_C28421</td>
         <td rowspan="4">Alphanumerical</td>
-        <td rowspan="4">NCIT_C28421</td>
+        <td rowspan="4">obo:NCIT_C28421</td>
         <td rowspan="4">=</td>
-        <td>NCIT_C16576</td>
+        <td>obo:NCIT_C16576</td>
     </tr>
     <tr>
-        <td>NCIT_C20197</td>
+        <td>obo:NCIT_C20197</td>
     </tr>
     <tr>
-        <td>NCIT_C124294</td>
+        <td>obo:NCIT_C124294</td>
     </tr>
     <tr>
-        <td>NCIT_C17998</td>
+        <td>obo:NCIT_C17998</td>
     </tr>
     <tr>
       <td><b>Disease or Disorder</b></td><td>obo:NCIT_C2991</td>
         <td>Ontology</td>
-        <td>A single value or an array of orphanet terms. <b>e.g. Orphanet_558 or [Orphanet_558, Orphanet_773]</b></td>
+        <td>A single value or an array of orphanet terms. <b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td>NA</td>
         <td>NA</td>
     </tr>
     <tr>
       <td><b>Phenotype</b></td><td>sio:SIO_010056</td>
         <td>Ontology</td>
-        <td>A single value or an array of HPO terms. <b>e.g. HP_0001251 or [HP_0001251, HP_0012250]</b></td>
+        <td>A single value or an array of HPO terms. <b>e.g. obo:HP_0001251 or [obo:HP_0001251, obo:HP_0012250]</b></td>
         <td>NA</td>
         <td>NA</td>
     </tr>
     <tr>
       <td><b>Causative Genes</b></td><td>edam:data_2295</td>
         <td>Alphanumerical</td>
-        <td>data_2295 </td>
+        <td>edam:data_2295 </td>
         <td>=</td>
         <td>any HGNC gene symbol</td>
     </tr>
     <tr>
       <td><b>Age this year</b></td><td>obo:NCIT_C83164</td>
         <td>Numerical</td>
-        <td>NCIT_C83164 </td>
+        <td>obo:NCIT_C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any birth year as an integer</td>
     </tr>
     <tr>
       <td><b>Symptom Onset</b></td><td>obo:NCIT_C124353</td>
         <td>Numerical</td>
-        <td>NCIT_C124353</td>
+        <td>obo:NCIT_C124353</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
     <tr>
       <td><b>Age at diagnosis</b></td><td>obo:NCIT_C156420</td>
         <td>Numerical</td>
-        <td>NCIT_C156420</td>
+        <td>obo:NCIT_C156420</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
@@ -218,10 +218,10 @@ There are 3 types of Beacon query that this specification currently supports:
 "query": {
       "filters": [
         {
-          "id": "Orphanet_34587" 
+          "id": "ordo:Orphanet_34587" 
         },
         {
-          "id": "data_2295",
+          "id": "edam:data_2295",
           "operator": "=",
           "value": "LAMP2"
         }
@@ -230,7 +230,7 @@ There are 3 types of Beacon query that this specification currently supports:
 }
 ```
 
-This filter is asking for individuals that have been diagnosed with Danon disease (Orphanet_34587) **and** where LAMP2 gene has been identified as causative. These filters are handled independently, this means that individuals with Danon disease where LAMP2 has been identified as a causative gene, specifically for Danon disease, will match the query. It also means that individuals with Danon disease and where LAMP2 has been identified as a causative gene for a second rare disease, other than Danon disease, will also match this query.
+This filter is asking for individuals that have been diagnosed with Danon disease (ordo:Orphanet_34587) **and** where LAMP2 gene has been identified as causative. These filters are handled independently, this means that individuals with Danon disease where LAMP2 has been identified as a causative gene, specifically for Danon disease, will match the query. It also means that individuals with Danon disease and where LAMP2 has been identified as a causative gene for a second rare disease, other than Danon disease, will also match this query.
 
 <h5>Beacon queries using multiples of the same type of filter:</h5>
 To query for individuals with more than one instance of any of the filters you can send multiple of the same filter, such as in the below example:
@@ -243,16 +243,16 @@ To query for individuals with more than one instance of any of the filters you c
     {
       "filters": [
         {
-          "id": "Orphanet_34587"
+          "id": "ordo:Orphanet_34587"
         },
         {
-          "id": "Orphanet_1653"
+          "id": "ordo:Orphanet_1653"
         }
       ]
    }
 }
 ```
-This query is looking for individuals with Danon disease ("Orphanet_34587") AND Dentin dysplasia ("Orphanet_1653").
+This query is looking for individuals with Danon disease ("ordo:Orphanet_34587") AND Dentin dysplasia ("ordo:Orphanet_1653").
 
 > Alphanumeric Filter example: 
 
@@ -285,13 +285,13 @@ This query is looking if there are any individuals with RNA sequence information
     {
       "filters": [
         {
-          "id": ["Orphanet_34587","Orphanet_1653"]
+          "id": ["ordo:Orphanet_34587","ordo:Orphanet_1653"]
         }
       ]
    }
 }
 ```
-This query is looking for individuals either with Danon disease (Orphanet_34587) OR Dentin dysplasia (Orphanet_1653).
+This query is looking for individuals either with Danon disease (ordo:Orphanet_34587) OR Dentin dysplasia (ordo:Orphanet_1653).
 
 There are no OR operators available **between** filters with beacon queries.
 
@@ -360,17 +360,17 @@ The warning messages will be provided within the 'info' section of the Beacon.
     "requestParameters": [],
     "filters": [
         {
-          "id": "Orphanet_34587"
+          "id": "ordo:Orphanet_34587"
         },
         {
-          "id": "data_2295",
+          "id": "edam:data_2295",
           "value": "LAMP2",
           "operator": "="
         },
         {
-          "id": "NCIT_C28421",
+          "id": "obo:NCIT_C28421",
           "operator": "=",
-          "value": "NCIT_C16576"
+          "value": "obo:NCIT_C16576"
         }
     ]
   }
@@ -419,17 +419,17 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
     "requestParameters": [],
     "filters": [
         {
-          "id": "Orphanet_34587"
+          "id": "ordo:Orphanet_34587"
         },
         {
-          "id": "data_2295",
+          "id": "edam:data_2295",
           "value": "LAMP2",
           "operator": "="
         },
         {
-          "id": "NCIT_C28421",
+          "id": "obo:NCIT_C28421",
           "operator": "=",
-          "value": "NCIT_C16576"
+          "value": "obo:NCIT_C16576"
         }
     ]
   }
@@ -458,7 +458,7 @@ This request is sent to a resource which does not hold information about causati
   "info": {
     "warnings":{
       "unsupportedFilters": [
-        "data_2295"
+        "edam:data_2295"
       ]
     }
   }
