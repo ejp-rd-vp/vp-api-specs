@@ -166,18 +166,21 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>Catalogs</td>
 </tr>
             <tr>
-      <td rowspan="3"><b>Resource Types</b></td><td rowspan="3">NA</td>
-        <td rowspan="3">Alphanumerical</td>
-        <td rowspan="3">resourceTypes</td>
-        <td rowspan="3">=</td>
+      <td rowspan="4"><b>Resource Types</b></td><td rowspan="4">NA</td>
+        <td rowspan="4">Alphanumerical</td>
+        <td rowspan="4">resourceTypes</td>
+        <td rowspan="4">=</td>
         <td>PatientRegistryDataset</td>
-        <td rowspan="3">Catalogs</td>
+        <td rowspan="4">Catalogs</td>
     </tr>
     <tr>
         <td>BiobankDataset</td>
     </tr>
     <tr>
         <td>KnowledgeBase</td>
+    </tr>
+    <tr>
+        <td>An array of any of the above</td>
     </tr>
     </tbody>
 </table>
