@@ -32,12 +32,12 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     </thead>
     <tbody>
     <tr>
-      <td rowspan="4"><b>Sex</b></td><td rowspan="4">obo:NCIT_C28421</td>
-        <td rowspan="4">Alphanumerical</td>
-        <td rowspan="4">NCIT_C28421</td>
-        <td rowspan="4">=</td>
+      <td rowspan="5"><b>Sex</b></td><td rowspan="5">obo:NCIT_C28421</td>
+        <td rowspan="5">Alphanumerical</td>
+        <td rowspan="5">NCIT_C28421</td>
+        <td rowspan="5">=</td>
         <td>NCIT_C16576</td>
-        <td rowspan="4">Individuals</td>
+        <td rowspan="5">Individuals</td>
     </tr>
     <tr>
         <td>NCIT_C20197</td>
@@ -47,6 +47,9 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     </tr>
     <tr>
         <td>NCIT_C17998</td>
+    </tr>
+    <tr>
+        <td>An array of any of the above</td>
     </tr>
     <tr>
       <td><b>Disease or Disorder</b></td><td>obo:NCIT_C2991</td>
