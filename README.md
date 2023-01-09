@@ -72,7 +72,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>Alphanumerical</td>
         <td>data_2295 </td>
         <td>=</td>
-        <td>any HGNC gene symbol</td>
+        <td>any HGNC gene symbol or array of HGNC symbols</td>
         <td>Individuals/Catalogs</td>
     </tr>
     <tr>
@@ -100,14 +100,14 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>Individuals</td>
     </tr>
     <tr>
-  <td rowspan="9"><b>Available Materials</b></td><td rowspan="9">NA</td>
-        <td rowspan="9"><phanumerical</td>
-        <td rowspan="9">Available Materials</td>
-        <td rowspan="9">=</td>
+  <td rowspan="10"><b>Available Materials</b></td><td rowspan="10">NA</td>
+        <td rowspan="10">Alphanumerical</td>
+        <td rowspan="10">Available Materials</td>
+        <td rowspan="10">=</td>
     </tr>
     <tr>
         <td>Whole Genome Sequence</td>
-         <td rowspan="8">Individuals/Catalogs</td>
+         <td rowspan="9">Individuals/Catalogs</td>
     </tr>
     <tr>
         <td>Exome panel sequence</td>
@@ -129,6 +129,9 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     </tr>
     <tr>
         <td>Biosamples</td>
+    </tr>
+    <tr>
+        <td>An array of any of the above</td>
     </tr>
     <tr>
         <td><b>ID</td><td>NA</td>
@@ -179,10 +182,11 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
     </tbody>
 </table>
 
+> **Note:** Elements within arrays in **value** fields are treated as **ORs**
 
-The request body and response format are described [here](#request_body).
+> The request body and response format are described [here](#request_body).
 
-More details on Informational Endpoints [here](#info) and Query Endpoints [here](#query).
+> More details on Informational Endpoints [here](#info) and Query Endpoints [here](#query).
 
 <h2 id="auth_header"> Authentication using Header </h2>
 
