@@ -80,7 +80,7 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
         <td>Numerical</td>
         <td>NCIT_C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
-        <td>any birth year as an integer</td>
+        <td>any integer</td>
         <td>Individuals</td>
     </tr>
     <tr>
