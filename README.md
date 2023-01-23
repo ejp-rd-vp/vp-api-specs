@@ -172,10 +172,9 @@ This specification defines POST endpoints to request information about resources
 </table>
 
 
-
 An example request & response to query for individuals is shown below:
 
-<h4 id="individuals-example">EXAMPLE /individuals REQUEST <h4>
+<h4 id="individuals-example">EXAMPLE /individuals REQUEST </h4>
 
 ```JSON
 {
