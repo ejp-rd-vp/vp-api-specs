@@ -11,11 +11,15 @@ In this work, we present API specification for querying RD patient registries, b
 * [Try out this API in Swagger](#try-in-swagger)
 * [Specification](#specification)
 * [Query Endpoints](#query-endpoints)
-    * [/individuals endpoint](#individuals)
-    * [/catalogs endpoint](#catalogs)
+    * [Individuals endpoint](#individuals)
+      * [List of filters](#individuals-filters)
+      * [Example request & response](#individuals-example)
+    * [Catalogs endpoint](#catalogs)
+      * [List of filters](#catalogs-filters)
+      * [Example request & response](#catalogs-example)
 * [Authentication using Header(s)](#auth-header)
 * [Understanding the filters](#understand-filters)
-* [Examples](#examples)
+* [Further Examples](#examples)
     * [Syntax of Beacon Query with Filters](#syntax-usage)
     * [Understanding the query](#understand-query)
         * [Multi-Filter (AND) query](#multi-and)
@@ -37,19 +41,25 @@ Check out version 0.1 [here](https://app.swaggerhub.com/apis/VM172_1/vp_individu
 
 The request and response conforms to the [Beacon Reference Framework](https://github.com/ga4gh-beacon/beacon-v2). This Specification defines two types of endpoints - **[The Query Endpoints](#query-endpoints)** and **[The Informational Endpoints](#info-endpoints)**. 
 
-Informational Endpoints are simple GET requests without needing a request body, and respond with information relavant to this Beacon Specification. These are: /info, /configuration, /entry_types, /filtering_terms and /map. A special /service-info endpoint (also a GET request), responds with metadata relevant to this Beacon using the [GA4GH ServiceInfo format](https://github.com/ga4gh-discovery/ga4gh-service-info/). 
+[Informational Endpoints](#info-endpoints) are simple GET requests without needing a request body, and respond with information relavant to this Beacon Specification. These are: /info, /configuration, /entry_types, /filtering_terms and /map. A special /service-info endpoint (also a GET request), responds with metadata relevant to this Beacon using the [GA4GH ServiceInfo format](https://github.com/ga4gh-discovery/ga4gh-service-info/). 
+
+[Query Endpoints](#query-endpoints) require the requester to provide a JSON body and send request using the POST method.
 
 <hr>
 
 <h2 id="query-endpoints"> Query Endpoints </h2>
 
-This specification defines POST endpoints (aka Query Endpoints) to request information about resources. Each endpoint makes use of the [Filters](http://docs.genomebeacons.org/filters/) capability of Beacon API, and the following filters are to be used to query resources in EJP:
+This specification defines POST endpoints to request information about resources. Each endpoint makes use of the [Filters](http://docs.genomebeacons.org/filters/) capability of the Beacon API.
 
-<h3 id="individuals"> Filters in /individuals endpoint</h3>
+<h3 id="individuals"> Individuals endpoint</h3>
+
+> Method : POST
 
 [/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api_v0.2.yml) endpoint returns the **__count of individuals__** from a RD resource. Filters are provided as a part of the body while using a POST request to query resources.
 
-> Method : POST
+<h4 id="individuals-filters"> List of filters and permitted values for the individuals endpoint </h4>
+
+> **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
 <table>
 <thead>
@@ -161,9 +171,11 @@ This specification defines POST endpoints (aka Query Endpoints) to request infor
 </tbody>
 </table>
 
+
+
 An example request & response to query for individuals is shown below:
 
-**EXAMPLE /individuals REQUEST**
+<h4 id="individuals-example">EXAMPLE /individuals REQUEST <h4>
 
 ```JSON
 {
@@ -220,11 +232,15 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 <hr>
 
-<h3 id="catalogs"> Filters in /catalogs endpoint</h3>
+<h3 id="catalogs"> Catalogs endpoint </h3>
+
+> Method: POST
 
 [/catalogs](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/catalogs_api_v0.2.yml) endpoint returns the **__metadata of RD resource__**. Filters are provided as a part of the body while using a POST request to query resources.
 
-> Method: POST
+<h4 id="catalogs-filters"> List of filters and permitted values for the catalogs endpoint </h4>
+
+> **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
 <table>
 <thead>
@@ -339,7 +355,7 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 An example request & response to query for resources via the /catalogs endpoint is shown below:
 
-**EXAMPLE /catalogs REQUEST**
+<h4 id="catalogs-example"> EXAMPLE /catalogs REQUEST </h4>
 
 ```JSON
 { 
