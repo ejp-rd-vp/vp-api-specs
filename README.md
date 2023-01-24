@@ -13,19 +13,18 @@ In this work, we present API specification for querying RD patient registries, b
 * [Query Endpoints](#query-endpoints)
     * [Individuals endpoint](#individuals)
       * [List of filters](#individuals-filters)
-      * [Example request & response](#individuals-example)
       * [Filters description](#individuals-filters-description)
+      * [Example request & response](#individuals-example)
     * [Catalogs endpoint](#catalogs)
       * [List of filters](#catalogs-filters)
-      * [Example request & response](#catalogs-example)
       * [Filters description](#catalogs-filters-description)
+      * [Example request & response](#catalogs-example)
 * [Authentication using Header(s)](#auth-header)
-* [Further Examples](#examples)
-    * [Syntax of Beacon Query with Filters](#syntax-usage)
-    * [Understanding the query](#understand-query)
+* [Understanding the query](#understand-query)
+    * [Syntax & Usage of Beacon Query with Filters](#syntax-usage)
         * [Multi-Filter (AND) query](#multi-and)
         * [Same Filter (AND) query](#same-and)
-        * [Multi-Filter (OR) query using Arrays](#multi-or-arrays)
+        * [Multi-Filter (OR) query using **Arrays**](#multi-or-arrays)
     * [Partial query matches with warning messages](#warning-response-example)
 * [Informational Endpoints](#info-endpoints)
 * [Deprecated Filters](#deprecated-filters)
@@ -176,6 +175,28 @@ This specification defines POST endpoints to request information about resources
 
 <hr>
 
+<h3 id="individuals-filters-description"> Individuals Filters Description </h3>
+
+**Sex**: The biological sex of an individual patient.
+
+**Disease or Disorder**: All rare diseases that have been diagnosed **within an individual**, to encompase, but not distinguish between all levels of diagnosis such as definitive, differential, provisional, etc.,
+
+**Phenotype**: HPO terms of all phenotypes observed **within an individual**.
+
+**Causative Genes**: All genes which have been deemed as causative of one or more of the diagnosed rare diseases **in an individual**, encompassing and not distinguishing between all certainty levels of casuality.
+
+**Age this year**: Age at the end of the current year. -/+ will be added to all age queries when executed by the query engine at the resource. 
+
+**Symptom Onset**: Age at the manifestation of a rare disease. For individuals with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource. 
+
+**Age at diagnosis**: Age at the diagnosis of a rare disease. For individuals with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource.
+
+**Available Materials**: A list of what information is available about an **individual**.
+
+[ ^ Back to the top](#top)
+
+<hr>
+
 <h3> An example request & response to query for individuals is shown below: </h3>
 
 <h5 id="individuals-example">EXAMPLE /individuals REQUEST </h5>
@@ -186,7 +207,7 @@ This specification defines POST endpoints to request information about resources
   "apiVersion": "v2.0",
     "beaconId": "Unique Beacon ID in reverse domain name notation",
     "returnedSchemas": {
-      "entityType": "string",
+      "entityType": "individual",
       "schema": "string"
     }
   },
@@ -219,7 +240,7 @@ This specification defines POST endpoints to request information about resources
   "apiVersion": "v2.0",
     "beaconId": "Responding unique Beacon ID in reverse domain name notation",
     "returnedSchemas": {
-      "entityType": "string",
+      "entityType": "individual",
       "schema": "string"
     }
   },
@@ -235,33 +256,11 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 <hr>
 
-<h3 id="individuals-filters-description"> Individuals Filters Description </h3>
-
-**Sex**: The biological sex of an individual patient.
-
-**Disease or Disorder**: All rare diseases that have been diagnosed **within an individual**, to encompase, but not distinguish between all levels of diagnosis such as definitive, differential, provisional, etc.,
-
-**Phenotype**: HPO terms of all phenotypes observed **within an individual**.
-
-**Causative Genes**: All genes which have been deemed as causative of one or more of the diagnosed rare diseases **in an individual**, encompassing and not distinguishing between all certainty levels of casuality.
-
-**Age this year**: Age at the end of the current year. -/+ will be added to all age queries when executed by the query engine at the resource. 
-
-**Symptom Onset**: Age at the manifestation of a rare disease. For individuals with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource. 
-
-**Age at diagnosis**: Age at the diagnosis of a rare disease. For individuals with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource.
-
-**Available Materials**: A list of what information is available about an **individual**.
-
-[ ^ Back to the top](#top)
-
-<hr>
-
 <h3 id="catalogs"> Catalogs endpoint </h3>
 
 > Method: POST
 
-[/catalogs](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/catalogs_api_v0.2.yml) endpoint returns the **__metadata of RD resource__**. Filters are provided as a part of the body while using a POST request to query resources.
+[/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resource__**. Filters are provided as a part of the body while using a POST request to query resources.
 
 <h4 id="catalogs-filters"> List of filters and permitted values for the catalogs endpoint </h4>
 
@@ -381,22 +380,53 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 <hr>
 
+<h3 id="catalogs-filters-description"> Catalogs Filters Description </h3>
+
+**Disease or Disorder**: All rare diseases that are associated **within a catalog**, to encompase, but not distinguish between all levels of diagnosis such as definitive, differential, provisional, etc.,
+
+**Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources.
+
+**Available Materials**: A list of what information is available **within the catalog**.
+
+**ID**: The resource identifier ID **within the catalog**.
+
+**Name**: The name of the resource in the **catalog**. 
+
+**Description**: The description of the resource in the **catalog**. 
+
+**Organisation**: The organisation of the resource in the **catalog**. 
+
+**Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are: PatientRegistryDataset, BiobankDataset, KnowledgeBase or an array of any of these values.
+
+[ ^ Back to the top](#top)
+
+<hr>
+
 <h3> An example request & response to query for resources via the /catalogs endpoint is shown below: </h3>
 
 <h5 id="catalogs-example"> EXAMPLE /catalogs REQUEST </h5>
 
 ```JSON
 { 
- "meta":{},
+ "meta":{
+  "apiVersion": "v2.0",
+    "beaconId": "Unique Beacon ID in reverse domain name notation",
+    "returnedSchemas": {
+      "entityType": "catalog",
+      "schema": "string"
+    },
  "query": {
       "filters": [
         {
           "id": "description",
           "value": "%genome comparison%",
+          "operator": "="
+          
         },
         {
           "id": "resourceTypes",
-          "value": " BiobankDataset"
+          "value": " BiobankDataset",
+          "operator": "="
 
         }
       ]
@@ -407,8 +437,13 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 **EXAMPLE /catalogs RESPONSE**
 ```JSON
 {
-  "meta": {},
-
+  "meta":{
+  "apiVersion": "v2.0",
+    "beaconId": "Unique Beacon ID in reverse domain name notation",
+    "returnedSchemas": {
+      "entityType": "catalog",
+      "schema": "string"
+    },
   "responseSummary": 
   {
     "exists": true,
@@ -443,28 +478,6 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 <hr>
 
-<h3 id="catalogs-filters-description"> Catalogs Filters Description </h3>
-
-**Disease or Disorder**: All rare diseases that are associated **within a catalog**, to encompase, but not distinguish between all levels of diagnosis such as definitive, differential, provisional, etc.,
-
-**Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources.
-
-**Available Materials**: A list of what information is available **within the catalog**.
-
-**ID**: The resource identifier ID **within the catalog**.
-
-**Name**: The name of the resource in the **catalog**. 
-
-**Description**: The description of the resource in the **catalog**. 
-
-**Organisation**: The organisation of the resource in the **catalog**. 
-
-**Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are: PatientRegistryDataset, BiobankDataset, KnowledgeBase or an array of any of these values.
-
-[ ^ Back to the top](#top)
-
-<hr>
-
 <h2 id="auth-header"> Authentication using Header </h2>
 
 Since the specification allows for record level queries of individuals, additional information is required in the request header to verify the requester is authorised:
@@ -486,17 +499,29 @@ Since the specification allows for record level queries of individuals, addition
 
 > **Note:** Implementers can provide distinct auth-keys to each requester or a single auth-key to all requesters.
 
-To check this, see [Authentication in Swagger](#swagger-auth)
+To see this live in action in Swagger UI, see [Authentication in Swagger](#swagger-auth).
 
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h2 id="examples"> Examples </h2>
+<h2 id="understand-query"> Understanding the query </h2>
 
 <h3 id="syntax-usage"> Syntax & Usage: </h3>
 
 > Method: POST
+
+There are 3 types of Beacon queries that this specification currently supports: 
+1. [Alphanumerical Query](http://docs.genomebeacons.org/filters/#exact-value-query)
+2. [Numerical Query](http://docs.genomebeacons.org/filters/#numerical-value-query)
+3. [Ontology Query](http://docs.genomebeacons.org/filters/#simple-curie-based-filters-query)
+
+The following JSON body depicts the typical usage of filters to query resources. 
+   * Alphanumeric filters **require** the use of id, operator(=) and value properties. 
+   * Ontology filters only require the 'id' property to query resources.
+   * Numeric filters also require id, operator and value properties. These filters differ from the alphanumeric filters as it is also possible to use comparison operators (>=,>,<=,<) along with '='.
+
+These usage rules are illustrated using a general syntax as below:
 
 ```JSON
 {
@@ -504,25 +529,25 @@ To check this, see [Authentication in Swagger](#swagger-auth)
     "apiVersion": "v2.0",
     "beaconId": "Unique Beacon ID in reverse domain name notation",
     "returnedSchemas": {
-      "entityType": "string",
+      "entityType": "individual or catalog",
       "schema": "string"
     }
   },
   "query": {
     "filters": [
       {
-        "id": "filter1_id",
+        "id": "AlphanumericFilter_id",
         "operator": "=",
-        "value":"filter1_value"
+        "value":"AlphanumericFilter_value"
         
       },
       {
-        "id": "filter2_id",
+        "id": "AlphanumericFilter_id",
         "operator": "=",
-        "value":"filter1_value"
+        "value":"AlphanumericFilter_value"
       },
       { 
-        "id": "filter3_value"
+        "id": "OntologyFilter_value"
       }
     ]
   }
@@ -533,14 +558,9 @@ To check this, see [Authentication in Swagger](#swagger-auth)
 
 <hr>
 
-<h3 id="understand-query"> Understanding the query </h3>
+As shown above, different types of filters can be sent in a single query. These are further elucidated below. 
 
-There are 3 types of Beacon query that this specification currently supports: 
-1. [Ontology Query](http://docs.genomebeacons.org/filters/#simple-curie-based-filters-query)
-2. [Alphanumerical Query](http://docs.genomebeacons.org/filters/#exact-value-query)
-3. [Numerical Query](http://docs.genomebeacons.org/filters/#numerical-value-query)
-
-<h4 id="multi-and"> Beacon queries require the use of the AND logical operator between filters:</h4>
+<h4 id="multi-and"> Beacon queries using multiple filters (AND logical operator between filters):</h4>
 
 ```JSON
 {
@@ -566,7 +586,7 @@ This filter is asking for individuals that have been diagnosed with Danon diseas
 
 <hr>
 
-<h4 id="same-and">Beacon queries using multiples of the same type of filter:</h4>
+<h4 id="same-and">Beacon queries using multiples of the same type of filter (AND logical operator between filters):</h4>
 
 To query for individuals with more than one instance of any of the filters you can send multiple of the same filter, such as in the below example:
 
@@ -616,7 +636,7 @@ This query is looking if there are any individuals with RNA sequence information
 
 <hr>
 
-<h4 id="multi-or-arrays">Beacon queries using multiples values as an OR in phenotype or disease filters</h4>
+<h4 id="multi-or-arrays">Beacon queries using multiple values as in phenotype or disease filters (OR logical operator between filter values):</h4>
 
 > Ontology Filter using Array Example:
 
@@ -634,7 +654,7 @@ This query is looking if there are any individuals with RNA sequence information
 ```
 This query is looking for individuals either with Danon disease (Orphanet_34587) OR Dentin dysplasia (Orphanet_1653).
 
-There are no OR operators available **between** filters with beacon queries.
+> **Note**: There are no OR operators available **between** filters with beacon queries.
 
 All of the defined filters are optional, the user can provide as many or as few as wanted and the resource does not have to implement all filters.
 
@@ -656,7 +676,7 @@ The warning messages will be provided within the ['info' section](#warning-respo
   "apiVersion": "v2.0",
     "beaconId": "Unique Beacon ID in reverse domain name notation",
     "returnedSchemas": {
-      "entityType": "string",
+      "entityType": "individual",
       "schema": "string"
     }
   },
@@ -692,7 +712,7 @@ This request is sent to a resource which does not hold information about causati
   "apiVersion": "v2.0",
     "beaconId": "Responding unique Beacon ID in reverse domain name notation",
     "returnedSchemas": {
-      "entityType": "string",
+      "entityType": "individual",
       "schema": "string"
     }
   },
@@ -834,7 +854,7 @@ These filters are currently supported, but will be removed from from future vers
 
 <h2 id="swagger-auth"> Authentication using Header for Swagger </h2>
 
-In Swagger, to query using the /individuals endpoint (which is a POST request), you have to authorize the query using the Authorize button beside available servers. 
+In Swagger, to query using both the /individuals endpoint & /catalogs endpoint (which are POST requests), you have to authorize the query using the **Authorize** button (extreme right, beside Servers dropdown in Swagger UI). 
 
 ![image](https://user-images.githubusercontent.com/24955128/203320000-a9cbc5a5-4c49-4a2b-8666-4e0cb17a5a62.png)
 
