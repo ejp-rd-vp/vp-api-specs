@@ -14,11 +14,12 @@ In this work, we present API specification for querying RD patient registries, b
     * [Individuals endpoint](#individuals)
       * [List of filters](#individuals-filters)
       * [Example request & response](#individuals-example)
+      * [Filters description](#individuals-filters-description)
     * [Catalogs endpoint](#catalogs)
       * [List of filters](#catalogs-filters)
       * [Example request & response](#catalogs-example)
+      * [Filters description](#catalogs-filters-description)
 * [Authentication using Header(s)](#auth-header)
-* [Understanding the filters](#understand-filters)
 * [Further Examples](#examples)
     * [Syntax of Beacon Query with Filters](#syntax-usage)
     * [Understanding the query](#understand-query)
@@ -43,7 +44,7 @@ The request and response conforms to the [Beacon Reference Framework](https://gi
 
 [Informational Endpoints](#info-endpoints) are simple GET requests without needing a request body, and respond with information relavant to this Beacon Specification. These are: /info, /configuration, /entry_types, /filtering_terms and /map. A special /service-info endpoint (also a GET request), responds with metadata relevant to this Beacon using the [GA4GH ServiceInfo format](https://github.com/ga4gh-discovery/ga4gh-service-info/). 
 
-[Query Endpoints](#query-endpoints) require the requester to provide a JSON body and send request using the POST method.
+[Query Endpoints](#query-endpoints) require the requester to provide a JSON body and send request using the POST method. This document defines two query endpoints to query resources using filters - [/individuals](#individuals) & [/catalogs](#catalogs). 
 
 <hr>
 
@@ -171,10 +172,13 @@ This specification defines POST endpoints to request information about resources
 </tbody>
 </table>
 
+[ ^ Back to the top](#top)
 
-An example request & response to query for individuals is shown below:
+<hr>
 
-<h4 id="individuals-example">EXAMPLE /individuals REQUEST </h4>
+<h3> An example request & response to query for individuals is shown below: </h3>
+
+<h5 id="individuals-example">EXAMPLE /individuals REQUEST </h5>
 
 ```JSON
 {
@@ -226,6 +230,28 @@ An example request & response to query for individuals is shown below:
 }
 ```
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#individuals). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h3 id="individuals-filters-description"> Individuals Filters Description </h3>
+
+**Sex**: The biological sex of an individual patient.
+
+**Disease or Disorder**: All rare diseases that have been diagnosed **within an individual**, to encompase, but not distinguish between all levels of diagnosis such as definitive, differential, provisional, etc.,
+
+**Phenotype**: HPO terms of all phenotypes observed **within an individual**.
+
+**Causative Genes**: All genes which have been deemed as causative of one or more of the diagnosed rare diseases **in an individual**, encompassing and not distinguishing between all certainty levels of casuality.
+
+**Age this year**: Age at the end of the current year. -/+ will be added to all age queries when executed by the query engine at the resource. 
+
+**Symptom Onset**: Age at the manifestation of a rare disease. For individuals with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource. 
+
+**Age at diagnosis**: Age at the diagnosis of a rare disease. For individuals with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource.
+
+**Available Materials**: A list of what information is available about an **individual**.
 
 [ ^ Back to the top](#top)
 
@@ -351,10 +377,13 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 </tbody>
 </table>
 
+[ ^ Back to the top](#top)
 
-An example request & response to query for resources via the /catalogs endpoint is shown below:
+<hr>
 
-<h4 id="catalogs-example"> EXAMPLE /catalogs REQUEST </h4>
+<h3> An example request & response to query for resources via the /catalogs endpoint is shown below: </h3>
+
+<h5 id="catalogs-example"> EXAMPLE /catalogs REQUEST </h5>
 
 ```JSON
 { 
@@ -414,6 +443,28 @@ An example request & response to query for resources via the /catalogs endpoint 
 
 <hr>
 
+<h3 id="catalogs-filters-description"> Catalogs Filters Description </h3>
+
+**Disease or Disorder**: All rare diseases that are associated **within a catalog**, to encompase, but not distinguish between all levels of diagnosis such as definitive, differential, provisional, etc.,
+
+**Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources.
+
+**Available Materials**: A list of what information is available **within the catalog**.
+
+**ID**: The resource identifier ID **within the catalog**.
+
+**Name**: The name of the resource in the **catalog**. 
+
+**Description**: The description of the resource in the **catalog**. 
+
+**Organisation**: The organisation of the resource in the **catalog**. 
+
+**Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are: PatientRegistryDataset, BiobankDataset, KnowledgeBase or an array of any of these values.
+
+[ ^ Back to the top](#top)
+
+<hr>
+
 <h2 id="auth-header"> Authentication using Header </h2>
 
 Since the specification allows for record level queries of individuals, additional information is required in the request header to verify the requester is authorised:
@@ -436,66 +487,6 @@ Since the specification allows for record level queries of individuals, addition
 > **Note:** Implementers can provide distinct auth-keys to each requester or a single auth-key to all requesters.
 
 To check this, see [Authentication in Swagger](#swagger-auth)
-
-[ ^ Back to the top](#top)
-
-<hr>
-
-<h2 id="understand-filters"> Understanding the filters </h2>
-
-All filters are to be handled independently, see below for clarification.
-
-<table>
-<thead>
-  <tr>
-    <th>Filter</th>
-    <th>Filter description</th>
-    <th>Filter interpretation</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>Sex</td>
-    <td>The biological sex of the patient</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Disease or Disorder</td>
-    <td>All rare diseases that have been diagnosed within an individual, to encompase, but not distinguish between, all levels of diagnosis such as definitive, differential, provisional etc.</td>
-    <td>To be handled independently of other filters</td>
-  </tr>
-  <tr>
-    <td>Phenotype</td>
-    <td>HPO terms of all phenotypes observed within an individual</td>
-    <td>To be handled independently of other filters</td>
-  </tr>
-  <tr>
-    <td>Causative Genes</td>
-    <td>All genes which have been deemed as causative of one or more of the diagnosed rare diseased, encompassing and not distinguishing between all certainty levels of causality</td>
-    <td>To be handled independently of other filters</td>
-  </tr>
-  <tr>
-    <td>Age this year</td>
-    <td>Age at the end of the current year</td>
-    <td>-/+ 1 will be added to all age queries when executed by the query engine at the resource</td>
-  </tr>
-  <tr>
-    <td>Symptom Onset</td>
-    <td>Age at the manifestation of a rare disease</td>
-    <td>For individuals with more than one rare disease this filter will look at all age of manifestations independently. <br /> -/+ 1 will be added to all age queries when executed by the query engine at the resource</td>
-  </tr>
-  <tr>
-    <td>Age at diagnosis</td>
-    <td>Age at the diagnosis of a rare disease</td>
-    <td>For individuals with more than one rare disease this filter will look at all age of diagnosis independently. <br /> -/+ 1 will be added to all age queries when executed by the query engine at the resource</td>
-  </tr>
-  <tr>
-    <td>Available Materials</td>
-    <td>A list of what information is available about an individual</td>
-    <td></td>
-  </tr>
-</tbody>
-</table>
 
 [ ^ Back to the top](#top)
 
@@ -693,7 +684,7 @@ This request is asking for females with Danon disease with LAMP2 being identifie
 
 This request is sent to a resource which does not hold information about causative genes but does hold information about diagnoses and sex, an example response which could be returned is outlined below:
 
-**EXAMPLE RESPONSE**
+**EXAMPLE WARNING RESPONSE**
 
 ```JSON
 {
