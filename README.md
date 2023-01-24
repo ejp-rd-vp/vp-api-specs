@@ -191,7 +191,7 @@ This specification defines POST endpoints to request information about resources
 
 **Age at diagnosis**: Age at the diagnosis of a rare disease. For individuals with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource.
 
-**Available Materials**: A list of what information is available about an **individual**.
+**Available Materials**: A list of what material information is available about an **individual**.
 
 [ ^ Back to the top](#top)
 
@@ -382,11 +382,11 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 <h3 id="catalogs-filters-description"> Catalogs Filters Description </h3>
 
-**Disease or Disorder**: All rare diseases that are associated **within a catalog**, to encompase, but not distinguish between all levels of diagnosis such as definitive, differential, provisional, etc.,
+**Disease or Disorder**: All rare diseases that are associated **within a catalog**,
 
 **Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources.
 
-**Available Materials**: A list of what information is available **within the catalog**.
+**Available Materials**: A list of material information that is available **within the catalog**.
 
 **ID**: The resource identifier ID **within the catalog**.
 
