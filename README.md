@@ -189,27 +189,27 @@ This specification defines POST endpoints to request information about resources
 
 ```JSON
 {
-  "meta":{
-      "apiVersion": "v2.0"
-  },
-  "query":{
-    "filters": [
-        {
-          "id": "Orphanet_34587"
-        },
-        {
-          "id": "data_2295",
-          "value": "LAMP2",
-          "operator": "="
-        },
-        {
-          "id": "NCIT_C28421",
-          "operator": "=",
-          "value": "NCIT_C16576"
-        }
-    ],
-     “requestedGranularity”: “boolean” 
-  }
+    "meta": {
+        "apiVersion": "v2.0"
+    },
+    "query": {
+        "filters": [
+              {
+                "id": "Orphanet_34587"
+              },
+              {
+                "id": "data_2295",
+                "value": "LAMP2",
+                "operator": "="
+              },
+              {
+                "id": "NCIT_C28421",
+                "operator": "=",
+                "value": "NCIT_C16576"
+              }
+        ],
+        "requestedGranularity": "boolean"
+    }
 }
 ```
 
@@ -371,7 +371,7 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
         }
       ],
-       “requestedGranularity”: “count” 
+      "requestedGranularity": "count"
     }
 }
 ```
@@ -485,7 +485,7 @@ These usage rules are illustrated using a general syntax as below:
         "id": "OntologyFilter_value"
       }
     ],
-     “requestedGranularity”: “boolean” 
+     "requestedGranularity": "boolean"
   }
 }
 ```
@@ -627,7 +627,7 @@ The warning messages will be provided within the ['info' section](#warning-respo
           "value": "NCIT_C16576"
         }
     ],
-     “requestedGranularity”: “boolean” 
+     "requestedGranularity": "boolean"
   }
 }
 ```
