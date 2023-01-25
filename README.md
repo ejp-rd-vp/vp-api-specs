@@ -134,40 +134,26 @@ This specification defines POST endpoints to request information about resources
         <td>any HGNC gene symbol or array of HGNC symbols</td>
     </tr>
     <tr>
-        <td rowspan="10"><b>Available Materials</b> </td>
-        <td rowspan="10">NA</td>
-        <td rowspan="10">Alphanumerical</td>
-        <td rowspan="10">Available Materials</td>
-        <td rowspan="10">=</td>
+      <td><b>Age this year</b></td><td>obo:NCIT_C83164</td>
+        <td>Numerical</td>
+        <td>NCIT_C83164 </td>
+        <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
+        <td>any integer</td>
     </tr>
     <tr>
-        <td>Whole Genome Sequence</td>
+      <td><b>Symptom Onset</b></td><td>obo:NCIT_C124353</td>
+        <td>Numerical</td>
+        <td>NCIT_C124353</td>
+        <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
+        <td>any integer</td>
     </tr>
     <tr>
-        <td>Exome panel sequence</td>
+      <td><b>Age at diagnosis</b></td><td>obo:NCIT_C156420</td>
+        <td>Numerical</td>
+        <td>NCIT_C156420</td>
+        <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
+        <td>any integer</td>
     </tr>
-    <tr>
-        <td>RNA sequence</td>
-    </tr>
-    <tr>
-        <td>Methylomics</td>
-    </tr>
-    <tr>
-        <td>Epigenomics</td>
-    </tr>
-    <tr>
-        <td>Pedigree data</td>
-    </tr>
-    <tr>
-        <td>Clinical data</td>
-    </tr>
-    <tr>
-        <td>Biosamples</td>
-    </tr>
-    <tr>
-        <td>An array of any of the above</td>
-    </tr>
-    <tr>
 </tbody>
 </table>
 
@@ -289,40 +275,6 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
         <td>Ontology</td>
         <td>A single value or an array of HPO terms. <b>e.g. HP_0001251 or [HP_0001251, HP_0012250]</b></td>
         <td colspan="2">NA</td>
-    </tr>
-    <tr>
-        <td rowspan="10"><b>Available Materials</b> </td>
-        <td rowspan="10">NA</td>
-        <td rowspan="10">Alphanumerical</td>
-        <td rowspan="10">Available Materials</td>
-        <td rowspan="10">=</td>
-    </tr>
-    <tr>
-        <td>Whole Genome Sequence</td>
-    </tr>
-    <tr>
-        <td>Exome panel sequence</td>
-    </tr>
-    <tr>
-        <td>RNA sequence</td>
-    </tr>
-    <tr>
-        <td>Methylomics</td>
-    </tr>
-    <tr>
-        <td>Epigenomics</td>
-    </tr>
-    <tr>
-        <td>Pedigree data</td>
-    </tr>
-    <tr>
-        <td>Clinical data</td>
-    </tr>
-    <tr>
-        <td>Biosamples</td>
-    </tr>
-    <tr>
-        <td>An array of any of the above</td>
     </tr>
     <tr>
         <td><b>ID </b></td> 
@@ -847,6 +799,8 @@ These filters are currently supported, but will be removed from from future vers
   </tr>
 </tbody>
 </table>
+
+> **Note**: '**Available Materials**' is currently deprecated, but we anticipate that this will be included in the query endpoints in later versions. 
 
 [ ^ Back to the top](#top)
 
