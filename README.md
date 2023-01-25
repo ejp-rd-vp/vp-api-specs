@@ -190,12 +190,7 @@ This specification defines POST endpoints to request information about resources
 ```JSON
 {
   "meta":{
-  "apiVersion": "v2.0",
-    "beaconId": "Unique Beacon ID in reverse domain name notation",
-    "returnedSchemas": {
-      "entityType": "individual",
-      "schema": "string"
-    }
+      "apiVersion": "v2.0"
   },
   "query":{
     "filters": [
@@ -212,7 +207,8 @@ This specification defines POST endpoints to request information about resources
           "operator": "=",
           "value": "NCIT_C16576"
         }
-    ]
+    ],
+     “requestedGranularity”: “boolean” 
   }
 }
 ```
@@ -223,12 +219,9 @@ This specification defines POST endpoints to request information about resources
 ```JSON
 {
   "meta": {
-  "apiVersion": "v2.0",
-    "beaconId": "Responding unique Beacon ID in reverse domain name notation",
-    "returnedSchemas": {
-      "entityType": "individual",
-      "schema": "string"
-    }
+      "apiVersion": "v2.0",
+      "beaconId": "Responding unique Beacon ID in reverse domain name notation",
+      "returnedGranularity": "count"
   },
   "responseSummary":{
     "exists": "true",
@@ -361,12 +354,8 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 ```JSON
 { 
  "meta":{
-  "apiVersion": "v2.0",
-    "beaconId": "Unique Beacon ID in reverse domain name notation",
-    "returnedSchemas": {
-      "entityType": "catalog",
-      "schema": "string"
-    },
+      "apiVersion": "v2.0"
+ },
  "query": {
       "filters": [
         {
@@ -381,7 +370,8 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
           "operator": "="
 
         }
-      ]
+      ],
+       “requestedGranularity”: “count” 
     }
 }
 ```
@@ -390,12 +380,10 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 ```JSON
 {
   "meta":{
-  "apiVersion": "v2.0",
-    "beaconId": "Unique Beacon ID in reverse domain name notation",
-    "returnedSchemas": {
-      "entityType": "catalog",
-      "schema": "string"
-    },
+      "apiVersion": "v2.0",
+      "beaconId": "Unique Beacon ID in reverse domain name notation",
+      "returnedGranularity":"record"
+  },
   "responseSummary": 
   {
     "exists": true,
@@ -478,12 +466,7 @@ These usage rules are illustrated using a general syntax as below:
 ```JSON
 {
   "meta": {
-    "apiVersion": "v2.0",
-    "beaconId": "Unique Beacon ID in reverse domain name notation",
-    "returnedSchemas": {
-      "entityType": "individual or catalog",
-      "schema": "string"
-    }
+    "apiVersion": "v2.0"
   },
   "query": {
     "filters": [
@@ -501,7 +484,8 @@ These usage rules are illustrated using a general syntax as below:
       { 
         "id": "OntologyFilter_value"
       }
-    ]
+    ],
+     “requestedGranularity”: “boolean” 
   }
 }
 ```
@@ -625,12 +609,7 @@ The warning messages will be provided within the ['info' section](#warning-respo
 ```JSON
 {
   "meta":{
-  "apiVersion": "v2.0",
-    "beaconId": "Unique Beacon ID in reverse domain name notation",
-    "returnedSchemas": {
-      "entityType": "individual",
-      "schema": "string"
-    }
+      "apiVersion": "v2.0"
   },
   "query":{
     "filters": [
@@ -647,7 +626,8 @@ The warning messages will be provided within the ['info' section](#warning-respo
           "operator": "=",
           "value": "NCIT_C16576"
         }
-    ]
+    ],
+     “requestedGranularity”: “boolean” 
   }
 }
 ```
@@ -661,12 +641,9 @@ This request is sent to a resource which does not hold information about causati
 ```JSON
 {
   "meta": {
-  "apiVersion": "v2.0",
-    "beaconId": "Responding unique Beacon ID in reverse domain name notation",
-    "returnedSchemas": {
-      "entityType": "individual",
-      "schema": "string"
-    }
+      "apiVersion": "v2.0",
+      "beaconId": "Responding unique Beacon ID in reverse domain name notation",
+      "returnedGranularity":"count"
   },
   "responseSummary":{
     "exists": "true",
