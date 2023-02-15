@@ -226,23 +226,25 @@ This specification defines POST endpoints to request information about resources
       "beaconId": "Responding unique Beacon ID in reverse domain name notation",
       "returnedGranularity": "count"
   },
-  "resultSets": [
-   {
-      "id": "Vivify",
-      "type": "dataset", 
-      "exists": true,
-      "resultCount": 80,
-      "info": {
-         "resultCountDescription": {
-            "minRange": 71,
-            "maxRange": 80
-         },
-         "contactPoint": "admin",
-         "contactEmail": "admin@cafevariome.org", 
-         "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
-      }      
-   }
-  ],
+  "response": {
+     "resultSets": [
+      {
+         "id": "Vivify",
+         "type": "dataset", 
+         "exists": true,
+         "resultCount": 80,
+         "info": {
+            "resultCountDescription": {
+               "minRange": 71,
+               "maxRange": 80
+            },
+            "contactPoint": "admin",
+            "contactEmail": "admin@cafevariome.org", 
+            "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+         }      
+      }
+    ]
+  },
   "responseSummary":{
     "exists": true,
     "numTotalResults": 80
@@ -290,22 +292,24 @@ To provide flexibility for implementers between using a minimum threshold or a r
       "beaconId": "Responding unique Beacon ID in reverse domain name notation",
       "returnedGranularity": "count"
   },
-  "resultSets": [
-   {
-      "id": "Mock data",
-      "type": "dataset", 
-      "exists": true,
-      "resultCount": 20,
-      "info": {
-         "resultCountDescription": {
-            "minThreshold": 20
-         },
-         "contactPoint": "admin",
-         "contactEmail": "admin@cafevariome.org", 
-         "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
-      }      
-   }
-  ],
+  "response": {
+     "resultSets": [
+      {
+         "id": "Mock data",
+         "type": "dataset", 
+         "exists": true,
+         "resultCount": 20,
+         "info": {
+            "resultCountDescription": {
+               "minThreshold": 20
+            },
+            "contactPoint": "admin",
+            "contactEmail": "admin@cafevariome.org", 
+            "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+         }      
+      }
+    ]
+  },
   "responseSummary":{
     "exists": true,
     "numTotalResults": 20
@@ -323,23 +327,25 @@ In this example, the result could be a count of individuals between 1 to 20 (the
       "beaconId": "Responding unique Beacon ID in reverse domain name notation",
       "returnedGranularity": "count"
   },
-  "resultSets": [
-   {
-      "id": "Vivify",
-      "type": "dataset", 
-      "exists": true,
-      "resultCount": 80,
-      "info": {
-         "resultCountDescription": {
-            "minRange": 71,
-            "maxRange": 80
-         },
-         "contactPoint": "admin",
-         "contactEmail": "admin@cafevariome.org", 
-         "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
-      }      
-   }
-  ],
+  "response": {
+     "resultSets": [
+      {
+         "id": "Vivify",
+         "type": "dataset", 
+         "exists": true,
+         "resultCount": 80,
+         "info": {
+            "resultCountDescription": {
+               "minRange": 71,
+               "maxRange": 80
+            },
+            "contactPoint": "admin",
+            "contactEmail": "admin@cafevariome.org", 
+            "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+         }      
+      }
+    ]
+  },
   "responseSummary":{
     "exists": true,
     "numTotalResults": 80
@@ -523,13 +529,11 @@ In this example, the result could be a count of individuals between 70 to 80 (th
           "organisation": ["UOL"]
 
           }
-        ],
-        "resultsHandover": null
+        ]
       }
     ]
-  },
-  "beaconHandovers": []
   }
+ }
 ```
 
 [ ^ Back to the top](#top)
@@ -763,22 +767,24 @@ This request is sent to a resource which does not hold information about causati
       "beaconId": "Responding unique Beacon ID in reverse domain name notation",
       "returnedGranularity":"count"
   },
-  "resultSets": [
-   {
-      "id": "Vivify",
-      "type": "dataset",
-      "exists": true,
-      "resultCount": 10,
-      "info": {
-         "resultCountDescription": {
-            "minThreshold": 10
-         },
-         "contactPoint": "admin",
-         "contactEmail": "admin@cafevariome.org",
-         "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
-      }   
-   }
-  ],
+  "response": {
+     "resultSets": [
+      {
+         "id": "Vivify",
+         "type": "dataset",
+         "exists": true,
+         "resultCount": 10,
+         "info": {
+            "resultCountDescription": {
+               "minThreshold": 10
+            },
+            "contactPoint": "admin",
+            "contactEmail": "admin@cafevariome.org",
+            "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+         }   
+      }
+     ]
+  },
   "responseSummary":{
     "exists": "true",
     "numTotalResults": 10
