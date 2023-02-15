@@ -15,8 +15,7 @@ In this work, we present API specification for querying RD patient registries, b
       * [List of filters](#individuals-filters)
       * [Filters description](#individuals-filters-description)
       * [Example request & response](#individuals-example)
-      * [Understanding the response with thresholds/ranges](#threshold-ranges)
-         * [Minimum threshold example](#response-threshold-example)
+      * [Understanding the response with ranges](#threshold-ranges)
          * [Ranges example](#response-range-example)
     * [Catalogs endpoint](#catalogs)
       * [List of filters](#catalogs-filters)
@@ -270,7 +269,6 @@ To provide flexibility for implementers between using a minimum threshold or a r
 ```
 "info": {
    "resultCountDescription": {
-      "minThreshold": N,
       "minRange": N,
       "maxRange": N
    },
@@ -279,44 +277,8 @@ To provide flexibility for implementers between using a minimum threshold or a r
    "contactURL": "URL of the implementer"
  }
 ```
-- where N is an integer, where the implementer can respond either with
-   - **only "minThreshold"** (if employing a minimum threshold):  a minimum threshold if a result is >0 and <=threshold or 
-   - **only "minRange" & "maxRange"** (if employing a range): the maximum value of whatever range that result is within, whereupon the "maxRange" value should match the "resultCount" value.
 
-<h3 id="response-threshold-example"> Example response employing only a minimum threshold: </h3>
-
-```JSON
-{
-  "meta": {
-      "apiVersion": "v2.0",
-      "beaconId": "Responding unique Beacon ID in reverse domain name notation",
-      "returnedGranularity": "count"
-  },
-  "response": {
-     "resultSets": [
-      {
-         "id": "Mock data",
-         "type": "dataset", 
-         "exists": true,
-         "resultCount": 20,
-         "info": {
-            "resultCountDescription": {
-               "minThreshold": 20
-            },
-            "contactPoint": "admin",
-            "contactEmail": "admin@cafevariome.org", 
-            "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
-         }      
-      }
-    ]
-  },
-  "responseSummary":{
-    "exists": true,
-    "numTotalResults": 20
-  }
-}
-```
-In this example, the result could be a count of individuals between 1 to 20 (the resource only responds with a minimum threshold value).
+> **Note**: Here, N is an integer where the implementer can respond with **"minRange" & "maxRange"** (if employing a range) - the maximum value of whatever range that result is within, whereupon the "maxRange" value should match the "resultCount" value and the "numTotalResults" value.
 
 <h3 id="response-range-example"> Example response employing only a range: </h3>
 
@@ -353,7 +315,7 @@ In this example, the result could be a count of individuals between 1 to 20 (the
 }
 ```
 
-In this example, the result could be a count of individuals between 70 to 80 (the resource only responds with ranges of size 10).
+In this example, the result could be a count of individuals between 71 to 80 (the resource only responds with ranges of size 10).
 
 [ ^ Back to the top](#top)
 
@@ -527,7 +489,6 @@ In this example, the result could be a count of individuals between 70 to 80 (th
           "updateDateTime": "2017-04-30T00:00:00+00:00",
           "resourceTypes": ["BiobankDataset"],
           "organisation": ["UOL"]
-
           }
         ]
       }
@@ -773,10 +734,11 @@ This request is sent to a resource which does not hold information about causati
          "id": "Vivify",
          "type": "dataset",
          "exists": true,
-         "resultCount": 10,
+         "resultCount": 20,
          "info": {
             "resultCountDescription": {
-               "minThreshold": 10
+               "minRange": 11,
+               "maxRange": 20
             },
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org",
@@ -787,7 +749,7 @@ This request is sent to a resource which does not hold information about causati
   },
   "responseSummary":{
     "exists": "true",
-    "numTotalResults": 10
+    "numTotalResults": 20
   },
   "info": { 
     "warnings":{
