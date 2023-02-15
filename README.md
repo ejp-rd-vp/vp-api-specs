@@ -15,6 +15,9 @@ In this work, we present API specification for querying RD patient registries, b
       * [List of filters](#individuals-filters)
       * [Filters description](#individuals-filters-description)
       * [Example request & response](#individuals-example)
+      * [Understanding the response with thresholds/ranges](#threshold-ranges)
+         * [Minimum threshold example](#response-threshold-example)
+         * [Ranges example](#response-range-example)
     * [Catalogs endpoint](#catalogs)
       * [List of filters](#catalogs-filters)
       * [Filters description](#catalogs-filters-description)
@@ -55,7 +58,7 @@ This specification defines POST endpoints to request information about resources
 
 > Method : POST
 
-[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api_v0.2.yml) endpoint returns the **__count of individuals__** from a RD resource. Filters are provided as a part of the body while using a POST request to query resources.
+[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api_v0.2.yml) endpoint returns the **__maximum value of individuals within a specified range__** from a RD resource. Filters are provided as a part of the body while using a POST request to query resources.
 
 <h4 id="individuals-filters"> List of filters and permitted values for the individuals endpoint </h4>
 
@@ -223,13 +226,128 @@ This specification defines POST endpoints to request information about resources
       "beaconId": "Responding unique Beacon ID in reverse domain name notation",
       "returnedGranularity": "count"
   },
+  "resultSets": [
+   {
+      "id": "Vivify",
+      "type": "dataset", 
+      "exists": true,
+      "resultCount": 80,
+      "info": {
+         "resultCountDescription": {
+            "minRange": 71,
+            "maxRange": 80
+         },
+         "contactPoint": "admin",
+         "contactEmail": "admin@cafevariome.org", 
+         "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+      }      
+   }
+  ],
   "responseSummary":{
-    "exists": "true",
-    "numTotalResults": 10
+    "exists": true,
+    "numTotalResults": 80
   }
 }
 ```
+The "resultCount" attribute in the above response is the **maximum value of whatever range that result** is within, rather than giving out the actual count of individuals. More information on responding using thresholds/ranges can be found [here](#threshold-ranges). 
+
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#individuals). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h3> Understanding the response: </h3>
+
+<h5 id="threshold-ranges"> Responses based on thresholds/ranges </h5>
+
+In the above example of the response for the individuals endpoint, information of the resultant dataset matching the query is provided within the "**resultSets**" attribute. 
+
+To provide flexibility for implementers between using a minimum threshold or a range, the "info" section of each resultant dataset in "resultSets" need to conform to the following standardised structure:
+
+```
+"info": {
+   "resultCountDescription": {
+      "minThreshold": N,
+      "minRange": N,
+      "maxRange": N
+   },
+   "contactPoint": "Person/point of contact",
+   "contactEmail": "Email for contact regarding this dataset/resource", 
+   "contactURL": "URL of the implementer"
+ }
+```
+- where N is an integer, where the implementer can respond either with
+   - **only "minThreshold"** (if employing a minimum threshold):  a minimum threshold if a result is >0 and <=threshold or 
+   - **only "minRange" & "maxRange"** (if employing a range): the maximum value of whatever range that result is within, whereupon the "maxRange" value should match the "resultCount" value.
+
+<h3 id="response-threshold-example"> Example response employing only a minimum threshold: </h3>
+
+```JSON
+{
+  "meta": {
+      "apiVersion": "v2.0",
+      "beaconId": "Responding unique Beacon ID in reverse domain name notation",
+      "returnedGranularity": "count"
+  },
+  "resultSets": [
+   {
+      "id": "Mock data",
+      "type": "dataset", 
+      "exists": true,
+      "resultCount": 20,
+      "info": {
+         "resultCountDescription": {
+            "minThreshold": 20
+         },
+         "contactPoint": "admin",
+         "contactEmail": "admin@cafevariome.org", 
+         "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+      }      
+   }
+  ],
+  "responseSummary":{
+    "exists": true,
+    "numTotalResults": 20
+  }
+}
+```
+In this example, the result could be a count of individuals between 1 to 20 (the resource only responds with a minimum threshold value).
+
+<h3 id="response-range-example"> Example response employing only a range: </h3>
+
+```JSON
+{
+  "meta": {
+      "apiVersion": "v2.0",
+      "beaconId": "Responding unique Beacon ID in reverse domain name notation",
+      "returnedGranularity": "count"
+  },
+  "resultSets": [
+   {
+      "id": "Vivify",
+      "type": "dataset", 
+      "exists": true,
+      "resultCount": 80,
+      "info": {
+         "resultCountDescription": {
+            "minRange": 71,
+            "maxRange": 80
+         },
+         "contactPoint": "admin",
+         "contactEmail": "admin@cafevariome.org", 
+         "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+      }      
+   }
+  ],
+  "responseSummary":{
+    "exists": true,
+    "numTotalResults": 80
+  }
+}
+```
+
+In this example, the result could be a count of individuals between 70 to 80 (the resource only responds with ranges of size 10).
 
 [ ^ Back to the top](#top)
 
@@ -645,6 +763,22 @@ This request is sent to a resource which does not hold information about causati
       "beaconId": "Responding unique Beacon ID in reverse domain name notation",
       "returnedGranularity":"count"
   },
+  "resultSets": [
+   {
+      "id": "Vivify",
+      "type": "dataset",
+      "exists": true,
+      "resultCount": 10,
+      "info": {
+         "resultCountDescription": {
+            "minThreshold": 10
+         },
+         "contactPoint": "admin",
+         "contactEmail": "admin@cafevariome.org",
+         "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+      }   
+   }
+  ],
   "responseSummary":{
     "exists": "true",
     "numTotalResults": 10
