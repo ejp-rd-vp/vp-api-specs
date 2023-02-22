@@ -250,7 +250,7 @@ This specification defines POST endpoints to request information about resources
   }
 }
 ```
-The "resultCount" attribute in the above response is the **maximum value of whatever range that result** is within, rather than giving out the actual count of individuals. More information on responding using thresholds/ranges can be found [here](#threshold-ranges). 
+The "resultCount" attribute in the above response is the **maximum value of whatever range that result** is within, rather than giving out the actual count of individuals. More information on responding using ranges can be found [here](#ranges). 
 
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#individuals). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
 
@@ -260,11 +260,11 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 <h3> Understanding the response: </h3>
 
-<h5 id="threshold-ranges"> Responses based on thresholds/ranges </h5>
+<h5 id="ranges"> Responses based on ranges </h5>
 
 In the above example of the response for the individuals endpoint, information of the resultant dataset matching the query is provided within the "**resultSets**" attribute. 
 
-To provide flexibility for implementers between using a minimum threshold or a range, the "info" section of each resultant dataset in "resultSets" need to conform to the following standardised structure:
+To provide flexibility for implementers between using a range, the "info" section of each resultant dataset in "resultSets" need to conform to the following standardised structure:
 
 ```
 "info": {
@@ -280,7 +280,7 @@ To provide flexibility for implementers between using a minimum threshold or a r
 
 > **Note**: Here, N is an integer where the implementer can respond with **"minRange" & "maxRange"** (if employing a range) - the maximum value of whatever range that result is within, whereupon the "maxRange" value should match the "resultCount" value and the "numTotalResults" value.
 
-<h3 id="response-range-example"> Example response employing only a range: </h3>
+<h3 id="response-range-example"> Example response employing a range: </h3>
 
 ```JSON
 {
