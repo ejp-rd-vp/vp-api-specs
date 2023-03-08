@@ -59,9 +59,11 @@ This specification defines POST endpoints to request information about resources
 
 <h3 id="individuals"> Individuals endpoint</h3>
 
-> Method : POST
+> **HTTP Request Method : POST**
 
-[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api_v0.2.yml) endpoint returns the **__maximum value of individuals within a specified range__** from a RD resource. Filters are provided as a part of the body while using a POST request to query resources.
+[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api_v0.2.yml) endpoint returns the **__maximum value of individuals within a specified range__** from a RD resource. Filters are provided as a part of the body while using a HTTP POST request to query resources. 
+
+Please **do not use HTTP GET method** to query the individuals endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
 
 <h4 id="individuals-filters"> List of filters and permitted values for the individuals endpoint </h4>
 
@@ -264,7 +266,7 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 <h3> Understanding the response: </h3>
 
-<h5 id="ranges"> Responses based on ranges </h5>
+<h5 id="threshold-ranges"> Responses based on ranges </h5>
 
 In the above example of the response for the individuals endpoint, information of the resultant dataset matching the query is provided within the "**resultSets**" attribute. 
 
@@ -465,9 +467,11 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 <h3 id="catalogs"> Catalogs endpoint </h3>
 
-> Method: POST
+> **HTTP Request Method : POST**
 
-[/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resource__**. Filters are provided as a part of the body while using a POST request to query resources.
+[/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resource__**. Filters are provided as a part of the body while using a POST request to query resources. 
+
+Please **do not use HTTP GET method** to query the catalogs endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
 
 <h4 id="catalogs-filters"> List of filters and permitted values for the catalogs endpoint </h4>
 
@@ -911,7 +915,7 @@ This response provides a warning message within the info section advising of uns
 
 <h2 id="info-endpoints"> Informational Endpoints </h2>
 
-> Method : GET
+> **HTTP Request Method : GET**
 
 The following endpoints respond with basic information related to this Beacon Implementation.
 
