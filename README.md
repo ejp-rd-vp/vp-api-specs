@@ -17,6 +17,10 @@ In this work, we present API specification for querying RD patient registries, b
       * [Example request & response](#individuals-example)
       * [Understanding the response with ranges](#threshold-ranges)
          * [Ranges example](#response-range-example)
+    * [Biosamples endpoint](#biosamples)
+      * [List of filters](#biosamples-filters)
+      * [Filters description](#biosamples-filters-description)
+      * [Example request & response](#biosamples-example)
     * [Catalogs endpoint](#catalogs)
       * [List of filters](#catalogs-filters)
       * [Filters description](#catalogs-filters-description)
@@ -318,6 +322,144 @@ To provide flexibility for implementers between using a range, the "info" sectio
 In this example, the result could be a count of individuals between 71 to 80 (the resource only responds with ranges of size 10).
 
 [ ^ Back to the top](#top)
+
+<hr>
+
+<h3 id="biosamples"> Biosamples endpoint </h3>
+
+[/biosamples](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api_v0.2.yml) endpoint returns the **__count of biosamples__** from a RD resource. Filters are provided as a part of the body while using a POST request to query resources.
+
+> Method: POST
+
+<h4 id="biosamples-filters"> List of filters and permitted values for the biosamples endpoint </h4>
+
+> **Note**: Elements within arrays in **value** fields are treated as **ORs**
+
+<table>
+<thead>
+        <th>CDE Concept</th>
+        <th>CDE Term</th>
+        <th>Beacon Filter Type</th>
+        <th>ID</th>
+        <th>Operator</th>
+        <th>Permitted Values</th>
+</thead>
+<tbody>
+    <tr>
+        <td rowspan="5">
+            <b>Sex</b>
+        </td>
+        <td rowspan="5">
+            obo:NCIT_C28421
+        </td>
+        <td rowspan="5">
+            Alphanumerical
+        </td>
+        <td rowspan="5">
+            NCIT_C28421
+        </td>
+        <td rowspan="5">
+            =
+        </td>
+        <td>
+            NCIT_C16576
+        </td>
+    </tr>
+    <tr>
+        <td>
+            NCIT_C20197
+        </td>
+    </tr>
+    <tr>
+        <td>
+            NCIT_C124294
+        </td>
+    </tr>
+    <tr>
+        <td>
+            NCIT_C17998
+        </td>
+    </tr>
+    <tr>
+        <td>
+            An array of any of the above
+        </td>
+    </tr>
+    <tr>
+        <td><b>Disease or Disorder</b></td>
+        <td>obo:NCIT_C2991</td>
+        <td>Ontology</td>
+        <td>A single value or an array of orphanet terms. <b>e.g. Orphanet_558 or [Orphanet_558, Orphanet_773]</b></td>
+        <td colspan="2">NA</td>
+    </tr>
+    <tr>
+        <td><b>Sample Material Type</b></td>
+        <td>obo:NCIT_C70713</td>
+        <td>Custom</td>
+        <td>
+
+A single value or an array of values from [here](https://samply.github.io/bbmri-fhir-ig/CodeSystem-SampleMaterialType.html)
+        </td>
+        <td colspan="2">NA</td>
+    </tr>
+</tbody>
+</table>
+
+<h3 id="biosamples-filters-description"> Biosamples Filters Description </h3>
+
+**Sex**: The biological sex of the biosample.
+
+**Disease or Disorder**: TBD
+
+**Sample Material Type**: The type of material of the biosample. 
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h3> An example request & response to query for biosamples is shown below: </h3>
+
+<h5 id="biosamples-example">EXAMPLE /biosamples REQUEST </h5>
+
+```JSON
+{
+  "meta": {
+    "apiVersion": "v2.0"
+  },
+  "query": {
+    "filters": [
+      {
+        "id": "obo:NCIT_C28421",
+        "operator": "=",
+        "value": "obo:NCIT_C16576"
+      }
+    ]
+  }
+}
+```
+
+**EXAMPLE /biosamples RESPONSE**
+
+
+```JSON
+{
+  "responseSummary": {
+    "exists": true,
+    "numTotalResults": 381
+  },
+  "beaconHandovers": [
+    {
+      "handoverType": {
+        "id": "CUSTOM",
+        "label": "Project description"
+      },
+      "note": "Project description",
+      "url": ""
+    }
+  ]
+}
+```
+The filter **SHOULD** be one of the terms from the [filters and permitted values table](#biosamplse). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
 
 <hr>
 
