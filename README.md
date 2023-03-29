@@ -408,6 +408,14 @@ Please **do not use HTTP GET method** to query the catalogs endpoint, as it is *
     <tr>
         <td>An array of any of the above</td>
     </tr>
+    <tr>
+        <td><b>Country </b> </td>
+        <td>NA</td>
+        <td>Alphanumerical</td>
+        <td>country</td>
+        <td>=</td>
+        <td>ISO 3166-1 alpha-2 format string (e.g. IT, FR, NL)</td>
+    </tr>
 </tbody>
 </table>
 
@@ -432,6 +440,8 @@ Please **do not use HTTP GET method** to query the catalogs endpoint, as it is *
 **Organisation**: The organisation of the resource in the **catalog**. 
 
 **Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are: PatientRegistryDataset, BiobankDataset, KnowledgeBase or an array of any of these values.
+
+**Country**: The country in ISO 3166-1 alpha-2 format (e.g, IT, FR, NL).
 
 [ ^ Back to the top](#top)
 
