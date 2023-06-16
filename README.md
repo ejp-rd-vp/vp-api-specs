@@ -454,7 +454,8 @@ Please **do not use HTTP GET method** to query the catalogs endpoint, as it is *
 ```JSON
 { 
  "meta":{
-      "apiVersion": "v2.0"
+      "apiVersion": "v2.0",
+      "beaconId":"Identifier of the beacon, as defined in Beacon, in reverse domain name notation."
  },
  "query": {
       "filters": [
