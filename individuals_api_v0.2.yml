@@ -63,7 +63,7 @@ paths:
           $ref: '#/components/schemas/EntryTypesResponse'
   /individuals:
     post:
-      summary: "Request to retrive count of individuals from a data source (i.e. patients)"
+      summary: "Request to retrive count of individuals from a data source (i.e. patients)."
       tags:
       - Query Endpoints
       operationId: individuals_request
@@ -84,6 +84,29 @@ paths:
           content: {}
       security:
       - apiAuth: []
+  /catalogs:
+    post:
+      summary: "Request to retrive record(s) of resource(s) within a catalog/biobank/registry."
+      tags:
+      - Query Endpoints
+      operationId: catalogs_request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogRequest'
+        required: true
+      responses:
+        200:
+          $ref: '#/components/schemas/CatalogResponse'
+        400:
+          description: "Input data malformed"
+          content: {}
+        403:
+          description: "The data source does not allow this API call"
+          content: {}
+      security:
+      - apiAuth: []
 components:
   schemas:
     IndividualRequest:
@@ -96,7 +119,18 @@ components:
           $ref: '#/components/schemas/MetaContent'
         query:
           $ref: '#/components/schemas/RequestQuery'
-      description: "Request to return individuals count for given CDEs input parameters"
+      description: "Request to return individuals count for given CDEs as filters"
+    CatalogRequest:
+      required:
+      - meta
+      - query
+      type: object
+      properties:
+        meta: 
+          $ref: '#/components/schemas/CatalogMetaContent'
+        query:
+          $ref: '#/components/schemas/CatalogRequestQuery'
+      description: "Request to return resources for given CDEs as filters"
     RequestQuery:
       type: object
       properties:
@@ -104,8 +138,6 @@ components:
           $ref: '#/components/schemas/RequestFilter'
       description: "Input of the query"
     RequestFilter:
-      required:
-      - id
       type: array
       items:
         anyOf:
@@ -123,43 +155,54 @@ components:
           description: >
                   Concept ID of CDEs. 
                     Allowed terms:
-                     * `obo:NCIT_C28421` - Sex
-                     * `edam:data_2295` - Causative Gene(s)
-                     * `obo:NCIT_C83164` - Age this year
-                     * `obo:NCIT_C124353` - Symptom Onset
-                     * `obo:NCIT_C156420` - Age at diagnosis
-                     * `Available Materials` - Available Materials
-          example: "obo:NCIT_C28421"
+                     * `NCIT_C28421` - Sex
+                     * `data_2295` - Causative Gene(s)
+                     * `NCIT_C83164` - Age this year
+                     * `NCIT_C124353` - Symptom Onset
+                     * `NCIT_C156420` - Age at diagnosis
+          example: "NCIT_C28421"
         operator:
           type: string
-          description: "This is a advance filter option to include comparison operators in the query."
+          description: |
+            This is an advance filter option to include comparison operators in the query. 
+              * For `alphanumeric filter`, only `'='` is allowed. 
+              * For `numeric filter`, `'=,>,>=,<,<='` are allowed.
           example: "="
         value:
-          type: string
-          description: >
-              The actual values of the CDE. Allowed values:
-                * For `obo:NCIT_C28421`(Sex): 
-                  * `obo:NCIT_C16576`, (Female)
-                  * `obo:NCIT_C20197`, (Male)
-                  * `obo:NCIT_C124294`, (Undetermined)
-                  * `obo:NCIT_C17998` (Unknown)
-                  * An array of any of the above. Ex: ["obo:NCIT_C16576","obo:NCIT_C20197","obo:NCIT_C17998"].
-                * For `edam:data_2295`(Causative Gene) - Any HGNC Gene symbol or an array of HGNC Symbols.
-                * For `obo:NCIT_C83164`(Age this year) - Any birth year as an integer
-                * For `obo:NCIT_C124353`(Symptom Onset) - Any integer
-                * For `obo:NCIT_C156420`(Age at diagnosis) - Any integer
-                * For `Available Materials`: 
-                  * Whole Genome Sequence
-                  * Exome panel sequence
-                  * RNA sequence
-                  * Methylomics
-                  * Epigenomics
-                  * Pedigree data
-                  * Clinical data
-                  * Biosamples
-                  * An array of any of the above
-          example: "obo:NCIT_C16576 or [obo:NCIT_C16576,obo:NCIT_C20197]"
+          anyOf:
+          - $ref: '#/components/schemas/StringValue'
+          - $ref: '#/components/schemas/ArrayValues'
       description: "Query parameters to filter individuals based on CDEs."
+    StringValue:
+      type: string
+      example: "\"NCIT_C17998\""
+      description: |
+                The actual value of the CDE in string format. Allowed values:
+                  * For `NCIT_C28421`(Sex): 
+                    * `NCIT_C16576`, (Female)
+                    * `NCIT_C20197`, (Male)
+                    * `NCIT_C124294`, (Undetermined)
+                    * `NCIT_C17998` (Unknown)
+                      * Ex: \"NCIT_C16576\"
+                  * For `data_2295`(Causative Gene): 
+                    * Any HGNC Gene symbol or an array of HGNC Symbols. 
+                      * Ex: \"FOXRED1\"
+                  * For `NCIT_C83164`(Age this year): 
+                    * Any age as an integer
+                      * Ex: 13
+                  * For `NCIT_C124353`(Symptom Onset): 
+                    * Any integer
+                      * Ex: 5
+                  * For `NCIT_C156420`(Age at diagnosis):
+                    * Any integer
+                      * Ex: 8
+    ArrayValues:
+      type: array
+      items:
+        type: string
+      example: "[\"NCIT_C16576\",\"NCIT_C20197\"]"  
+      description: |
+        An array of allowed CDE value(s) in string format.
     OntologyRequestArrayFilter:
       required:
       - id
@@ -169,12 +212,80 @@ components:
           anyOf:
           - type: string
           - type: array
-          example: "ordo:Orphanet_558 or [ordo:Orphanet_558,ordo:Orphanet_773,ordo:Orphanet_12345]"
-          description: >
-                    Concept ID of CDEs. 
+            items:
+              type: string
+            description: "Array of string orpha ids."
+          example: "\"Orphanet_558\" or [\"Orphanet_558\",\"Orphanet_773\",\"Orphanet_12345\"]"
+          description: |
+                    Concept ID of CDEs using Orpha ontology format. 
                       Allowed values:
-                      * For Disease or Disorder: A single value or an array of orphanet terms. e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]
-                      * For Phenotype: A single value or an array of HPO terms. e.g. obo:HP_0001251 or [obo:HP_0001251, obo:HP_0012250]
+                      * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"Orphanet_558\" or [\"Orphanet_558\", \"Orphanet_773\"]
+    CatalogRequestQuery:
+      type: object
+      properties:
+        filters:
+          $ref: '#/components/schemas/CatalogRequestFilter'
+      description: "Input of the query"
+    CatalogRequestFilter:
+      type: array
+      items:
+        anyOf:
+        - $ref: '#/components/schemas/CatalogAlphanumericRequestFilter'
+        - $ref: '#/components/schemas/OntologyRequestArrayFilter'
+    CatalogAlphanumericRequestFilter:
+      required:
+      - id
+      - operator
+      - value
+      type: object
+      properties:
+        id:
+          type: string
+          description: >
+                  Concept ID of CDEs. 
+                    Allowed terms:
+                     * `ID` => `id`
+                     * `Name` => `name`
+                     * `Description` => `description`
+                     * `Organisation` => `organisation`
+                     * `Resource Types` => `resourceTypes`
+                     * `Country` => `country`
+          example: "resourceTypes"
+        operator:
+          type: string
+          description: "This is an advanced filter option to compare filter IDs with filter values using '=' operator in the query."
+          example: "="
+        value:
+          anyOf:
+          - $ref: '#/components/schemas/CatalogStringValue'
+          - $ref: '#/components/schemas/CatalogArrayValues'
+          description: "Query parameters to filter individuals based on CDEs."    
+    CatalogStringValue:
+      type: string
+      example: "BiobankDataset"
+      description: |
+                The actual value of the CDE in string format. Allowed values:
+                  * For `id`: any identifier of the resource as a string.
+                  * For `name`: name of the resource as a string.
+                  *  For `description`: description of the resource as a string.
+                    * Note that you can also use wildcards. Ex: %genome comparison% returns list of records with description matching to genome comparison.
+                  * For `organisation`: organisation name of the resource as a string.
+                  * For `resourceTypes`: any one of the following string values are allowed - 
+                    * PatientRegistryDataset, 
+                    * BiobankDataset,
+                    * KnowledgeBase
+                  * For `country`: ISO 3166-1 alpha-2 format string (e.g. IT, FR, NL)
+    CatalogArrayValues:
+      type: array
+      items:
+        type: string
+      example: "[PatientRegistryDataset, BiobankDataset]"  
+      description: |
+                The actual value of the CDE in string format. The only allowed id with array values for this version is `resourceTypes`.
+                * For `resourceTypes`: any/all of the following string values in an array are allowed - 
+                    * PatientRegistryDataset, 
+                    * BiobankDataset,
+                    * KnowledgeBase
     InfoResponse:
       required:
       - meta
@@ -251,9 +362,6 @@ components:
         Information about the response that could be relevant for the Beacon client in order to interpret the results.
       required: 
       - apiVersion
-      - beaconId
-      - receivedRequestSummary
-      - returnedSchemas
       type: object
       properties: 
         apiVersion:
@@ -275,15 +383,39 @@ components:
               type: string
             schema:
               type: string
+    CatalogMetaContent:
+      description: |
+        Information about the response that could be relevant for the Beacon client in order to interpret the results.
+      required: 
+      - apiVersion
+      type: object
+      properties: 
+        apiVersion:
+          type: string
+          description: |
+            Version of the API.
+          example: v2.0
+        beaconId:
+          type: string
+          description: |
+            Identifier of the beacon, as defined in Beacon, in reverse domain name notation.
+          example: BeaconAPI.cv2.rdnexusdev.molgeniscloud.org
+        returnedSchemas:
+          type: object
+          description: |
+            (Optional) Set of schemas to be used in the response to a request.
+          properties:
+            entityType:
+              type: string
+            schema:
+              type: string
     IndividualsMetaResponseContent:
       description: |
         Information about the response that could be relevant for the Beacon client in order to interpret the results.
       required: 
       - apiVersion
       - beaconId
-      - receivedRequestSummary
       - returnedGranularity
-      - returnedSchemas
       type: object
       properties: 
         apiVersion:
@@ -448,7 +580,7 @@ components:
                     id: 
                       description: |
                         A CURIE identifier as `id` for ontology term.
-                      example: obo:NCIT:C25190
+                      example: NCIT:C25190
                       type: string
                 partOfSpecification:
                   description: |
@@ -462,28 +594,138 @@ components:
         Response of a query over individuals counts.
       required:
       - meta
+      - response
       - responseSummary
       type: object
       properties:
         meta:
           $ref: '#/components/schemas/IndividualsMetaResponseContent'
+        response:
+          required:
+          - resultSets
+          properties:
+            resultSets:
+                $ref: '#/components/schemas/IndividualsResults'
         responseSummary:
           $ref: '#/components/schemas/IndividualResponseContent'
         info:
           description: | 
             Beacon only responds with this info object if there are any unsupported filters in the query.
           $ref: '#/components/schemas/WarningResponse'
-    WarningResponse:
+    CatalogResponse:
       description: |
-        Any unsupported filters go here.
-      required: 
-      - warnings
+        Response of a query over records of catalogs.
+      required:
+      - meta
+      - responseSummary
+      - response
+      type: object
       properties:
-        warnings:
+        meta:
+          $ref: '#/components/schemas/CatalogsMetaResponseContent'
+        responseSummary:
+          $ref: '#/components/schemas/CatalogsResponseSummaryContent'
+        response:
+          $ref: '#/components/schemas/CatalogsResponseContent'
+        info:
+          description: | 
+            Beacon only responds with this info object if there are any unsupported filters in the query.
+          $ref: '#/components/schemas/WarningResponse'
+    CatalogsMetaResponseContent:
+      description: |
+        Information about the response that could be relevant for the Beacon client in order to interpret the results.
+      required: 
+      - apiVersion
+      - beaconId
+      - returnedGranularity
+      type: object
+      properties: 
+        apiVersion:
+          type: string
+          description: |
+            Version of the API.
+          example: v2.0
+        beaconId:
+          type: string
+          description: |
+            Identifier of the beacon, as defined in Beacon, in reverse domain name notation.
+          example: BeaconAPI.cv2.rdnexusdev.molgeniscloud.org
+        receivedRequestSummary:
+          required:
+          - apiVersion
+          - requestedGranularity
+          - requestedSchemas
           type: object
           description: |
-            Respond with a list of unsupported filter(s).
-          example: obo:NCIT_C16612
+            Section of the response that summarize the request with the following fields received as its been interpreted by the Beacon server. This could also just return the complete Beacon request made by the user.
+          properties: 
+            apiVersion:
+              type: string
+            filters:
+              type: object
+              description: |
+                Filters as submitted in the request.
+              $ref: '#/components/schemas/RequestFilter'
+            requestedGranularity: 
+              type: string
+              example: boolean, count, aggregated, record
+              default: count
+            requestedSchemas:
+              type: object
+              description: |
+                Set of schemas to be used in the response to a request.
+              properties:
+                entityType:
+                  type: string
+                schema:
+                  type: string
+        returnedGranularity: 
+              type: string
+              example: boolean, count, aggregated, record
+              default: count
+        returnedSchemas:
+          type: object
+          description: |
+            Set of schemas to be used in the response to a request.
+          properties:
+            entityType:
+              type: string
+            schema:
+              type: string
+    WarningResponse:
+      description: |
+        When an implementation is responding with a partial query match, this section lets the requestor know if any filter(s)/value(s) are not applied to the query.
+      required: 
+      - warnings
+      type: object
+      properties:
+        warnings:
+          required:
+            - unsupportedFilters
+          type: object
+          properties:
+            unsupportedFilters:
+              type: array
+              items:
+                type: string
+                description: |
+                  In an array of strings, any filter(s) that are unsupported by an implementation go here.
+                example: "\"data_2295\""
+            unsupportedFilterValues:
+              type: array
+              items:
+                type: string
+                description: |
+                  If an implementation does not support a filter value, let's say, for example, 'NCIT_C124294'(Undetermined) Sex, this unsupported value goes here as a string, and will be ignored while a partial query is performed with other supported filter(s) from the request body (if any).
+                example: "\"NCIT_C124294\",\"NCIT_C179980\""
+          description: |
+              Respond with a list of (comma-separated) unsupported filter(s).
+          example: |
+              {
+              unsupportedFilters: ["NCIT_C156420"], 
+              
+              unsupportedFilterValues:["NCIT_C124294"]
+              }
     IndividualResponseContent:
       required:
       - exists
@@ -497,8 +739,166 @@ components:
             data source for the given query with CDEs parameter. This should be non-null, unless there was an error, in which case `error` has to be non-null.
         numTotalResults:
           type: integer
+          description: |
+            Response of the query indicating if the query yield any results. If the query is successful then the count will be returned as a response.
+    CatalogsResponseSummaryContent:
+      required:
+      - exists
+      - numTotalResults
+      type: object
+      properties:
+        exists:
+          type: boolean
+          description: |
+            Indicator of whether any catalog was observed in the
+            data source for the given query with CDEs filters. This should be non-null, unless there was an error, in which case `error` has to be non-null.
+        numTotalResults:
+          type: integer
       description: |
         Response of the query indicating if the query yield any results. If the query is successful then the count will be returned as a response.
+    CatalogsResponseContent:
+      required:
+      - resultSets
+      type: array
+      items: 
+        $ref: '#/components/schemas/ResultsetsResponseContent'
+    ResultsetsResponseContent:
+      required: 
+        - id
+        - setType
+        - exists
+        - resultsCount
+        - results
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            id of the resultset
+          example: "catalogA0123"
+        setType:
+          type: string
+          description: |
+              Entry type of resultset. It SHOULD MATCH an entry type declared in the Beacon configuration.
+          example: "catalog"
+        exists:
+          type: boolean
+          description: |
+            Indicator of whether any catalog was observed in the
+            data source for the given query with CDEs filters. This should be non-null, unless there was an error, in which case `error` has to be non-null.
+        resultsCount:
+          type: integer
+          description: |
+            Number of results in this Resultset.
+        results:
+          description: |
+              Array set of the records matching with the query.
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogsResults'
+        resultsHandover:
+          description: |
+              Handover to the resultant record page, if any. 
+    IndividualsResults: 
+      type: array
+      items:
+        type: object
+        required:
+        - id
+        - type
+        - exists
+        - resultCount
+        properties:
+          id:
+            type: string
+            description: |
+              id of the result
+            example: "result0123"
+          type:
+            type: string
+            description: |
+                Type of result
+            example: "Dataset"
+          exists:
+            type: boolean
+            description: |
+              Whether the results exists or not.
+          resultCount:
+            type: integer
+            description: |
+              Count of result, either exact or higher range of result. If employing ranges, 'info' attributre is required.
+          info:
+            required:
+            - resultCountDescription
+            - contactPoint
+            - contactEmail
+            - contactURL
+            type: object
+            properties:
+                resultCountDescription:
+                  required:
+                  - minRange
+                  - maxRange
+                  description: |
+                      Contains minRange and maxRange of resultant set.
+                  type: object
+                  properties:
+                    minRange:
+                      type: integer
+                      description: |
+                        Value of minimum range employed.
+                    maxRange:
+                      type: integer
+                      description: |
+                        Value of maximum range employed.
+                contactPoint:
+                  type: string
+                  description: |
+                    Contact person for this resource.
+                contactEmail:
+                  type: string
+                  description: |
+                    Contact email for this resource.
+                contactURL:
+                  type: string
+                  description: |
+                    Contact URL for this resource.
+    CatalogsResults: 
+      required:
+      - id
+      - name
+      - description
+      - externalUrl
+      - resourceTypes
+      - organisation
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            id of the result
+          example: "catalogA0123"
+        name:
+          type: string
+          description: |
+              Name
+          example: "catalog"
+        description:
+          type: string
+          description: |
+            Description of result.
+        externalUrl:
+          type: string
+          description: |
+            URL to reach result.
+        resourceTypes:
+          description: |
+              Type of the resource.
+          type: string
+        organisation:
+          description: |
+              Organisation name/type.
+          type: string
   securitySchemes:
     apiAuth:
       type: apiKey
