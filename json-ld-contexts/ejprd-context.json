@@ -5,6 +5,8 @@
         "dcat": "http://www.w3.org/ns/dcat#",
         "ejprd": "http://purl.org/ejp-rd/vocabulary/",
         "foaf": "http://xmlns.com/foaf/0.1/",
+        "sio": "http://semanticscience.org/resource/",
+        "odrl": "https://www.w3.org/TR/odrl-model/",
         "title": {
             "@id": "dct:title",
             "@type": "xsd:string"
@@ -67,6 +69,10 @@
         },
         "spatial": {
             "@id": "dct:spatial"
+        },
+        "isRelatedTo": {
+            "@id": "sio:SIO_000001",
+            "@type": "@id"
         }
     }
 }
