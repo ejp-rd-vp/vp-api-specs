@@ -503,13 +503,13 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
         <td rowspan="4">Alphanumerical</td>
         <td rowspan="4">A single value or ana array of values representing a resource type of the resource. It must be one of the types defined in EJP Resource Metadata Schema</td>
         <td rowspan="4">=</td>
-        <td>ejp:PatientRegistry</td>
+        <td>ejprd:PatientRegistry</td>
     </tr>
     <tr>
-        <td>ejp:Biobank</td>
+        <td>ejprd:Biobank</td>
     </tr>
     <tr>
-        <td>ejp:Guideline</td>
+        <td>ejprd:Guideline</td>
     </tr>
     <tr>
         <td>dcat:Dataset</td>
@@ -567,7 +567,7 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 **Organisation**: The organisation of the resource in the **catalog**. 
 
-**Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are the type of resources in the Resource Metadata Schema:  `ejp:PatientRegistry`, `ejp:Biobank`, `ejp:Guideline`, `dcat:Datasest` or an array of any of these values.
+**Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are the type of resources in the Resource Metadata Schema:  `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Datasest` or an array of any of these values.
 
 [ ^ Back to the top](#top)
 
@@ -575,10 +575,22 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 <h3 id="catalogs-response">Catalogs Response</h3>
 
-The response is a Beacon Collection response that correspond to a Resource described by the Resource Meatadata Schema.
- 
+The response is a Beacon Collection response that correspond to a Resource described by the Resource Metadata Schema. Depending on the resource type, the properties may slighlty differ: for example some resource types can have properties that others don't have. Notice that an important field in all resources is the `@context` that specifies the semantics of the properties returned. It must be the [link](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json) to the `json-ld-contexts/ejprd-context.json` file  in this repository. The schemas for each specific resource are in teh `/schemas` directory.
+In the meta section of the response, the `returnedSchemas` object must specify the correct json schema for the resource. An example is:
 
-<h3> An example request & response to query for resources via the /catalogs endpoint is shown below: </h3>
+```JSON
+"returnedSchemas": [
+    {
+        "entityType": "resources",
+        "schema": "ejprd-biobank-registry-v1.0.0",
+        "name": "EJPRD schema for biobank and patient registry",
+        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/schemas/biobank-registry-schema.json",
+        "version": "v1.0.0"
+    }
+]
+```
+
+<h3> An example request & response to query for resources via the /catalogs endpoint is shown below. </h3>
 
 <h5 id="catalogs-example"> EXAMPLE /catalogs REQUEST </h5>
 
@@ -590,56 +602,97 @@ The response is a Beacon Collection response that correspond to a Resource descr
  "query": {
       "filters": [
         {
-          "id": "description",
-          "value": "%genome comparison%",
-          "operator": "="
-          
+          "id": "ordo:Orphanet_730"
         },
         {
-          "id": "resourceTypes",
-          "value": " BiobankDataset",
-          "operator": "="
+          "id": "rdf:type",
+          "operator": "=",
+          "value": "ejprd:Biobank"
 
         }
       ],
-      "requestedGranularity": "count"
+      "requestedGranularity": "record"
     }
 }
 ```
 
+The following is an example response 
+
 **EXAMPLE /catalogs RESPONSE**
 ```JSON
 {
-  "meta":{
-      "apiVersion": "v2.0",
-      "beaconId": "Unique Beacon ID in reverse domain name notation",
-      "returnedGranularity":"record"
-  },
-  "responseSummary": 
-  {
-    "exists": true,
-    "numTotalResults": 1
-  },
-  "response": {
-    "resultSets": [
-      {
-        "resultsCount": 1,
-        "results": [
-          {
-          "createDateTime": "2017-04-30T00:00:00+00:00",
-          "description": "The Genome in a Bottle Consortium, hosted by the National Institute of Standards and Technology (NIST) is creating reference materials and data for human genome sequencing, as well as methods for genome comparison and benchmarking. ",
-          "externalUrl": "https://www.nature.com/articles/sdata201625, https://jimb.stanford.edu/giab-resources",
-          "id": "EGAD00001008097",
-          "name": "The Genome in a Bottle Consortium (GIAB)",
-          "updateDateTime": "2017-04-30T00:00:00+00:00",
-          "resourceTypes": ["BiobankDataset"],
-          "organisation": ["UOL"]
-          }
+    "meta": {
+        "beaconId": "ejprd.beacon.directory.bbmri-eric.eu",
+        "apiVersion": "v2.0.0",
+        "returnedGranularity": "record",
+        "receivedRequestSummary": {
+            "apiVersion": "2.0",
+            "requestedSchemas": [],
+            "filters": [
+                {
+                    "id": "ordo:Orphanet_730"
+                },
+                {
+                "id": "rdf:type",
+                "operator": "=",
+                "value": "ejprd:Biobank"
+
+                }
+            ],
+            "requestParameters": {},
+            "includeResultsetResponses": "HIT",
+            "pagination": {
+                "skip": 0,
+                "limit": 50
+            },
+            "requestedGranularity": "record",
+            "testMode": false
+        },
+        "returnedSchemas": [
+            {
+                "entityType": "resources",
+                "schema": "ejprd-resources-v1.0.0",
+                "name": "EJPRD schema for resources",
+                "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/schemas/biboank-registry-schema.json",
+                "version": "v1.0.0"
+            }
         ]
-      }
-    ]
-  }
- }
+    },
+    "responseSummary": {
+        "exists": true,
+        "numTotalResults": 1
+    },
+    "beaconHandovers": [],
+    "response": {
+        "resultSets": [
+            {
+                "resultsCount": 1,
+                "results": [{
+                    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json",
+                    "@id": "biobank-1:collection:collection-1",
+                    "@type": "ejprd:Biobank",
+                    "title": "Rare Disease Biobank",
+                    "logo": "http://raredisease.biobanl.eu/logo.png",
+                    "description": "Rare disease biobank with data about muscular distrophy",
+                    "populationCoverage": "European",
+                    "theme": "ordo:Orphanet_730",
+                    "vpConnection": "ejprd:VPContentDiscovery",
+                    "landingPage": "http://biobank.raredisease.org",
+                    "personalData": "true",
+                    "publisher": {
+                        "title": "Biobank hosting collection",
+                        "description": "The biobank that hosts the collection",
+                        "location": {
+                            "title": "Italy Cagliari",
+                            "description": "Via Mario Rossi"
+                        }
+                    },
+                    "language": "EN"
+                }]
+            }
+        ]
+    }
+}
 ```
 
 [ ^ Back to the top](#top)

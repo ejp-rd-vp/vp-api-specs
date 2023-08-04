@@ -34,7 +34,7 @@
             "format": "uri",
             "description": "A link to a graphic representation of the resource (optional)"
         },
-        "location": {
+        "spatial": {
             "type": "object",
             "@ref": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/location-schema.json"
         }

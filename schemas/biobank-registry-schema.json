@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "description": "A resource available in the catalog",
-    "$comment": "EJPRD Resource Resource Metadata Schema",
+    "description": "A biobank or patient registry available in the catalog",
+    "$comment": "EJPRD Beacon Schema for Biobank and PatientRegistry",
     "type": "object",
     "properties": {
         "@context": {
@@ -19,9 +19,7 @@
             "description": "The type of resource. It must be one of ejprd:Biobank, ejprd:PatientRegistry, ejprd:Guideline, dcat:Dataset",
             "enum": [
                 "ejprd:Biobank",
-                "ejprd:PatientRegistry",
-                "ejprd:Guideline",
-                "dcat:Dataset"
+                "ejprd:PatientRegistry"
             ],
             "examples": [
                 "ejprd:Biobank"
@@ -93,9 +91,12 @@
             ]
         },
         "landingPage": {
-            "type": "string",
-            "format": "uri",
-            "description": "A Web page that can be navigated to in a Web browser to gain access to the resource (optional)"
+            "type": "array",
+            "items": {
+                "type": "string",
+                "format": "uri",
+                "description": "One or more web pages that can be navigated to in a Web browser to gain access to the resource (optional)"
+            }
         },
         "keyword": {
             "type": "array",

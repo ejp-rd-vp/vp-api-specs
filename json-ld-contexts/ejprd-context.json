@@ -64,6 +64,9 @@
         "hasPolicy": {
             "@id": "odrl:hasPolicy",
             "@type": "@id"
+        },
+        "spatial": {
+            "@id": "dct:spatial"
         }
     }
 }
