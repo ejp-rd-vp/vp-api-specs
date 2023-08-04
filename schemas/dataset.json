@@ -1,0 +1,139 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "description": "A guideline available in the dataset",
+    "$comment": "EJPRD Beacon Schema for Dataset",
+    "type": "object",
+    "properties": {
+        "@context": {
+            "type": "string",
+            "format": "uri",
+            "description": "The EJPRD context (i.e, JSON-LD context) containing the semantic definition of the properties in this schema",
+            "const": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json"
+        },
+        "@id": {
+            "type": "string",
+            "description": "Unique identifier of the dataset. It has the same meaning as @id in JSON-LD"
+        },
+        "@type": {
+            "$ref": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/framework/json/common/beaconCommonComponents.json#/definitions/CURIE",
+            "description": "The type of resource. It must be one of dcat:Dataset",
+            "enum": [
+                "dcat:Dataset"
+            ],
+            "examples": [
+                "dcat:Dataset"
+            ]
+        },
+        "title": {
+            "type": "string",
+            "description": "The name of the dataset. (required)"
+        },
+        "logo": {
+            "type": "string",
+            "format": "uri",
+            "description": "A link to a graphic representation of the dataset (optional)"
+        },
+        "description": {
+            "type": "string",
+            "description": "The description of the dataset (optional)"
+        },
+        "theme": {
+            "type": "array",
+            "items": {
+                "$ref": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/framework/json/common/beaconCommonComponents.json#/definitions/CURIE"
+            },
+            "description": "A list of concepts that this resource deals with. It has to be an IRI represented as CURIE. (required)",
+            "examples": [
+                "ordo:Orphanet_730"
+            ]
+        },
+        "keyword": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "A list of keywords applicable to this dataset (optional)"
+        },
+        "hasVersion": {
+            "type": "string",
+            "description": "Where applicable, it should provide the version as a string of text.",
+            "examples": [
+                "4.2.1"
+            ]
+        },
+        "publisher": {
+            "type": "object",
+            "$ref": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/organization-schema.json"
+        },
+        "license": {
+            "type": "string",
+            "format": "uri",
+            "description": "This should contain a URL that provides details regarding the license that is applicable to this resource (required)"
+        },
+        "personalData": {
+            "type": "string",
+            "description": "Whether the resource handles personal data or not",
+            "enum": [
+                "true",
+                "false"
+            ]
+        },
+        "conformsTo": {
+            "type": "string",
+            "format": "uri",
+            "description": "If applicable, it should point to the IRI an established standard to which the described resource conforms (recommended)"
+        },
+        "vpConnection": {
+            "$ref": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/framework/json/common/beaconCommonComponents.json#/definitions/CURIE",
+            "description": "Tells the EJP RD Virtual Platform whether content of this resource is discoverable or whether the resource is discoverable (required)",
+            "examples": [
+                "ejprd:VPContentDiscovery"
+            ]
+        },
+        "landingPage": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "format": "uri",
+                "description": "One or more web pages that can be navigated to in a Web browser to gain access to the resource (optional)"
+            }
+        },
+        "language": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "examples": [
+                "IT",
+                "EN"
+            ],
+            "description": "A list of ISO 639-1 two-letter codes for the languages this resource is provided (required)"
+        },
+        "accessRights": {
+            "type": "string",
+            "format": "uri",
+            "description": "Information about who can access the resource or an indication of its security status. This should point to a URL where this information can be found (recommended)"
+        },
+        "hasPolicy": {
+            "type": "string",
+            "format": "uri",
+            "description": "An ODRL conformant policy expressing the rights associated with the resource (recommended)"
+        },
+        "isRelatedTo": {
+            "type": "string",
+            "description": "When the dataset refers to a biobank or patient registry, it should contain the title of it (optional)"
+        }
+    },
+    "required": [
+        "@context",
+        "@id",
+        "@type",
+        "title",
+        "theme",
+        "vpConnection",
+        "license",
+        "language",
+        "personalData"
+    ],
+    "additionalProperties": true
+}
