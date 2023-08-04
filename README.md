@@ -467,7 +467,7 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 > Method: POST
 
-[/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resource__**. Filters are provided as a part of the body while using a POST request to query resources.
+[/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
 
 <h4 id="catalogs-filters"> List of filters and permitted values for the catalogs endpoint </h4>
 
@@ -475,8 +475,8 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 <table>
 <thead>
-        <th>CDE Concept</th>
-        <th>CDE Term</th>
+        <th>Metadata Schema Concept</th>
+        <th>Metadata Schema Term</th>
         <th>Beacon Filter Type</th>
         <th>ID</th>
         <th>Operator</th>
@@ -485,20 +485,37 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 <tbody>
     <tr>
         <td><b>Disease or Disorder</b></td>
-        <td>obo:NCIT_C2991</td>
+        <td>dcat:theme</td>
         <td>Ontology</td>
-        <td>A single value or an array of orphanet terms. <b>e.g. Orphanet_558 or [Orphanet_558, Orphanet_773]</b></td>
+        <td>A single value or an array of orphanet terms in CURIE syntax prefixed with `ordo:`<b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
         <td><b>Phenotype</b></td>
         <td>sio:SIO_010056</td>
         <td>Ontology</td>
-        <td>A single value or an array of HPO terms. <b>e.g. HP_0001251 or [HP_0001251, HP_0012250]</b></td>
+        <td>A single value or an array of HPO terms prefixed with `HP:` <b>e.g. HP:0001251 or [HP:0001251, HP:0012250]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
-        <td><b>ID </b></td> 
+        <td rowspan="4"><b>Resource Types</b></td>
+        <td rowspan="4">rdf:type</td>
+        <td rowspan="4">Alphanumerical</td>
+        <td rowspan="4">A single value or ana array of values representing a resource type of the resource. It must be one of the types defined in EJP Resource Metadata Schema</td>
+        <td rowspan="4">=</td>
+        <td>ejp:PatientRegistry</td>
+    </tr>
+    <tr>
+        <td>ejp:Biobank</td>
+    </tr>
+    <tr>
+        <td>ejp:Guideline</td>
+    </tr>
+    <tr>
+        <td>dcat:Dataset</td>
+    </tr>
+    <tr>
+        <td><b>ID</b></td> 
         <td>NA</td>
         <td>Alphanumerical</td>
         <td>id</td>
@@ -507,45 +524,28 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
     </tr>
     <tr>
         <td><b>Name </b></td>
-        <td>NA</td>
+        <td>dct:title</td>
         <td>Alphanumerical</td>
-        <td>name</td>
+        <td>The name of the resource</td>
         <td>=</td>
         <td>any String</td>
     </tr>
     <tr>
         <td><b>Description </b> </td>
-        <td>NA</td>
+        <td>dct:description</td>
         <td>Alphanumerical</td>
-        <td>description</td>
+        <td>The description of the resource</td>
         <td>=</td>
         <td>any String</td>
     </tr>
-    <tr>
+    <!-- <tr>
         <td><b>Organisation </b> </td>
         <td>NA</td>
         <td>Alphanumerical</td>
         <td>organisation</td>
         <td>=</td>
         <td>any String</td>
-    </tr>
-    <tr>
-        <td rowspan="4"><b>Resource Types</b></td>
-        <td rowspan="4">NA</td>
-        <td rowspan="4">Alphanumerical</td>
-        <td rowspan="4">resourceTypes</td>
-        <td rowspan="4">=</td>
-        <td>PatientRegistryDataset</td>
-    </tr>
-    <tr>
-        <td>BiobankDataset</td>
-    </tr>
-    <tr>
-        <td>KnowledgeBase</td>
-    </tr>
-    <tr>
-        <td>An array of any of the above</td>
-    </tr>
+    </tr> -->
 </tbody>
 </table>
 
@@ -555,25 +555,28 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 <h3 id="catalogs-filters-description"> Catalogs Filters Description </h3>
 
-**Disease or Disorder**: All rare diseases that are associated **within a catalog**,
+**Disease or Disorder**: All rare diseases that are associated **within a catalog**. It corresponds to the `dcat:theme` property of the Resource Metadata Schema. The values follow CURIE syntax and use the `ordo:` prefix.
 
-**Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources.
+**Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources. The values follow CURIE syntax and use the `HP:` prefix. 
 
-**Available Materials**: A list of material information that is available **within the catalog**.
+**ID**: The resource identifier ID **within the catalog**. It corresponds to the identifier of the RDF resource
 
-**ID**: The resource identifier ID **within the catalog**.
+**Name**: The name of the resource in the **catalog**. It corresponds to the `dct:title` of the Resource Metadata Schema
 
-**Name**: The name of the resource in the **catalog**. 
-
-**Description**: The description of the resource in the **catalog**. 
+**Description**: The description of the resource in the **catalog**. It corresponds to the `dct:description` property of the Resource Metadata Schema
 
 **Organisation**: The organisation of the resource in the **catalog**. 
 
-**Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are: PatientRegistryDataset, BiobankDataset, KnowledgeBase or an array of any of these values.
+**Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are the type of resources in the Resource Metadata Schema:  `ejp:PatientRegistry`, `ejp:Biobank`, `ejp:Guideline`, `dcat:Datasest` or an array of any of these values.
 
 [ ^ Back to the top](#top)
 
 <hr>
+
+<h3 id="catalogs-response">Catalogs Response</h3>
+
+The response is a Beacon Collection response that correspond to a Resource described by the Resource Meatadata Schema.
+ 
 
 <h3> An example request & response to query for resources via the /catalogs endpoint is shown below: </h3>
 

@@ -1,0 +1,47 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "description": "An Organization as defined by the EJPRD Resource Metadata Schema",
+    "type": "object",
+    "properties": {
+        "@context": {
+            "type": "string",
+            "format": "uri",
+            "description": "The EJPRD context (i.e, JSON-LD context) containing the semantic definition of the properties in this schema",
+            "const": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/feat/beacon_version/versions/beacon/json-ld-contexts/ejprd-context.json"
+        },
+        "@id": {
+            "type": "string",
+            "description": "Unique identifier of the organization"
+        },
+        "title": {
+            "type": "string",
+            "description": "The name of the organisation. (required)",
+            "examples": [
+                "Bank of muscular disease"
+            ]
+        },
+        "description": {
+            "type": "string",
+            "description": "Description of the resource"
+        },
+        "homepage": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to an external system providing more dataset information (RFC 3986 format)."
+        },
+        "logo": {
+            "type": "string",
+            "format": "uri",
+            "description": "A link to a graphic representation of the resource (optional)"
+        },
+        "location": {
+            "type": "object",
+            "@ref": "./location-schema.json"
+        }
+    },
+    "required": [
+        "@id",
+        "title",
+        "location"
+    ]
+}
