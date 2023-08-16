@@ -1,0 +1,78 @@
+{
+    "@context": {
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "dct": "http://purl.org/dc/terms/",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "ejprd": "http://purl.org/ejp-rd/vocabulary/",
+        "foaf": "http://xmlns.com/foaf/0.1/",
+        "sio": "http://semanticscience.org/resource/",
+        "odrl": "https://www.w3.org/TR/odrl-model/",
+        "title": {
+            "@id": "dct:title",
+            "@type": "xsd:string"
+        },
+        "logo": {
+            "@id": "foaf:logo",
+            "type": "@id"
+        },
+        "description": {
+            "@id": "dct:title",
+            "@type": "xsd:string"
+        },
+        "populationCoverage": {
+            "@id": "ejprd:populationCoverage",
+            "@type": "xsd:string"
+        },
+        "theme": {
+            "@id": "dcat:theme",
+            "@type": "@id"
+        },
+        "publisher": {
+            "@id": "dct:publisher",
+            "@type": "foaf:Organization"
+        },
+        "license": {
+            "@id": "dct:license",
+            "@type": "@id"
+        },
+        "personalData": {
+            "@id": "ejprd:personalData",
+            "@type": "xsd:string"
+        },
+        "conformsTo": {
+            "@id": "dct:conformsTo",
+            "@type": "@id"
+        },
+        "vpConnection": {
+            "@id": "ejprd:vpConnection",
+            "@type": "@id"
+        },
+        "landingPage": {
+            "@id": "dcat:landingPage",
+            "@type": "@id"
+        },
+        "keyword": {
+            "@id": "dcat:keyword",
+            "@type": "xsd:string"
+        },
+        "language": {
+            "@id": "dct:language",
+            "@type": "xsd:string"
+        },
+        "accessRights": {
+            "@id": "dct:accessRights",
+            "@type": "@id"
+        },
+        "hasPolicy": {
+            "@id": "odrl:hasPolicy",
+            "@type": "@id"
+        },
+        "spatial": {
+            "@id": "dct:spatial"
+        },
+        "isRelatedTo": {
+            "@id": "sio:SIO_000001",
+            "@type": "@id"
+        }
+    }
+}

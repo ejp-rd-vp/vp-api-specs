@@ -322,14 +322,11 @@ In this example, the result could be a count of individuals between 71 to 80 (th
 [ ^ Back to the top](#top)
 
 <hr>
-
 <h3 id="catalogs"> Catalogs endpoint </h3>
 
-> **HTTP Request Method : POST**
+> Method: POST
 
-[/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resource__**. Filters are provided as a part of the body while using a POST request to query resources. 
-
-Please **do not use HTTP GET method** to query the catalogs endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
+[/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
 
 <h4 id="catalogs-filters"> List of filters and permitted values for the catalogs endpoint </h4>
 
@@ -337,8 +334,8 @@ Please **do not use HTTP GET method** to query the catalogs endpoint, as it is *
 
 <table>
 <thead>
-        <th>CDE Concept</th>
-        <th>CDE Term</th>
+        <th>Metadata Schema Concept</th>
+        <th>Metadata Schema Term</th>
         <th>Beacon Filter Type</th>
         <th>ID</th>
         <th>Operator</th>
@@ -347,20 +344,37 @@ Please **do not use HTTP GET method** to query the catalogs endpoint, as it is *
 <tbody>
     <tr>
         <td><b>Disease or Disorder</b></td>
-        <td>obo:NCIT_C2991</td>
+        <td>dcat:theme</td>
         <td>Ontology</td>
-        <td>A single value or an array of orphanet terms. <b>e.g. Orphanet_558 or [Orphanet_558, Orphanet_773]</b></td>
+        <td>A single value or an array of orphanet terms in CURIE syntax prefixed with `ordo:`<b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
         <td><b>Phenotype</b></td>
         <td>sio:SIO_010056</td>
         <td>Ontology</td>
-        <td>A single value or an array of HPO terms. <b>e.g. HP_0001251 or [HP_0001251, HP_0012250]</b></td>
+        <td>A single value or an array of HPO terms prefixed with `HP:` <b>e.g. HP:0001251 or [HP:0001251, HP:0012250]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
-        <td><b>ID </b></td> 
+        <td rowspan="4"><b>Resource Types</b></td>
+        <td rowspan="4">rdf:type</td>
+        <td rowspan="4">Alphanumerical</td>
+        <td rowspan="4">A single value or ana array of values representing a resource type of the resource. It must be one of the types defined in EJP Resource Metadata Schema</td>
+        <td rowspan="4">=</td>
+        <td>ejprd:PatientRegistry</td>
+    </tr>
+    <tr>
+        <td>ejprd:Biobank</td>
+    </tr>
+    <tr>
+        <td>ejprd:Guideline</td>
+    </tr>
+    <tr>
+        <td>dcat:Dataset</td>
+    </tr>
+    <tr>
+        <td><b>ID</b></td> 
         <td>NA</td>
         <td>Alphanumerical</td>
         <td>id</td>
@@ -369,52 +383,19 @@ Please **do not use HTTP GET method** to query the catalogs endpoint, as it is *
     </tr>
     <tr>
         <td><b>Name </b></td>
-        <td>NA</td>
+        <td>dct:title</td>
         <td>Alphanumerical</td>
-        <td>name</td>
+        <td>The name of the resource</td>
         <td>=</td>
         <td>any String</td>
     </tr>
     <tr>
         <td><b>Description </b> </td>
-        <td>NA</td>
+        <td>dct:description</td>
         <td>Alphanumerical</td>
-        <td>description</td>
+        <td>The description of the resource</td>
         <td>=</td>
         <td>any String</td>
-    </tr>
-    <tr>
-        <td><b>Organisation </b> </td>
-        <td>NA</td>
-        <td>Alphanumerical</td>
-        <td>organisation</td>
-        <td>=</td>
-        <td>any String</td>
-    </tr>
-    <tr>
-        <td rowspan="4"><b>Resource Types</b></td>
-        <td rowspan="4">NA</td>
-        <td rowspan="4">Alphanumerical</td>
-        <td rowspan="4">resourceTypes</td>
-        <td rowspan="4">=</td>
-        <td>PatientRegistryDataset</td>
-    </tr>
-    <tr>
-        <td>BiobankDataset</td>
-    </tr>
-    <tr>
-        <td>KnowledgeBase</td>
-    </tr>
-    <tr>
-        <td>An array of any of the above</td>
-    </tr>
-    <tr>
-        <td><b>Country </b> </td>
-        <td>NA</td>
-        <td>Alphanumerical</td>
-        <td>country</td>
-        <td>=</td>
-        <td>ISO 3166-1 alpha-2 format string (e.g. IT, FR, NL)</td>
     </tr>
 </tbody>
 </table>
@@ -425,91 +406,144 @@ Please **do not use HTTP GET method** to query the catalogs endpoint, as it is *
 
 <h3 id="catalogs-filters-description"> Catalogs Filters Description </h3>
 
-**Disease or Disorder**: All rare diseases that are associated **within a catalog**,
+**Disease or Disorder**: All rare diseases that are associated **within a catalog**. It corresponds to the `dcat:theme` property of the Resource Metadata Schema. The values follow CURIE syntax and use the `ordo:` prefix.
 
-**Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources.
+**Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources. The values follow CURIE syntax and use the `HP:` prefix. 
 
-**Available Materials**: A list of material information that is available **within the catalog**.
+**ID**: The resource identifier ID **within the catalog**. It corresponds to the identifier of the RDF resource
 
-**ID**: The resource identifier ID **within the catalog**.
+**Name**: The name of the resource in the **catalog**. It corresponds to the `dct:title` of the Resource Metadata Schema
 
-**Name**: The name of the resource in the **catalog**. 
-
-**Description**: The description of the resource in the **catalog**. 
+**Description**: The description of the resource in the **catalog**. It corresponds to the `dct:description` property of the Resource Metadata Schema
 
 **Organisation**: The organisation of the resource in the **catalog**. 
 
-**Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are: PatientRegistryDataset, BiobankDataset, KnowledgeBase or an array of any of these values.
-
-**Country**: The country in ISO 3166-1 alpha-2 format (e.g, IT, FR, NL).
+**Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are the type of resources in the Resource Metadata Schema:  `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Datasest` or an array of any of these values.
 
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h3> An example request & response to query for resources via the /catalogs endpoint is shown below: </h3>
+<h3 id="catalogs-response">Catalogs Response</h3>
+
+The response is a Beacon Collection response that correspond to a Resource described by the Resource Metadata Schema. Depending on the resource type, the properties may slighlty differ: for example some resource types can have properties that others don't have. Notice that an important field in all resources is the `@context` that specifies the semantics of the properties returned. It must be the [link](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json) to the `json-ld-contexts/ejprd-context.json` file  in this repository. The schemas for each specific resource are in teh `/schemas` directory.
+In the meta section of the response, the `returnedSchemas` object must specify the correct json schema for the resource. An example is:
+
+```JSON
+"returnedSchemas": [
+    {
+        "entityType": "resources",
+        "schema": "ejprd-biobank-registry-v1.0.0",
+        "name": "EJPRD schema for biobank and patient registry",
+        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/schemas/biobank-registry-schema.json",
+        "version": "v1.0.0"
+    }
+]
+```
+
+<h3> An example request & response to query for resources via the /catalogs endpoint is shown below. </h3>
 
 <h5 id="catalogs-example"> EXAMPLE /catalogs REQUEST </h5>
 
 ```JSON
 { 
  "meta":{
-      "apiVersion": "v2.0",
-      "beaconId":"Identifier of the beacon, as defined in Beacon, in reverse domain name notation."
+      "apiVersion": "v2.0"
  },
  "query": {
       "filters": [
         {
-          "id": "description",
-          "value": "%genome comparison%",
-          "operator": "="
-          
+          "id": "ordo:Orphanet_730"
         },
         {
-          "id": "resourceTypes",
-          "value": " BiobankDataset",
-          "operator": "="
+          "id": "rdf:type",
+          "operator": "=",
+          "value": "ejprd:Biobank"
 
         }
       ],
-      "requestedGranularity": "count"
+      "requestedGranularity": "record"
     }
 }
 ```
 
+The following is an example response 
+
 **EXAMPLE /catalogs RESPONSE**
 ```JSON
 {
-  "meta":{
-      "apiVersion": "v2.0",
-      "beaconId": "Unique Beacon ID in reverse domain name notation",
-      "returnedGranularity":"record"
-  },
-  "responseSummary": 
-  {
-    "exists": true,
-    "numTotalResults": 1
-  },
-  "response": {
-    "resultSets": [
-      {
-        "resultsCount": 1,
-        "results": [
-          {
-          "createDateTime": "2017-04-30T00:00:00+00:00",
-          "description": "The Genome in a Bottle Consortium, hosted by the National Institute of Standards and Technology (NIST) is creating reference materials and data for human genome sequencing, as well as methods for genome comparison and benchmarking. ",
-          "externalUrl": "https://www.nature.com/articles/sdata201625, https://jimb.stanford.edu/giab-resources",
-          "id": "EGAD00001008097",
-          "name": "The Genome in a Bottle Consortium (GIAB)",
-          "updateDateTime": "2017-04-30T00:00:00+00:00",
-          "resourceTypes": ["BiobankDataset"],
-          "organisation": ["UOL"]
-          }
+    "meta": {
+        "beaconId": "ejprd.beacon.directory.bbmri-eric.eu",
+        "apiVersion": "v2.0.0",
+        "returnedGranularity": "record",
+        "receivedRequestSummary": {
+            "apiVersion": "2.0",
+            "requestedSchemas": [],
+            "filters": [
+                {
+                    "id": "ordo:Orphanet_730"
+                },
+                {
+                "id": "rdf:type",
+                "operator": "=",
+                "value": "ejprd:Biobank"
+
+                }
+            ],
+            "requestParameters": {},
+            "includeResultsetResponses": "HIT",
+            "pagination": {
+                "skip": 0,
+                "limit": 50
+            },
+            "requestedGranularity": "record",
+            "testMode": false
+        },
+        "returnedSchemas": [
+            {
+                "entityType": "resources",
+                "schema": "ejprd-resources-v1.0.0",
+                "name": "EJPRD schema for resources",
+                "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/schemas/biboank-registry-schema.json",
+                "version": "v1.0.0"
+            }
         ]
-      }
-    ]
-  }
- }
+    },
+    "responseSummary": {
+        "exists": true,
+        "numTotalResults": 1
+    },
+    "beaconHandovers": [],
+    "response": {
+        "resultSets": [
+            {
+                "resultsCount": 1,
+                "results": [{
+                    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json",
+                    "@id": "biobank-1:collection:collection-1",
+                    "@type": "ejprd:Biobank",
+                    "title": "Rare Disease Biobank",
+                    "logo": "http://raredisease.biobanl.eu/logo.png",
+                    "description": "Rare disease biobank with data about muscular distrophy",
+                    "populationCoverage": "European",
+                    "theme": "ordo:Orphanet_730",
+                    "vpConnection": "ejprd:VPContentDiscovery",
+                    "landingPage": "http://biobank.raredisease.org",
+                    "personalData": "true",
+                    "publisher": {
+                        "title": "Biobank hosting collection",
+                        "description": "The biobank that hosts the collection",
+                        "location": {
+                            "title": "Italy Cagliari",
+                            "description": "Via Mario Rossi"
+                        }
+                    },
+                    "language": "EN"
+                }]
+            }
+        ]
+    }
+}
 ```
 
 [ ^ Back to the top](#top)
