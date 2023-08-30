@@ -1,5 +1,5 @@
 {
-    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json",
+    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
     "@id": "biobank-1:collection:collection-1",
     "@type": "ejprd:Biobank",
     "title": "Rare Disease Biobank",
