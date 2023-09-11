@@ -1,4 +1,4 @@
-# REST API specification for querying RD resources (record level queries)
+# REST API specification for querying RD resources (Virtual Platform Level 2)
 
 > This API specification is defined in the context of the EJPRD project, complying with the latest [Beacon v2 Specification](https://github.com/ga4gh-beacon/beacon-v2).
 
