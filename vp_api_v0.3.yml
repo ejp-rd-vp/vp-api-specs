@@ -141,7 +141,7 @@ components:
         meta: 
           $ref: '#/components/schemas/MetaContent'
         query:
-          $ref: '#/components/schemas/RequestQuery'
+          $ref: '#/components/schemas/IndividualRequestQuery'
       description: "Request to return individuals count for given CDEs as filters"
     BiosampleRequest:
       required:
@@ -165,20 +165,19 @@ components:
         query:
           $ref: '#/components/schemas/CatalogRequestQuery'
       description: "Request to return resources for given CDEs as filters"
-      
-    RequestQuery:
+    IndividualRequestQuery:
       type: object
       properties:
         filters:
-          $ref: '#/components/schemas/RequestFilter'
+          $ref: '#/components/schemas/IndividualRequestFilter'
       description: "Input of the query"
-    RequestFilter:
+    IndividualRequestFilter:
       type: array
       items:
         anyOf:
-        - $ref: '#/components/schemas/AlphanumericRequestFilter'
-        - $ref: '#/components/schemas/OntologyRequestArrayFilter'
-    AlphanumericRequestFilter:
+        - $ref: '#/components/schemas/IndividualAlphanumericRequestFilter'
+        - $ref: '#/components/schemas/IndividualOntologyRequestArrayFilter'
+    IndividualAlphanumericRequestFilter:
       required:
       - id
       - operator
@@ -205,10 +204,10 @@ components:
           example: "="
         value:
           anyOf:
-          - $ref: '#/components/schemas/StringValue'
-          - $ref: '#/components/schemas/ArrayValues'
+          - $ref: '#/components/schemas/IndividualStringValue'
+          - $ref: '#/components/schemas/IndividualArrayValues'
       description: "Query parameters to filter individuals based on CDEs."
-    StringValue:
+    IndividualStringValue:
       type: string
       example: "\"NCIT_C17998\""
       description: |
@@ -231,14 +230,14 @@ components:
                   * For `NCIT_C156420`(Age at diagnosis):
                     * Any integer
                       * Ex: 8
-    ArrayValues:
+    IndividualArrayValues:
       type: array
       items:
         type: string
       example: "[\"NCIT_C16576\",\"NCIT_C20197\"]"  
       description: |
         An array of allowed CDE value(s) in string format.
-    OntologyRequestArrayFilter:
+    IndividualOntologyRequestArrayFilter:
       required:
       - id
       type: object
@@ -255,7 +254,6 @@ components:
                     Concept ID of CDEs using Orpha ontology format. 
                       Allowed values:
                       * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"Orphanet_558\" or [\"Orphanet_558\", \"Orphanet_773\"]
-    
     CatalogRequestQuery:
       type: object
       properties:
@@ -267,7 +265,7 @@ components:
       items:
         anyOf:
         - $ref: '#/components/schemas/CatalogAlphanumericRequestFilter'
-        - $ref: '#/components/schemas/OntologyRequestArrayFilter'
+        - $ref: '#/components/schemas/CatalogOntologyRequestArrayFilter'
     CatalogAlphanumericRequestFilter:
       required:
       - id
@@ -278,14 +276,13 @@ components:
         id:
           type: string
           description: >
-                  Concept ID of CDEs. 
+                  Concept ID of Resource Metadata Schema. 
                     Allowed terms:
-                     * `ID` => `id`
-                     * `Name` => `name`
-                     * `Description` => `description`
-                     * `Organisation` => `organisation`
-                     * `Resource Types` => `resourceTypes`
-                     * `Country` => `country`
+                     * `dct:identifier` => `ID`
+                     * `dct:title` => `Name`
+                     * `dct:description` => `Description`
+                     * `rdf:type` => `Resource Types`
+                     * `dct:spatial` => `Country`
           example: "resourceTypes"
         operator:
           type: string
@@ -298,31 +295,43 @@ components:
           description: "Query parameters to filter individuals based on CDEs."    
     CatalogStringValue:
       type: string
-      example: "BiobankDataset"
+      example: "ejprd:PatientRegistry"
       description: |
-                The actual value of the CDE in string format. Allowed values:
-                  * For `id`: any identifier of the resource as a string.
-                  * For `name`: name of the resource as a string.
-                  *  For `description`: description of the resource as a string.
+                The actual value of the Resource Metadata Schema property for resources in string format. Allowed values:
+                  * For `dct:identifier`: any identifier of the resource as a string.
+                  * For `dct:title`: name of the resource as a string.
+                  * For `dct:description`: description of the resource as a string.
                     * Note that you can also use wildcards. Ex: %genome comparison% returns list of records with description matching to genome comparison.
-                  * For `organisation`: organisation name of the resource as a string.
-                  * For `resourceTypes`: any one of the following string values are allowed - 
-                    * PatientRegistryDataset, 
-                    * BiobankDataset,
-                    * KnowledgeBase
-                  * For `country`: ISO 3166-1 alpha-2 format string (e.g. IT, FR, NL)
+                  * For `rdf:type`: any one of the following string values are allowed - 
+                    * ejprd:Biobank, 
+                    * ejprd:PatientRegistry,
+                    * ejptd:Guideline
+                    * dcat:Dataset
+                  * For `dct:spatial`: ISO 3166-1 alpha-2 format string (e.g. IT, FR, NL)
     CatalogArrayValues:
       type: array
       items:
         type: string
-      example: "[PatientRegistryDataset, BiobankDataset]"  
+      example: "[ejprd:Biobank, ejprd:PatientRegistry]"  
       description: |
-                The actual value of the CDE in string format. The only allowed id with array values for this version is `resourceTypes`.
-                * For `resourceTypes`: any/all of the following string values in an array are allowed - 
-                    * PatientRegistryDataset, 
-                    * BiobankDataset,
-                    * KnowledgeBase
-    
+                An array of value taken from the allowed values for the filter
+    CatalogOntologyRequestArrayFilter:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+            description: "Array of string orpha ids."
+          example: "\"Orphanet_558\" or [\"Orphanet_558\",\"Orphanet_773\",\"Orphanet_12345\"]"
+          description: |
+                    Ontology term for the specific Metadata Schema term.
+                      * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"Orphanet_558\" or [\"Orphanet_558\", \"Orphanet_773\"]
+                      * For `Phenotype`: a single value or an array of HPO terms
     BiosampleRequestQuery:
       type: object
       properties:
@@ -421,7 +430,6 @@ components:
                     Concept ID of Biosamples term using Orpha ontology format. 
                       Allowed values:
                       * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"Orphanet_558\" or [\"Orphanet_558\", \"Orphanet_773\"]
-
     InfoResponse:
       required:
       - meta
