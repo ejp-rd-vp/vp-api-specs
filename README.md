@@ -60,7 +60,7 @@ This specification defines POST endpoints to request information about resources
 
 > **HTTP Request Method : POST**
 
-[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api_v0.2.yml) endpoint returns the **__maximum value of individuals within a specified range__** from a RD resource. Filters are provided as a part of the body while using a HTTP POST request to query resources. 
+[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v0.3.yml) endpoint returns the **__maximum value of individuals within a specified range__** from a RD resource. Filters are provided as a part of the body while using a HTTP POST request to query resources. 
 
 Please **do not use HTTP GET method** to query the individuals endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
 
@@ -262,7 +262,7 @@ The filter **SHOULD** be one of the terms from the [filters and permitted values
 
 > **HTTP Request Method : POST**
 
-Similarly to the `/individuals` endpoint, [`/biosamples`](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/biosamples_api_v0.2.yml) endpoint returns the **__maximum value of biosamples within a specified range__** from an RD resource (usually the resource is a Biobank). Queries are performed in the same way as for `/individuals` endpoint, adding filters in the body of the request.
+Similarly to the `/individuals` endpoint, `/biosamples` endpoint returns the **__maximum value of biosamples within a specified range__** from an RD resource (usually the resource is a Biobank). Queries are performed in the same way as for `/individuals` endpoint, adding filters in the body of the request.
 
 Please **do not use HTTP GET method** to query the biosamples endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
 
