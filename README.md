@@ -294,7 +294,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
     <tr><td>An array of any of the above</td></tr>
     <tr>
         <td><b>Disease or Disorder</b></td>
-        <td>NCIT_C2991</td>
+        <td>obo:NCIT_C2991</td>
         <td>Ontology</td>
         <td>A single value or an array of orphanet terms. <b>e.g. Orphanet_558 or [Orphanet_558, Orphanet_773]</b></td>
         <td colspan="2">NA</td>
