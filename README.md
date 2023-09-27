@@ -8,22 +8,22 @@ In this work, we present API specification for querying RD patient registries, b
 
 <h2 id="top"> Contents </h2>
 
-* [Try out this API in Swagger](#try-in-swagger)
-* [Specification](#specification)
-* [Query Endpoints](#query-endpoints)
-    * [Individuals endpoint](#individuals)
-      * [List of filters](#individuals-filters)
-      * [Filters description](#individuals-filters-description)
-      * [Example request & response](#individuals-example)
-    * [Biosamples endpoint](#biosamples)
-      * [List of filters](#biosamples-filters)
-      * [Filters description](#biosamples-filters-description)
-      * [Example request & response](#biosamples-example)
-    * [Catalogs endpoint](#catalogs)
-      * [List of filters](#catalogs-filters)
-      * [Filters description](#catalogs-filters-description)
-      * [Example request & response](#catalogs-example)
-* [Authentication using Header(s)](#auth-header)
+* [Try out this API in Swagger](#-try-out-the-api-)
+* [Specification](#-specification-)
+* [Query Endpoints](#-query-endpoints-)
+    * [Individuals endpoint](#-individuals-endpoint)
+      * [List of filters](#-list-of-filters-and-permitted-values-for-the-individuals-endpoint-)
+      * [Filters description](#-individuals-filters-description-)
+      * [Example request & response](#-example-request-and-response-for-individuals-)
+    * [Biosamples endpoint](#-biosamples-endpoint)
+      * [List of filters](#-list-of-filters-and-permitted-values-for-the-biosamples-endpoint-)
+      * [Filters description](#-biosamples-filters-description-)
+      * [Example request & response](#-example-request-and-response-for-biosamples-)
+    * [Catalogs endpoint](#-catalogs-endpoint-)
+      * [List of filters](#-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-)
+      * [Filters description](#-catalogs-filters-description-)
+      * [Example request & response](#-example-request-and-response-for-catalogs-)
+* [Authentication using Header(s)](#-authentication-using-header-)
 * [Understanding the query](#understand-query)
     * [Syntax & Usage of Beacon Query with Filters](#syntax-usage)
         * [Multi-Filter (AND) query](#multi-and)
@@ -37,13 +37,13 @@ In this work, we present API specification for querying RD patient registries, b
 
 <hr>
  
-<h2 id="try-in-swagger"> Try out the API </h2>
+<h2 id="#-try-out-the-api-"> Try out the API </h2>
 
 Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v2.0 
 
 <hr>
 
-<h2 id="specification"> Specification </h2>
+<h2 id="-specification-"> Specification </h2>
 
 The request and response conforms to the [Beacon Reference Framework](https://github.com/ga4gh-beacon/beacon-v2). This Specification defines two types of endpoints - **[The Query Endpoints](#query-endpoints)** and **[The Informational Endpoints](#info-endpoints)**. 
 
@@ -53,11 +53,11 @@ The request and response conforms to the [Beacon Reference Framework](https://gi
 
 <hr>
 
-<h2 id="query-endpoints"> Query Endpoints </h2>
+<h2 id="-query-endpoints-"> Query Endpoints </h2>
 
 This specification defines POST endpoints to request information about resources. Each endpoint makes use of the [Filters](http://docs.genomebeacons.org/filters/) capability of the Beacon API.
 
-<h3 id="individuals"> Individuals endpoint</h3>
+<h3 id="-individuals-endpoint"> Individuals endpoint</h3>
 
 > **HTTP Request Method : POST**
 
@@ -65,7 +65,7 @@ This specification defines POST endpoints to request information about resources
 
 Please **do not use HTTP GET method** to query the individuals endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
 
-<h4 id="individuals-filters"> List of filters and permitted values for the individuals endpoint </h4>
+<h4 id="-list-of-filters-and-permitted-values-for-the-individuals-endpoint-"> List of filters and permitted values for the individuals endpoint </h4>
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
@@ -169,7 +169,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 
 <hr>
 
-<h3 id="individuals-filters-description"> Individuals Filters Description </h3>
+<h3 id="-individuals-filters-description-"> Individuals Filters Description </h3>
 
 **Sex**: The biological sex of an individual patient.
 
@@ -189,9 +189,9 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 
 <hr>
 
-<h3> An example request & response to query for individuals is shown below: </h3>
+<h3 id="-example-request-and-response-for-individuals-"> Example request and response for individuals </h3>
 
-<h5 id="individuals-example">EXAMPLE /individuals REQUEST </h5>
+**EXAMPLE /individuals REQUEST**
 
 ```JSON
 {
@@ -254,11 +254,12 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
   }
 }
 ```
+
 The "resultCount" attribute in the above response is the **maximum value of whatever range that result** is within, rather than giving out the actual count of individuals. More information on responding using ranges can be found [here](#ranges). 
 
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#individuals). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
 
-<h3 id="biosamples"> Biosamples endpoint</h3>
+<h3 id="-biosamples-endpoint"> Biosamples endpoint</h3>
 
 > **HTTP Request Method : POST**
 
@@ -266,7 +267,7 @@ Similarly to the `/individuals` endpoint, [`/biosamples`](https://github.com/ejp
 
 Please **do not use HTTP GET method** to query the biosamples endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
 
-<h4 id="biosamples-filters"> List of filters and permitted values for the biosamples endpoint </h4>
+<h4 id="-list-of-filters-and-permitted-values-for-the-biosamples-endpoint-"> List of filters and permitted values for the biosamples endpoint </h4>
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
@@ -349,7 +350,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 
 <hr>
 
-<h3 id="biosamples-filters-description"> Biosamples Filters Description </h3>
+<h3 id="-biosamples-filters-description-"> Biosamples Filters Description </h3>
 
 **Sex**: The biological sex of the person the biosample belongs to.
 
@@ -365,9 +366,9 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 
 <hr>
 
-<h3> An example request & response to query for biosamples is shown below. The filters request is querying for biosamples by Disease and Material Type </h3>
+<h3 id="-example-request-and-response-for-biosamples-"> Example request and response for biosamples </h3>
 
-<h5 id="biosamples-example">EXAMPLE /biosamples REQUEST </h5>
+**EXAMPLE /biosamples REQUEST**
 
 ```JSON
 {
@@ -435,13 +436,13 @@ Notes about the `resultCount` and the filters for the `/individuals` endpoint ap
 [ ^ Back to the top](#top)
 
 <hr>
-<h3 id="catalogs"> Catalogs endpoint </h3>
+<h3 id="-catalogs-endpoint-"> Catalogs endpoint </h3>
 
 > Method: POST
 
 [/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
 
-<h4 id="catalogs-filters"> List of filters and permitted values for the catalogs endpoint </h4>
+<h4 id="-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-"> List of filters and permitted values for the catalogs endpoint </h4>
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
@@ -517,7 +518,7 @@ Notes about the `resultCount` and the filters for the `/individuals` endpoint ap
 
 <hr>
 
-<h3 id="catalogs-filters-description"> Catalogs Filters Description </h3>
+<h3 id="-catalogs-filters-description-"> Catalogs Filters Description </h3>
 
 **Disease or Disorder**: All rare diseases that are associated **within a catalog**. It corresponds to the `dcat:theme` property of the Resource Metadata Schema. The values follow CURIE syntax and use the `ordo:` prefix.
 
@@ -552,9 +553,9 @@ In the meta section of the response, the `returnedSchemas` object must specify t
 ]
 ```
 
-<h3> An example request & response to query for resources via the /catalogs endpoint is shown below. </h3>
+<h3 id="-example-request-and-response-for-catalogs-"> Example request and response for catalogs </h3>
 
-<h5 id="catalogs-example"> EXAMPLE /catalogs REQUEST </h5>
+**EXAMPLE /catalogs REQUEST**
 
 ```JSON
 { 
@@ -661,7 +662,7 @@ The following is an example response
 
 <hr>
 
-<h2 id="auth-header"> Authentication using Header </h2>
+<h2 id="-authentication-using-header-"> Authentication using Header </h2>
 
 Since the specification allows for record level queries of individuals, additional information is required in the request header to verify the requester is authorised:
 
