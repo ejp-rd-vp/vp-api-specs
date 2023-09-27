@@ -529,6 +529,8 @@ Notes about the `resultCount` and the filters for the `/individuals` endpoint ap
 
 **Description**: The description of the resource in the **catalog**. It corresponds to the `dct:description` property of the Resource Metadata Schema
 
+**Organisation**: The organisation that owns the resouce. It correspond to the dct:publisher property. 
+
 **Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are the type of resources in the Resource Metadata Schema:  `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Datasest` or an array of any of these values.
 
 [ ^ Back to the top](#top)
@@ -537,7 +539,7 @@ Notes about the `resultCount` and the filters for the `/individuals` endpoint ap
 
 <h3 id="catalogs-response">Catalogs Response</h3>
 
-The response is a Beacon Collection response that correspond to a Resource described by the Resource Metadata Schema. Depending on the resource type, the properties may slighlty differ: for example some resource types can have properties that others don't have. Notice that an important field in all resources is the `@context` that specifies the semantics of the properties returned. It must be the [link](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json) to the `json-ld-contexts/ejprd-context.json` file  in this repository. The schemas for each specific resource are in teh `/schemas` directory.
+The response is a Beacon Collection response that corresponds to a Resource described by the Resource Metadata Schema. Depending on the resource type, the properties may slighlty differ: for example some resource types can have properties that others don't have. Notice that an important field in all resources is the `@context` that specifies the semantics of the properties returned. It must be the [link](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json) to the `json-ld-contexts/ejprd-context.json` file  in this repository. The schemas for each specific resource are in the `/schemas` directory.
 In the meta section of the response, the `returnedSchemas` object must specify the correct json schema for the resource. An example is:
 
 ```JSON
