@@ -286,17 +286,17 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td rowspan="5">Alphanumerical</td>
         <td rowspan="5">NCIT_C28421</td>
         <td rowspan="5">=</td>
-        <td>obo:NCIT_C16576</td>
+        <td>NCIT_C16576</td>
     </tr>
-    <tr><td>obo:NCIT_C20197</td></tr>
-    <tr><td>obo:NCIT_C124294</td></tr>
-    <tr><td>obo:NCIT_C17998</td></tr>
+    <tr><td>NCIT_C20197</td></tr>
+    <tr><td>NCIT_C124294</td></tr>
+    <tr><td>NCIT_C17998</td></tr>
     <tr><td>An array of any of the above</td></tr>
     <tr>
         <td><b>Disease or Disorder</b></td>
-        <td>obo:NCIT_C2991</td>
+        <td>NCIT_C2991</td>
         <td>Ontology</td>
-        <td>A single value or an array of orphanet terms. <b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
+        <td>A single value or an array of orphanet terms. <b>e.g. Orphanet_558 or [Orphanet_558, Orphanet_773]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
@@ -321,26 +321,26 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td rowspan="20">Alphanumerical</td>
         <td rowspan="20">NCIT_C70713</td>
         <td rowspan="20">=</td>
-        <td>obo:OBI_0000655 (blood specimen)</td>
+        <td>OBI_0000655 (blood specimen)</td>
     </tr>
-    <tr><td>obo:OBI_0002512 (bone marrow)</td></tr>
-    <tr><td>obo:OBIB_0000036 (buffy coat)</td></tr>
-    <tr><td>obo:CL_2000001 (peripheral blood mononuclear cell)</td></tr>
-    <tr><td>obo:OBI_0100016 (blood plasma specime)</td></tr>
-    <tr><td>obo:OBI_0100017 (blood serum)</td></tr>
-    <tr><td>obo:UBERON_0007795 (ascites fluid)</td></tr>
-    <tr><td>obo:OBI_0002502 (cerebrospinal fluid)</td></tr>
-    <tr><td>obo:OBI_0002507 (saliva)</td></tr>
-    <tr><td>obo:OBI_0002503 (feces)</td></tr>
-    <tr><td>obo:OBI_0000651 (urine)</td></tr>
-    <tr><td>obo:OBI_0002599 (swab)</td></tr>
-    <tr><td>obo:OBI_2000009 (bodily fluid specimen)</td></tr>
-    <tr><td>obo:OBI_1200000 (FFPE specimen)</td></tr>
-    <tr><td>obo:OBI_0000922 (frozen specimen)</td></tr>
-    <tr><td>obo:OBI_0001472 (specimen with known storage state)</td></tr>
-    <tr><td>obo:OBI_0001051 (DNA extract)</td></tr>
-    <tr><td>obo:OBI_0000880 (RNA extract)</td></tr>
-    <tr><td>obo:OBI_0001479 (specimen from organism)</td></tr>
+    <tr><td>OBI_0002512 (bone marrow)</td></tr>
+    <tr><td>OBIB_0000036 (buffy coat)</td></tr>
+    <tr><td>CL_2000001 (peripheral blood mononuclear cell)</td></tr>
+    <tr><td>OBI_0100016 (blood plasma specime)</td></tr>
+    <tr><td>OBI_0100017 (blood serum)</td></tr>
+    <tr><td>UBERON_0007795 (ascites fluid)</td></tr>
+    <tr><td>OBI_0002502 (cerebrospinal fluid)</td></tr>
+    <tr><td>OBI_0002507 (saliva)</td></tr>
+    <tr><td>OBI_0002503 (feces)</td></tr>
+    <tr><td>OBI_0000651 (urine)</td></tr>
+    <tr><td>OBI_0002599 (swab)</td></tr>
+    <tr><td>OBI_2000009 (bodily fluid specimen)</td></tr>
+    <tr><td>OBI_1200000 (FFPE specimen)</td></tr>
+    <tr><td>OBI_0000922 (frozen specimen)</td></tr>
+    <tr><td>OBI_0001472 (specimen with known storage state)</td></tr>
+    <tr><td>OBI_0001051 (DNA extract)</td></tr>
+    <tr><td>OBI_0000880 (RNA extract)</td></tr>
+    <tr><td>OBI_0001479 (specimen from organism)</td></tr>
     <tr><td>An array of any of the above</td></tr>    
 </tbody>
 </table>
@@ -377,12 +377,12 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
     "query": {
         "filters": [
               {
-                "id": "ordo:Orphanet_34587"
+                "id": "Orphanet_34587"
               },
               {
                 "id": "obo:NCIT_C70713",
                 "operator": "=",
-                "value": "obo:OBI_0000655"
+                "value": "OBI_0000655"
               }
         ],
         "requestedGranularity": "count"
@@ -403,12 +403,12 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
             "apiVersion": "2.0",
             "filters": [
                 {
-                    "id": "ordo:Orphanet_34587"
+                    "id": "Orphanet_34587"
                 },
                 {
                     "id": "obo:NCIT_C70713",
                     "operator": "=",
-                    "value": "obo:OBI_0000655"
+                    "value": "OBI_0000655"
                 }
             ],
             "requestedGranularity": "count",
