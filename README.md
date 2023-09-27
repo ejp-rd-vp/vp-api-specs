@@ -24,16 +24,15 @@ In this work, we present API specification for querying RD patient registries, b
       * [Filters description](#-catalogs-filters-description-)
       * [Example request & response](#-example-request-and-response-for-catalogs-)
 * [Authentication using Header(s)](#-authentication-using-header-)
-* [Understanding the query](#understand-query)
-    * [Syntax & Usage of Beacon Query with Filters](#syntax-usage)
-        * [Multi-Filter (AND) query](#multi-and)
-        * [Same Filter (AND) query](#same-and)
-        * [Multi-Filter (OR) query using **Arrays**](#multi-or-arrays)
-    * [Partial query matches with warning messages](#warning-response-example)
-* [Understanding the response with ranges (for /individuals and /biospecimens)](#threshold-ranges)
-    * [Ranges example](#response-range-example)
-* [Informational Endpoints](#info-endpoints)
-* [Deprecated Filters](#deprecated-filters)
+* [Understanding the query](#-understanding-the-query)
+    * [Syntax & Usage of Beacon Query with Filters](#-syntax-and-usage)
+        * [Multi-Filter (AND) query](#beacon-queries-using-multiples-of-the-same-type-of-filter-and-logical-operator-between-filters)
+        * [Same Filter (AND) query](#beacon-queries-using-multiple-values-as-in-phenotype-or-disease-filters-or-logical-operator-between-filter-values)
+        * [Multi-Filter (OR) query using **Arrays**](#beacon-queries-using-multiples-of-the-same-type-of-filter-or-logical-operator-between-filters)
+    * [Partial query matches with warning messages](#partial-query-matches-with-warning-messages)
+* [Understanding the response with ranges (for /individuals and /biospecimens)](#-understanding-the-response-with-ranges-for-individuals-and-biospecimens)
+* [Informational Endpoints](#-informational-endpoints-)
+* [Deprecated Filters](#-deprecated-filters-)
 
 <hr>
  
@@ -45,11 +44,11 @@ Latest version (v2.0) of this specification is available on Swagger here: https:
 
 <h2 id="-specification-"> Specification </h2>
 
-The request and response conforms to the [Beacon Reference Framework](https://github.com/ga4gh-beacon/beacon-v2). This Specification defines two types of endpoints - **[The Query Endpoints](#query-endpoints)** and **[The Informational Endpoints](#info-endpoints)**. 
+The request and response conforms to the [Beacon Reference Framework](https://github.com/ga4gh-beacon/beacon-v2). This Specification defines two types of endpoints - **[The Query Endpoints](#-query-endpoints-)** and **[The Informational Endpoints](#-informational-endpoints-)**. 
 
-[Informational Endpoints](#info-endpoints) are simple GET requests without needing a request body, and respond with information relavant to this Beacon Specification. These are: /info, /configuration, /entry_types, /filtering_terms and /map. A special /service-info endpoint (also a GET request), responds with metadata relevant to this Beacon using the [GA4GH ServiceInfo format](https://github.com/ga4gh-discovery/ga4gh-service-info/). 
+[Informational Endpoints](#-informational-endpoints-) are simple GET requests without needing a request body, and respond with information relavant to this Beacon Specification. These are: /info, /configuration, /entry_types, /filtering_terms and /map. A special /service-info endpoint (also a GET request), responds with metadata relevant to this Beacon using the [GA4GH ServiceInfo format](https://github.com/ga4gh-discovery/ga4gh-service-info/). 
 
-[Query Endpoints](#query-endpoints) require the requester to provide a JSON body and send request using the POST method. This document defines two query endpoints to query resources using filters - [/individuals](#individuals) & [/catalogs](#catalogs). 
+[Query Endpoints](#-query-endpoints-) require the requester to provide a JSON body and send request using the POST method. This document defines three query endpoints to query resources using filters - [/individuals](#-individuals-endpoint), [/biosamples](#-biosamples-endpoint) and [/catalogs](#-catalogs-endpoint-). 
 
 <hr>
 
@@ -683,15 +682,15 @@ Since the specification allows for record level queries of individuals, addition
 
 > **Note:** Implementers can provide distinct auth-keys to each requester or a single auth-key to all requesters.
 
-To see this live in action in Swagger UI, see [Authentication in Swagger](#swagger-auth).
+To see this live in action in Swagger UI, see [Authentication in Swagger](#-authentication-using-header-for-swagger-).
 
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h2 id="understand-query"> Understanding the query </h2>
+<h2 id="-understanding-the-query-"> Understanding the query </h2>
 
-<h3 id="syntax-usage"> Syntax & Usage: </h3>
+<h3 id="-syntax-and-usage-"> Syntax and Usage: </h3>
 
 > Method: POST
 
@@ -740,7 +739,7 @@ These usage rules are illustrated using a general syntax as below:
 
 As shown above, different types of filters can be sent in a single query. These are further elucidated below. 
 
-<h4 id="multi-and"> Beacon queries using multiple filters (AND logical operator between filters):</h4>
+<h4 id="beacon-queries-using-multiples-of-the-same-type-of-filter-and-logical-operator-between-filters"> Beacon queries using multiple filters (AND logical operator between filters):</h4>
 
 ```JSON
 {
@@ -766,7 +765,7 @@ This filter is asking for individuals that have been diagnosed with Danon diseas
 
 <hr>
 
-<h4 id="same-and">Beacon queries using multiples of the same type of filter (AND logical operator between filters):</h4>
+<h4 id="beacon-queries-using-multiple-values-as-in-phenotype-or-disease-filters-and-logical-operator-between-filter-values">Beacon queries using multiples of the same type of filter (AND logical operator between filters):</h4>
 
 To query for individuals with more than one instance of any of the filters you can send multiple of the same filter, such as in the below example:
 
@@ -816,7 +815,7 @@ This query is looking if there are any individuals with RNA sequence information
 
 <hr>
 
-<h4 id="multi-or-arrays">Beacon queries using multiple values as in phenotype or disease filters (OR logical operator between filter values):</h4>
+<h4 id="beacon-queries-using-multiples-of-the-same-type-of-filter-or-logical-operator-between-filters">Beacon queries using multiples of the same type of filter (OR logical operator between filters):</h4>
 
 > Ontology Filter using Array Example:
 
@@ -840,13 +839,13 @@ All of the defined filters are optional, the user can provide as many or as few 
 
 If a user sends a query with a filter not supported by a resource, then the resource should complete the query but ignore the unsupported filter(s) and respond as usual, but with a warning noting that certain filters were ignored as they are unsupported.
 
-The warning messages will be provided within the ['info' section](#warning-response-example) of the Beacon.
+The warning messages will be provided within the [`info`](#partial-query-matches-with-warning-messages)  section of the Beacon.
 
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h2 id="warning-response-example"> Partial Request & Response with warning message Example </h2>
+<h2 id="partial-query-matches-with-warning-messages"> Partial Request & Response with warning message Example </h2>
 
 **EXAMPLE REQUEST**
 
@@ -929,9 +928,7 @@ This response provides a warning message within the info section advising of uns
 
 <hr>
 
-<h2> Understanding the response with ranges (for /individuals and /biospecimens)</h2>
-
-<h5 id="threshold-ranges"> Responses based on ranges </h5>
+<h2 id="-understanding-the-response-with-ranges-for-individuals-and-biospecimens"> Understanding the response with ranges (for /individuals and /biospecimens)</h2>
 
 In the examples of the response for the `/individuals` and `/biosamples` endpoints, information of the resultant dataset matching the query is provided within the **`resultSets`** attribute. 
 
@@ -951,7 +948,7 @@ To provide flexibility for implementers between using a range, the `info` sectio
 
 > **Note**: Here, N is an integer where the implementer can respond with **"minRange" & "maxRange"** (if employing a range) - the maximum value of whatever range that result is within, whereupon the "maxRange" value should match the "resultCount" value and the "numTotalResults" value.
 
-<h3 id="response-range-example"> Example response employing a range: </h3>
+**Example response employing a range:**
 
 ```JSON
 {
@@ -993,7 +990,7 @@ In this example, the result could be a count of individuals between 71 to 80 (th
 
 <hr>
 
-<h2 id="info-endpoints"> Informational Endpoints </h2>
+<h2 id="-informational-endpoints-"> Informational Endpoints </h2>
 
 > **HTTP Request Method : GET**
 
@@ -1016,7 +1013,7 @@ Get the Beacon map with information related to the list of endpoints included in
 
 <hr>
 
-<h2 id="deprecated-filters"> Deprecated Filters </h2>
+<h2 id="-deprecated-filters-"> Deprecated Filters </h2>
 
 These filters are currently supported, but will be removed from from future versions of this specification
 
