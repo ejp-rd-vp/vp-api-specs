@@ -15,8 +15,10 @@ In this work, we present API specification for querying RD patient registries, b
       * [List of filters](#individuals-filters)
       * [Filters description](#individuals-filters-description)
       * [Example request & response](#individuals-example)
-      * [Understanding the response with ranges](#threshold-ranges)
-         * [Ranges example](#response-range-example)
+    * [Biosamples endpoint](#biosamples)
+      * [List of filters](#biosamples-filters)
+      * [Filters description](#biosamples-filters-description)
+      * [Example request & response](#biosamples-example)
     * [Catalogs endpoint](#catalogs)
       * [List of filters](#catalogs-filters)
       * [Filters description](#catalogs-filters-description)
@@ -28,6 +30,8 @@ In this work, we present API specification for querying RD patient registries, b
         * [Same Filter (AND) query](#same-and)
         * [Multi-Filter (OR) query using **Arrays**](#multi-or-arrays)
     * [Partial query matches with warning messages](#warning-response-example)
+* [Understanding the response with ranges (for /individuals and /biospecimens)](#threshold-ranges)
+    * [Ranges example](#response-range-example)
 * [Informational Endpoints](#info-endpoints)
 * [Deprecated Filters](#deprecated-filters)
 
@@ -254,68 +258,179 @@ The "resultCount" attribute in the above response is the **maximum value of what
 
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#individuals). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
 
+<h3 id="biosamples"> Biosamples endpoint</h3>
+
+> **HTTP Request Method : POST**
+
+Similarly to the `/individuals` endpoint, [`/biosamples`](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/biosamples_api_v0.2.yml) endpoint returns the **__maximum value of biosamples within a specified range__** from an RD resource (usually the resource is a Biobank). Queries are performed in the same way as for `/individuals` endpoint, adding filters in the body of the request.
+
+Please **do not use HTTP GET method** to query the biosamples endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
+
+<h4 id="biosamples-filters"> List of filters and permitted values for the biosamples endpoint </h4>
+
+> **Note**: Elements within arrays in **value** fields are treated as **ORs**
+
+<table>
+<thead>
+        <th>Concept</th>
+        <th>Ontological Term</th>
+        <th>Beacon Filter Type</th>
+        <th>ID</th>
+        <th>Operator</th>
+        <th>Permitted Values</th>
+</thead>
+<tbody>
+    <tr>
+        <td rowspan="5"><b>Sex</b></td>
+        <td rowspan="5">obo:NCIT_C28421</td>
+        <td rowspan="5">Alphanumerical</td>
+        <td rowspan="5">NCIT_C28421</td>
+        <td rowspan="5">=</td>
+        <td>obo:NCIT_C16576</td>
+    </tr>
+    <tr><td>obo:NCIT_C20197</td></tr>
+    <tr><td>obo:NCIT_C124294</td></tr>
+    <tr><td>obo:NCIT_C17998</td></tr>
+    <tr><td>An array of any of the above</td></tr>
+    <tr>
+        <td><b>Disease or Disorder</b></td>
+        <td>obo:NCIT_C2991</td>
+        <td>Ontology</td>
+        <td>A single value or an array of orphanet terms. <b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
+        <td colspan="2">NA</td>
+    </tr>
+    <tr>
+        <td><b>Year of birth</b></td>
+        <td>obo:NCIT_C83164</td>
+        <td>Numerical</td>
+        <td>NCIT_C83164 </td>
+        <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
+        <td>any integer</td>
+    </tr>
+    <tr>
+        <td><b>Age at diagnosis</b></td>
+        <td>obo:NCIT_C156420</td>
+        <td>Numerical</td>
+        <td>NCIT_C156420</td>
+        <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
+        <td>any integer</td>
+    </tr>
+    <tr>
+        <td rowspan="20"><b>Biospecimen Type</b></td>
+        <td rowspan="20">obo:NCIT_C70713</td>
+        <td rowspan="20">Alphanumerical</td>
+        <td rowspan="20">NCIT_C70713</td>
+        <td rowspan="20">=</td>
+        <td>obo:OBI_0000655 (blood specimen)</td>
+    </tr>
+    <tr><td>obo:OBI_0002512 (bone marrow)</td></tr>
+    <tr><td>obo:OBIB_0000036 (buffy coat)</td></tr>
+    <tr><td>obo:CL_2000001 (peripheral blood mononuclear cell)</td></tr>
+    <tr><td>obo:OBI_0100016 (blood plasma specime)</td></tr>
+    <tr><td>obo:OBI_0100017 (blood serum)</td></tr>
+    <tr><td>obo:UBERON_0007795 (ascites fluid)</td></tr>
+    <tr><td>obo:OBI_0002502 (cerebrospinal fluid)</td></tr>
+    <tr><td>obo:OBI_0002507 (saliva)</td></tr>
+    <tr><td>obo:OBI_0002503 (feces)</td></tr>
+    <tr><td>obo:OBI_0000651 (urine)</td></tr>
+    <tr><td>obo:OBI_0002599 (swab)</td></tr>
+    <tr><td>obo:OBI_2000009 (bodily fluid specimen)</td></tr>
+    <tr><td>obo:OBI_1200000 (FFPE specimen)</td></tr>
+    <tr><td>obo:OBI_0000922 (frozen specimen)</td></tr>
+    <tr><td>obo:OBI_0001472 (specimen with known storage state)</td></tr>
+    <tr><td>obo:OBI_0001051 (DNA extract)</td></tr>
+    <tr><td>obo:OBI_0000880 (RNA extract)</td></tr>
+    <tr><td>obo:OBI_0001479 (specimen from organism)</td></tr>
+    <tr><td>An array of any of the above</td></tr>    
+</tbody>
+</table>
+
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h3> Understanding the response: </h3>
+<h3 id="biosamples-filters-description"> Biosamples Filters Description </h3>
 
-<h5 id="threshold-ranges"> Responses based on ranges </h5>
+**Sex**: The biological sex of the person the biosample belongs to.
 
-In the above example of the response for the individuals endpoint, information of the resultant dataset matching the query is provided within the "**resultSets**" attribute. 
+**Disease or Disorder**: All rare diseases that have been diagnosed **from the biosample**, to encompase, but not distinguish between all levels of diagnosis such as definitive, differential, provisional, etc.,
 
-To provide flexibility for implementers between using a range, the "info" section of each resultant dataset in "resultSets" need to conform to the following standardised structure:
+**Year of birth**: The year of birth of the person who the biosample belongs to
 
-```
-"info": {
-   "resultCountDescription": {
-      "minRange": N,
-      "maxRange": N
-   },
-   "contactPoint": "Person/point of contact",
-   "contactEmail": "Email for contact regarding this dataset/resource", 
-   "contactURL": "URL of the implementer"
- }
-```
+**Age at diagnosis**: Age at the diagnosis of a rare disease. For biosamples with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource.
 
-> **Note**: Here, N is an integer where the implementer can respond with **"minRange" & "maxRange"** (if employing a range) - the maximum value of whatever range that result is within, whereupon the "maxRange" value should match the "resultCount" value and the "numTotalResults" value.
+**Biospecimen Type**: One or more biospecimen type. The list is a list of ontology terms taken from MIABIS
 
-<h3 id="response-range-example"> Example response employing a range: </h3>
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h3> An example request & response to query for biosamples is shown below. The filters request is querying for biosamples by Disease and Material Type </h3>
+
+<h5 id="biosamples-example">EXAMPLE /biosamples REQUEST </h5>
 
 ```JSON
 {
-  "meta": {
-      "apiVersion": "v2.0",
-      "beaconId": "Responding unique Beacon ID in reverse domain name notation",
-      "returnedGranularity": "count"
-  },
-  "response": {
-     "resultSets": [
-      {
-         "id": "Vivify",
-         "type": "dataset", 
-         "exists": true,
-         "resultCount": 80,
-         "info": {
-            "resultCountDescription": {
-               "minRange": 71,
-               "maxRange": 80
-            },
-            "contactPoint": "admin",
-            "contactEmail": "admin@cafevariome.org", 
-            "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
-         }      
-      }
-    ]
-  },
-  "responseSummary":{
-    "exists": true,
-    "numTotalResults": 80
-  }
+    "meta": {
+        "apiVersion": "v2.0"
+    },
+    "query": {
+        "filters": [
+              {
+                "id": "ordo:Orphanet_34587"
+              },
+              {
+                "id": "obo:NCIT_C70713",
+                "operator": "=",
+                "value": "obo:OBI_0000655"
+              }
+        ],
+        "requestedGranularity": "count"
+    }
 }
 ```
 
-In this example, the result could be a count of individuals between 71 to 80 (the resource only responds with ranges of size 10).
+**EXAMPLE /biosamples RESPONSE**
+
+
+```JSON
+{
+    "meta": {
+        "beaconId": "biobank beacon",
+        "apiVersion": "v2.0.0",
+        "returnedGranularity": "count",
+        "receivedRequestSummary": {
+            "apiVersion": "2.0",
+            "filters": [
+                {
+                    "id": "ordo:Orphanet_34587"
+                },
+                {
+                    "id": "obo:NCIT_C70713",
+                    "operator": "=",
+                    "value": "obo:OBI_0000655"
+                }
+            ],
+            "requestedGranularity": "count",
+            "testMode": false
+        },
+        "returnedSchemas": [
+            {
+                "entityType": "biosample",
+                "schema": "beacon-biosample-v2.0.0",
+                "name": "Default schema for a biological sample",
+                "url": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2-Models/main/BEACON-V2-Model/biosamples/defaultSchema.json",
+                "version": "v2.0.0"
+            }
+        ]
+    },
+    "responseSummary": {
+        "exists": true,
+        "numTotalResults": 100
+    },
+}
+```
+Notes about the `resultCount` and the filters for the `/individuals` endpoint apply also for `biospecimens`
 
 [ ^ Back to the top](#top)
 
@@ -807,6 +922,71 @@ This request is sent to a resource which does not hold information about causati
 ```
 
 This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine. Please see the info part of the [IndividualResponse](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/IndividualResponse) schema on swagger. 
+
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h2> Understanding the response with ranges (for /individuals and /biospecimens)</h2>
+
+<h5 id="threshold-ranges"> Responses based on ranges </h5>
+
+In the examples of the response for the `/individuals` and `/biosamples` endpoints, information of the resultant dataset matching the query is provided within the **`resultSets`** attribute. 
+
+To provide flexibility for implementers between using a range, the `info` section of each resultant dataset in `resultSets` need to conform to the following standardised structure:
+
+```JSON
+"info": {
+   "resultCountDescription": {
+      "minRange": N,
+      "maxRange": N
+   },
+   "contactPoint": "Person/point of contact",
+   "contactEmail": "Email for contact regarding this dataset/resource", 
+   "contactURL": "URL of the implementer"
+}
+```
+
+> **Note**: Here, N is an integer where the implementer can respond with **"minRange" & "maxRange"** (if employing a range) - the maximum value of whatever range that result is within, whereupon the "maxRange" value should match the "resultCount" value and the "numTotalResults" value.
+
+<h3 id="response-range-example"> Example response employing a range: </h3>
+
+```JSON
+{
+  "meta": {
+      "apiVersion": "v2.0",
+      "beaconId": "Responding unique Beacon ID in reverse domain name notation",
+      "returnedGranularity": "count"
+  },
+  "response": {
+     "resultSets": [
+      {
+         "id": "Vivify",
+         "type": "dataset", 
+         "exists": true,
+         "resultCount": 80,
+         "info": {
+            "resultCountDescription": {
+               "minRange": 71,
+               "maxRange": 80
+            },
+            "contactPoint": "admin",
+            "contactEmail": "admin@cafevariome.org", 
+            "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+         }      
+      }
+    ]
+  },
+  "responseSummary":{
+    "exists": true,
+    "numTotalResults": 80
+  }
+}
+```
+
+In this example, the result could be a count of individuals between 71 to 80 (the resource only responds with ranges of size 10).
+
 
 [ ^ Back to the top](#top)
 
