@@ -529,7 +529,7 @@ Notes about the `resultCount` and the filters for the `/individuals` endpoint ap
 
 **Description**: The description of the resource in the **catalog**. It corresponds to the `dct:description` property of the Resource Metadata Schema
 
-**Organisation**: The organisation that owns the resouce. It correspond to the dct:publisher property. 
+**Organisation**: The organisation that owns the resouce. It corresponds to the dct:publisher property. 
 
 **Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are the type of resources in the Resource Metadata Schema:  `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Datasest` or an array of any of these values.
 
