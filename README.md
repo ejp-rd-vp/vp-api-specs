@@ -35,7 +35,7 @@ In this work, we present API specification for querying RD patient registries, b
  
 <h2 id="try-in-swagger"> Try out the API </h2>
 
-Check out version 0.1 [here](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.1) and version 0.2 [here](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2).
+Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v2.0 
 
 <hr>
 
@@ -180,8 +180,6 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 **Symptom Onset**: Age at the manifestation of a rare disease. For individuals with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource. 
 
 **Age at diagnosis**: Age at the diagnosis of a rare disease. For individuals with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource.
-
-**Available Materials**: A list of what material information is available about an **individual**.
 
 [ ^ Back to the top](#top)
 
@@ -360,7 +358,7 @@ In this example, the result could be a count of individuals between 71 to 80 (th
         <td rowspan="4"><b>Resource Types</b></td>
         <td rowspan="4">rdf:type</td>
         <td rowspan="4">Alphanumerical</td>
-        <td rowspan="4">A single value or ana array of values representing a resource type of the resource. It must be one of the types defined in EJP Resource Metadata Schema</td>
+        <td rowspan="4">A single value or an array of values representing a resource type of the resource. It must be one of the types defined in EJP Resource Metadata Schema</td>
         <td rowspan="4">=</td>
         <td>ejprd:PatientRegistry</td>
     </tr>
@@ -415,8 +413,6 @@ In this example, the result could be a count of individuals between 71 to 80 (th
 **Name**: The name of the resource in the **catalog**. It corresponds to the `dct:title` of the Resource Metadata Schema
 
 **Description**: The description of the resource in the **catalog**. It corresponds to the `dct:description` property of the Resource Metadata Schema
-
-**Organisation**: The organisation of the resource in the **catalog**. 
 
 **Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are the type of resources in the Resource Metadata Schema:  `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Datasest` or an array of any of these values.
 
@@ -831,7 +827,7 @@ Get Beacon Configuration.
 ##### /entry_types: 
 Get list of entry types in this Beacon.
 ##### /filtering_terms: 
-Get information about available individual filtters for this beacon's entry types.
+Get information about available individual filters for this beacon's entry types.
 ##### /map: 
 Get the Beacon map with information related to the list of endpoints included in this Beacon instance.
 
