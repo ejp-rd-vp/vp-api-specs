@@ -470,22 +470,17 @@ Notes about the `resultCount` and the filters for the `/individuals` endpoint ap
         <td colspan="2">NA</td>
     </tr>
     <tr>
-        <td rowspan="4"><b>Resource Types</b></td>
-        <td rowspan="4">rdf:type</td>
-        <td rowspan="4">Alphanumerical</td>
-        <td rowspan="4">A single value or an array of values representing a resource type of the resource. It must be one of the types defined in EJP Resource Metadata Schema</td>
-        <td rowspan="4">=</td>
+        <td rowspan="5"><b>Resource Types</b></td>
+        <td rowspan="5">rdf:type</td>
+        <td rowspan="5">Alphanumerical</td>
+        <td rowspan="5">A single value or an array of values representing a resource type of the resource. It must be one of the types defined in EJP Resource Metadata Schema</td>
+        <td rowspan="5">=</td>
         <td>ejprd:PatientRegistry</td>
     </tr>
-    <tr>
-        <td>ejprd:Biobank</td>
-    </tr>
-    <tr>
-        <td>ejprd:Guideline</td>
-    </tr>
-    <tr>
-        <td>dcat:Dataset</td>
-    </tr>
+    <tr><td>ejprd:Biobank</td></tr>
+    <tr><td>ejprd:Guideline</td></tr>
+    <tr><td>dcat:Dataset</td></tr>
+    <tr><td>An array of any of the above</td></tr>
     <tr>
         <td><b>ID</b></td> 
         <td>NA</td>
