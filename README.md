@@ -534,7 +534,7 @@ Notes about the `resultCount` and the filters for the `/individuals` endpoint ap
 
 <h3 id="catalogs-response">Catalogs Response</h3>
 
-The response is a Beacon Collection response that corresponds to a Resource described by the Resource Metadata Schema. Depending on the resource type, the properties may slighlty differ: for example some resource types can have properties that others don't have. Notice that an important field in all resources is the `@context` that specifies the semantics of the properties returned. It must be the [link](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json) to the `json-ld-contexts/ejprd-context.json` file  in this repository. The schemas for each specific resource are in the `/schemas` directory.
+The response is a Beacon Collection response that corresponds to a Resource described by the Resource Metadata Schema. Depending on the resource type, the properties may slighlty differ: for example some resource types can have properties that others don't have. Notice that an important field in all resources is the `@context` that specifies the semantics of the properties returned. It must be the [link](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json) to the `json-ld-contexts/ejprd-context.json` file  in this repository. The schemas for each specific resource are in the `/schemas` directory.
 In the meta section of the response, the `returnedSchemas` object must specify the correct json schema for the resource. An example is:
 
 ```JSON
@@ -543,7 +543,7 @@ In the meta section of the response, the `returnedSchemas` object must specify t
         "entityType": "resources",
         "schema": "ejprd-biobank-registry-v1.0.0",
         "name": "EJPRD schema for biobank and patient registry",
-        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/schemas/biobank-registry-schema.json",
+        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/biobank-registry-schema.json",
         "version": "v1.0.0"
     }
 ]
@@ -612,7 +612,7 @@ The following is an example response
                 "entityType": "resources",
                 "schema": "ejprd-resources-v1.0.0",
                 "name": "EJPRD schema for resources",
-                "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/schemas/biboank-registry-schema.json",
+                "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/biobank-registry-schema.json",
                 "version": "v1.0.0"
             }
         ]
@@ -627,26 +627,26 @@ The following is an example response
             {
                 "resultsCount": 1,
                 "results": [{
-                    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json",
+                    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
                     "@id": "biobank-1:collection:collection-1",
                     "@type": "ejprd:Biobank",
                     "title": "Rare Disease Biobank",
-                    "logo": "http://raredisease.biobanl.eu/logo.png",
+                    "logo": "http://raredisease.biobank.eu/logo.png",
                     "description": "Rare disease biobank with data about muscular distrophy",
                     "populationCoverage": "European",
                     "theme": "ordo:Orphanet_730",
                     "vpConnection": "ejprd:VPContentDiscovery",
-                    "landingPage": "http://biobank.raredisease.org",
+                    "landingPage": ["http://biobank.raredisease.org"],
                     "personalData": "true",
+                    "language": "EN",
                     "publisher": {
+                        "@id": "biobank-1",
                         "title": "Biobank hosting collection",
                         "description": "The biobank that hosts the collection",
-                        "location": {
-                            "title": "Italy Cagliari",
-                            "description": "Via Mario Rossi"
+                        "spatial": {
+                            "title": "Italy"
                         }
-                    },
-                    "language": "EN"
+                    }
                 }]
             }
         ]

@@ -1,22 +1,22 @@
 {
-    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json",
+    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
     "@id": "biobank-1:collection:collection-1",
     "@type": "ejprd:Biobank",
     "title": "Rare Disease Biobank",
-    "logo": "http://raredisease.biobanl.eu/logo.png",
+    "logo": "http://raredisease.biobank.eu/logo.png",
     "description": "Rare disease biobank with data about muscular distrophy",
     "populationCoverage": "European",
     "theme": "ordo:Orphanet_730",
     "vpConnection": "ejprd:VPContentDiscovery",
     "landingPage": ["http://biobank.raredisease.org"],
     "personalData": "true",
+    "language": "EN",
     "publisher": {
+        "@id": "biobank-1",
         "title": "Biobank hosting collection",
         "description": "The biobank that hosts the collection",
-        "location": {
-            "title": "Italy Cagliari",
-            "description": "Via Mario Rossi"
+        "spatial": {
+            "title": "Italy"
         }
-    },
-    "language": "EN"
+    }
 }
