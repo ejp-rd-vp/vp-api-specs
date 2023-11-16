@@ -15,10 +15,10 @@ In this work, we present API specification for querying RD patient registries, b
       * [List of filters](#-list-of-filters-and-permitted-values-for-the-individuals-endpoint-)
       * [Filters description](#-individuals-filters-description-)
       * [Example request & response](#-example-request-and-response-for-individuals-)
-    <!-- * [Biosamples endpoint](#-biosamples-endpoint)
+    * [Biosamples endpoint](#-biosamples-endpoint)
       * [List of filters](#-list-of-filters-and-permitted-values-for-the-biosamples-endpoint-)
       * [Filters description](#-biosamples-filters-description-)
-      * [Example request & response](#-example-request-and-response-for-biosamples-) -->
+      * [Example request & response](#-example-request-and-response-for-biosamples-)
     * [Catalogs endpoint](#-catalogs-endpoint-)
       * [List of filters](#-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-)
       * [Filters description](#-catalogs-filters-description-)
@@ -30,15 +30,15 @@ In this work, we present API specification for querying RD patient registries, b
         * [Same Filter (AND) query](#beacon-queries-using-multiple-values-as-in-phenotype-or-disease-filters-or-logical-operator-between-filter-values)
         * [Multi-Filter (OR) query using **Arrays**](#beacon-queries-using-multiples-of-the-same-type-of-filter-or-logical-operator-between-filters)
     * [Partial query matches with warning messages](#partial-query-matches-with-warning-messages)
-* [Understanding the response with ranges (for /individuals)](#-understanding-the-response-with-ranges-for-individuals-and-biospecimens)
+* [Understanding the response with ranges (for /individuals and /biospecimens)](#-understanding-the-response-with-ranges-for-individuals-and-biospecimens)
 * [Informational Endpoints](#-informational-endpoints-)
-<!-- * [Deprecated Filters](#-deprecated-filters-) -->
+
 
 <hr>
  
 <h2 id="#-try-out-the-api-"> Try out the API </h2>
 
-Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0
+Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v2.0 
 
 <hr>
 
@@ -48,7 +48,7 @@ The request and response conforms to the [Beacon Reference Framework](https://gi
 
 [Informational Endpoints](#-informational-endpoints-) are simple GET requests without needing a request body, and respond with information relavant to this Beacon Specification. These are: /info, /configuration, /entry_types, /filtering_terms and /map. A special /service-info endpoint (also a GET request), responds with metadata relevant to this Beacon using the [GA4GH ServiceInfo format](https://github.com/ga4gh-discovery/ga4gh-service-info/). 
 
-[Query Endpoints](#-query-endpoints-) require the requester to provide a JSON body and send request using the POST method. This document defines three query endpoints to query resources using filters - [/individuals](#-individuals-endpoint), and [/catalogs](#-catalogs-endpoint-). 
+[Query Endpoints](#-query-endpoints-) require the requester to provide a JSON body and send request using the POST method. This document defines three query endpoints to query resources using filters - [/individuals](#-individuals-endpoint), [/biosamples](#-biosamples-endpoint) and [/catalogs](#-catalogs-endpoint-). 
 
 <hr>
 
@@ -258,7 +258,7 @@ The "resultCount" attribute in the above response is the **maximum value of what
 
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#individuals). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
 
-<!-- <h3 id="-biosamples-endpoint"> Biosamples endpoint</h3>
+<h3 id="-biosamples-endpoint"> Biosamples endpoint</h3>
 
 > **HTTP Request Method : POST**
 
@@ -430,16 +430,16 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
     },
 }
 ```
-Notes about the `resultCount` and the filters for the `/individuals` endpoint apply also for `biospecimens` -->
+Notes about the `resultCount` and the filters for the `/individuals` endpoint apply also for `biospecimens`
 
-[ ^ Back to the top](#top) 
+[ ^ Back to the top](#top)
 
 <hr>
 <h3 id="-catalogs-endpoint-"> Catalogs endpoint </h3>
 
 > Method: POST
 
-[/catalogs](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
+[/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
 
 <h4 id="-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-"> List of filters and permitted values for the catalogs endpoint </h4>
 
@@ -918,16 +918,16 @@ This request is sent to a resource which does not hold information about causati
 }
 ```
 
-This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine. Please see the info part of the [IndividualResponse](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/IndividualRequest) schema on swagger. 
+This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine. Please see the info part of the [IndividualResponse](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/IndividualResponse) schema on swagger. 
 
 
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h2 id="-understanding-the-response-with-ranges-for-individuals-and-biospecimens"> Understanding the response with ranges (for /individuals)</h2>
+<h2 id="-understanding-the-response-with-ranges-for-individuals-and-biospecimens"> Understanding the response with ranges (for /individuals and /biospecimens)</h2>
 
-In the examples of the response for the `/individuals`, information of the resultant dataset matching the query is provided within the **`resultSets`** attribute. 
+In the examples of the response for the `/individuals` and `/biosamples` endpoints, information of the resultant dataset matching the query is provided within the **`resultSets`** attribute. 
 
 To provide flexibility for implementers between using a range, the `info` section of each resultant dataset in `resultSets` need to conform to the following standardised structure:
 
@@ -1010,100 +1010,7 @@ Get the Beacon map with information related to the list of endpoints included in
 
 <hr>
 
-<!-- <h2 id="-deprecated-filters-"> Deprecated Filters </h2>
 
-These filters are currently supported, but will be removed from from future versions of this specification
-
-<table>
-<thead>
-  <tr>
-    <th>Filter name</th>
-    <th>Type term</th>
-    <th>Permitted values</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td rowspan="4">Sex</td>
-    <td rowspan="4">obo:NCIT_C28421</td>
-    <td>obo:NCIT_C16576</td>
-  </tr>
-  <tr>
-    <td>obo:NCIT_C20197</td>
-  </tr>
-  <tr>
-    <td>obo:NCIT_C124294</td>
-  </tr>
-  <tr>
-    <td>obo:NCIT_C17998</td>
-  </tr>
-  <tr>
-    <td>Diagnosis of the rare<br />disease</td>
-    <td>sio:SIO_001003</td>
-    <td>Any orphanet term. <b>e.g. ordo:Orphanet_558</b></td>
-  </tr>
-  <tr>
-    <td>Phenotype</td>
-    <td>sio:SIO_010056</td>
-    <td>Any hpo term. <b>e.g. obo:HP_0001251</b></td>
-  </tr>
-  <tr>
-    <td>Causative genes</td>
-    <td>obo:NCIT_C16612</td>
-    <td>any HGNC gene symbol</td>
-  </tr>
-  <tr>
-    <td>Age this year</td>
-    <td>obo:NCIT_C25150</td>
-    <td>any integer</td>
-  </tr>
-  <tr>
-    <td>Age at disease manifestation</td>
-    <td>efo:EFO_0004847</td>
-    <td>any integer</td>
-  </tr>
-  <tr>
-    <td>Age at diagnosis</td>
-    <td>obo:NCIT_C156420</td>
-    <td>any integer</td>
-  </tr>
-  <tr>
-    <td rowspan="9">Available materials</td>
-    <td rowspan="9"></td>
-        <td>Whole Genome Sequence</td>
-  </tr>
-  <tr>
-    <td>Whole Exome Sequence</td>
-  </tr>
-  <tr>
-    <td>Exome panel sequence</td>
-  </tr>
-  <tr>
-    <td>RNA sequence</td>
-  </tr>
-  <tr>
-    <td>methylomics</td>
-  </tr>
-  <tr>
-    <td>Epigenomics</td>
-  </tr>
-  <tr>
-    <td>Pedigree data</td>
-  </tr>
-  <tr>
-    <td>Clinical data</td>
-  </tr>
-  <tr>
-    <td>Biosamples</td>
-  </tr>
-</tbody>
-</table>
-
-> **Note**: '**Available Materials**' is currently deprecated, but we anticipate that this will be included in the query endpoints in later versions.  -->
-
-<!-- [ ^ Back to the top](#top)
-
-<hr> -->
 
 <h2 id="swagger-auth"> Authentication using Header for Swagger </h2>
 
