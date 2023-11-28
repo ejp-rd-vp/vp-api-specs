@@ -8,60 +8,63 @@ In this work, we present API specification for querying RD patient registries, b
 
 <h2 id="top"> Contents </h2>
 
-* [Try out this API in Swagger](#try-in-swagger)
-* [Specification](#specification)
-* [Query Endpoints](#query-endpoints)
-    * [Individuals endpoint](#individuals)
-      * [List of filters](#individuals-filters)
-      * [Filters description](#individuals-filters-description)
-      * [Example request & response](#individuals-example)
-      * [Understanding the response with ranges](#threshold-ranges)
-         * [Ranges example](#response-range-example)
-    * [Catalogs endpoint](#catalogs)
-      * [List of filters](#catalogs-filters)
-      * [Filters description](#catalogs-filters-description)
-      * [Example request & response](#catalogs-example)
-* [Authentication using Header(s)](#auth-header)
-* [Understanding the query](#understand-query)
-    * [Syntax & Usage of Beacon Query with Filters](#syntax-usage)
-        * [Multi-Filter (AND) query](#multi-and)
-        * [Same Filter (AND) query](#same-and)
-        * [Multi-Filter (OR) query using **Arrays**](#multi-or-arrays)
-    * [Partial query matches with warning messages](#warning-response-example)
-* [Informational Endpoints](#info-endpoints)
-* [Deprecated Filters](#deprecated-filters)
+* [Try out this API in Swagger](#-try-out-the-api-)
+* [Specification](#-specification-)
+* [Query Endpoints](#-query-endpoints-)
+    * [Individuals endpoint](#-individuals-endpoint)
+      * [List of filters](#-list-of-filters-and-permitted-values-for-the-individuals-endpoint-)
+      * [Filters description](#-individuals-filters-description-)
+      * [Example request & response](#-example-request-and-response-for-individuals-)
+    * [Biosamples endpoint](#-biosamples-endpoint)
+      * [List of filters](#-list-of-filters-and-permitted-values-for-the-biosamples-endpoint-)
+      * [Filters description](#-biosamples-filters-description-)
+      * [Example request & response](#-example-request-and-response-for-biosamples-)
+    * [Catalogs endpoint](#-catalogs-endpoint-)
+      * [List of filters](#-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-)
+      * [Filters description](#-catalogs-filters-description-)
+      * [Example request & response](#-example-request-and-response-for-catalogs-)
+* [Authentication using Header(s)](#-authentication-using-header-)
+* [Understanding the query](#-understanding-the-query)
+    * [Syntax & Usage of Beacon Query with Filters](#-syntax-and-usage)
+        * [Multi-Filter (AND) query](#beacon-queries-using-multiples-of-the-same-type-of-filter-and-logical-operator-between-filters)
+        * [Same Filter (AND) query](#beacon-queries-using-multiple-values-as-in-phenotype-or-disease-filters-or-logical-operator-between-filter-values)
+        * [Multi-Filter (OR) query using **Arrays**](#beacon-queries-using-multiples-of-the-same-type-of-filter-or-logical-operator-between-filters)
+    * [Partial query matches with warning messages](#partial-query-matches-with-warning-messages)
+* [Understanding the response with ranges (for /individuals and /biospecimens)](#-understanding-the-response-with-ranges-for-individuals-and-biospecimens)
+* [Informational Endpoints](#-informational-endpoints-)
+* [Deprecated Filters](#-deprecated-filters-)
 
 <hr>
  
-<h2 id="try-in-swagger"> Try out the API </h2>
+<h2 id="#-try-out-the-api-"> Try out the API </h2>
 
-Check out version 0.1 [here](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.1) and version 0.2 [here](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2).
-
-<hr>
-
-<h2 id="specification"> Specification </h2>
-
-The request and response conforms to the [Beacon Reference Framework](https://github.com/ga4gh-beacon/beacon-v2). This Specification defines two types of endpoints - **[The Query Endpoints](#query-endpoints)** and **[The Informational Endpoints](#info-endpoints)**. 
-
-[Informational Endpoints](#info-endpoints) are simple GET requests without needing a request body, and respond with information relavant to this Beacon Specification. These are: /info, /configuration, /entry_types, /filtering_terms and /map. A special /service-info endpoint (also a GET request), responds with metadata relevant to this Beacon using the [GA4GH ServiceInfo format](https://github.com/ga4gh-discovery/ga4gh-service-info/). 
-
-[Query Endpoints](#query-endpoints) require the requester to provide a JSON body and send request using the POST method. This document defines two query endpoints to query resources using filters - [/individuals](#individuals) & [/catalogs](#catalogs). 
+Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v2.0 
 
 <hr>
 
-<h2 id="query-endpoints"> Query Endpoints </h2>
+<h2 id="-specification-"> Specification </h2>
+
+The request and response conforms to the [Beacon Reference Framework](https://github.com/ga4gh-beacon/beacon-v2). This Specification defines two types of endpoints - **[The Query Endpoints](#-query-endpoints-)** and **[The Informational Endpoints](#-informational-endpoints-)**. 
+
+[Informational Endpoints](#-informational-endpoints-) are simple GET requests without needing a request body, and respond with information relavant to this Beacon Specification. These are: /info, /configuration, /entry_types, /filtering_terms and /map. A special /service-info endpoint (also a GET request), responds with metadata relevant to this Beacon using the [GA4GH ServiceInfo format](https://github.com/ga4gh-discovery/ga4gh-service-info/). 
+
+[Query Endpoints](#-query-endpoints-) require the requester to provide a JSON body and send request using the POST method. This document defines three query endpoints to query resources using filters - [/individuals](#-individuals-endpoint), [/biosamples](#-biosamples-endpoint) and [/catalogs](#-catalogs-endpoint-). 
+
+<hr>
+
+<h2 id="-query-endpoints-"> Query Endpoints </h2>
 
 This specification defines POST endpoints to request information about resources. Each endpoint makes use of the [Filters](http://docs.genomebeacons.org/filters/) capability of the Beacon API.
 
-<h3 id="individuals"> Individuals endpoint</h3>
+<h3 id="-individuals-endpoint"> Individuals endpoint</h3>
 
 > **HTTP Request Method : POST**
 
-[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/individuals_api_v0.2.yml) endpoint returns the **__maximum value of individuals within a specified range__** from a RD resource. Filters are provided as a part of the body while using a HTTP POST request to query resources. 
+[/individuals](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v0.3.yml) endpoint returns the **__maximum value of individuals within a specified range__** from a RD resource. Filters are provided as a part of the body while using a HTTP POST request to query resources. 
 
 Please **do not use HTTP GET method** to query the individuals endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
 
-<h4 id="individuals-filters"> List of filters and permitted values for the individuals endpoint </h4>
+<h4 id="-list-of-filters-and-permitted-values-for-the-individuals-endpoint-"> List of filters and permitted values for the individuals endpoint </h4>
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
@@ -165,7 +168,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 
 <hr>
 
-<h3 id="individuals-filters-description"> Individuals Filters Description </h3>
+<h3 id="-individuals-filters-description-"> Individuals Filters Description </h3>
 
 **Sex**: The biological sex of an individual patient.
 
@@ -181,15 +184,13 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 
 **Age at diagnosis**: Age at the diagnosis of a rare disease. For individuals with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource.
 
-**Available Materials**: A list of what material information is available about an **individual**.
-
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h3> An example request & response to query for individuals is shown below: </h3>
+<h3 id="-example-request-and-response-for-individuals-"> Example request and response for individuals </h3>
 
-<h5 id="individuals-example">EXAMPLE /individuals REQUEST </h5>
+**EXAMPLE /individuals REQUEST**
 
 ```JSON
 {
@@ -252,83 +253,195 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
   }
 }
 ```
+
 The "resultCount" attribute in the above response is the **maximum value of whatever range that result** is within, rather than giving out the actual count of individuals. More information on responding using ranges can be found [here](#ranges). 
 
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#individuals). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
 
+<h3 id="-biosamples-endpoint"> Biosamples endpoint</h3>
+
+> **HTTP Request Method : POST**
+
+Similarly to the `/individuals` endpoint, `/biosamples` endpoint returns the **__maximum value of biosamples within a specified range__** from an RD resource (usually the resource is a Biobank). Queries are performed in the same way as for `/individuals` endpoint, adding filters in the body of the request.
+
+Please **do not use HTTP GET method** to query the biosamples endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
+
+<h4 id="-list-of-filters-and-permitted-values-for-the-biosamples-endpoint-"> List of filters and permitted values for the biosamples endpoint </h4>
+
+> **Note**: Elements within arrays in **value** fields are treated as **ORs**
+
+<table>
+<thead>
+        <th>Concept</th>
+        <th>Ontological Term</th>
+        <th>Beacon Filter Type</th>
+        <th>ID</th>
+        <th>Operator</th>
+        <th>Permitted Values</th>
+</thead>
+<tbody>
+    <tr>
+        <td rowspan="5"><b>Sex</b></td>
+        <td rowspan="5">obo:NCIT_C28421</td>
+        <td rowspan="5">Alphanumerical</td>
+        <td rowspan="5">NCIT_C28421</td>
+        <td rowspan="5">=</td>
+        <td>NCIT_C16576</td>
+    </tr>
+    <tr><td>NCIT_C20197</td></tr>
+    <tr><td>NCIT_C124294</td></tr>
+    <tr><td>NCIT_C17998</td></tr>
+    <tr><td>An array of any of the above</td></tr>
+    <tr>
+        <td><b>Disease or Disorder</b></td>
+        <td>obo:NCIT_C2991</td>
+        <td>Ontology</td>
+        <td>A single value or an array of orphanet terms. <b>e.g. Orphanet_558 or [Orphanet_558, Orphanet_773]</b></td>
+        <td colspan="2">NA</td>
+    </tr>
+    <tr>
+        <td><b>Year of birth</b></td>
+        <td>obo:NCIT_C83164</td>
+        <td>Numerical</td>
+        <td>NCIT_C83164 </td>
+        <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
+        <td>any integer</td>
+    </tr>
+    <tr>
+        <td><b>Age at diagnosis</b></td>
+        <td>obo:NCIT_C156420</td>
+        <td>Numerical</td>
+        <td>NCIT_C156420</td>
+        <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
+        <td>any integer</td>
+    </tr>
+    <tr>
+        <td rowspan="20"><b>Biospecimen Type</b></td>
+        <td rowspan="20">obo:NCIT_C70713</td>
+        <td rowspan="20">Alphanumerical</td>
+        <td rowspan="20">NCIT_C70713</td>
+        <td rowspan="20">=</td>
+        <td>OBI_0000655 (blood specimen)</td>
+    </tr>
+    <tr><td>OBI_0002512 (bone marrow)</td></tr>
+    <tr><td>OBIB_0000036 (buffy coat)</td></tr>
+    <tr><td>CL_2000001 (peripheral blood mononuclear cell)</td></tr>
+    <tr><td>OBI_0100016 (blood plasma specime)</td></tr>
+    <tr><td>OBI_0100017 (blood serum)</td></tr>
+    <tr><td>UBERON_0007795 (ascites fluid)</td></tr>
+    <tr><td>OBI_0002502 (cerebrospinal fluid)</td></tr>
+    <tr><td>OBI_0002507 (saliva)</td></tr>
+    <tr><td>OBI_0002503 (feces)</td></tr>
+    <tr><td>OBI_0000651 (urine)</td></tr>
+    <tr><td>OBI_0002599 (swab)</td></tr>
+    <tr><td>OBI_2000009 (bodily fluid specimen)</td></tr>
+    <tr><td>OBI_1200000 (FFPE specimen)</td></tr>
+    <tr><td>OBI_0000922 (frozen specimen)</td></tr>
+    <tr><td>OBI_0001472 (specimen with known storage state)</td></tr>
+    <tr><td>OBI_0001051 (DNA extract)</td></tr>
+    <tr><td>OBI_0000880 (RNA extract)</td></tr>
+    <tr><td>OBI_0001479 (specimen from organism)</td></tr>
+    <tr><td>An array of any of the above</td></tr>    
+</tbody>
+</table>
+
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h3> Understanding the response: </h3>
+<h3 id="-biosamples-filters-description-"> Biosamples Filters Description </h3>
 
-<h5 id="threshold-ranges"> Responses based on ranges </h5>
+**Sex**: The biological sex of the person the biosample belongs to.
 
-In the above example of the response for the individuals endpoint, information of the resultant dataset matching the query is provided within the "**resultSets**" attribute. 
+**Disease or Disorder**: All rare diseases that have been diagnosed **from the biosample**, to encompase, but not distinguish between all levels of diagnosis such as definitive, differential, provisional, etc.,
 
-To provide flexibility for implementers between using a range, the "info" section of each resultant dataset in "resultSets" need to conform to the following standardised structure:
+**Year of birth**: The year of birth of the person who the biosample belongs to
 
-```
-"info": {
-   "resultCountDescription": {
-      "minRange": N,
-      "maxRange": N
-   },
-   "contactPoint": "Person/point of contact",
-   "contactEmail": "Email for contact regarding this dataset/resource", 
-   "contactURL": "URL of the implementer"
- }
-```
+**Age at diagnosis**: Age at the diagnosis of a rare disease. For biosamples with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource.
 
-> **Note**: Here, N is an integer where the implementer can respond with **"minRange" & "maxRange"** (if employing a range) - the maximum value of whatever range that result is within, whereupon the "maxRange" value should match the "resultCount" value and the "numTotalResults" value.
+**Biospecimen Type**: One or more biospecimen type. The list is a list of ontology terms taken from MIABIS
 
-<h3 id="response-range-example"> Example response employing a range: </h3>
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h3 id="-example-request-and-response-for-biosamples-"> Example request and response for biosamples </h3>
+
+**EXAMPLE /biosamples REQUEST**
 
 ```JSON
 {
-  "meta": {
-      "apiVersion": "v2.0",
-      "beaconId": "Responding unique Beacon ID in reverse domain name notation",
-      "returnedGranularity": "count"
-  },
-  "response": {
-     "resultSets": [
-      {
-         "id": "Vivify",
-         "type": "dataset", 
-         "exists": true,
-         "resultCount": 80,
-         "info": {
-            "resultCountDescription": {
-               "minRange": 71,
-               "maxRange": 80
-            },
-            "contactPoint": "admin",
-            "contactEmail": "admin@cafevariome.org", 
-            "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
-         }      
-      }
-    ]
-  },
-  "responseSummary":{
-    "exists": true,
-    "numTotalResults": 80
-  }
+    "meta": {
+        "apiVersion": "v2.0"
+    },
+    "query": {
+        "filters": [
+              {
+                "id": "Orphanet_34587"
+              },
+              {
+                "id": "obo:NCIT_C70713",
+                "operator": "=",
+                "value": "OBI_0000655"
+              }
+        ],
+        "requestedGranularity": "count"
+    }
 }
 ```
 
-In this example, the result could be a count of individuals between 71 to 80 (the resource only responds with ranges of size 10).
+**EXAMPLE /biosamples RESPONSE**
+
+
+```JSON
+{
+    "meta": {
+        "beaconId": "biobank beacon",
+        "apiVersion": "v2.0.0",
+        "returnedGranularity": "count",
+        "receivedRequestSummary": {
+            "apiVersion": "2.0",
+            "filters": [
+                {
+                    "id": "Orphanet_34587"
+                },
+                {
+                    "id": "obo:NCIT_C70713",
+                    "operator": "=",
+                    "value": "OBI_0000655"
+                }
+            ],
+            "requestedGranularity": "count",
+            "testMode": false
+        },
+        "returnedSchemas": [
+            {
+                "entityType": "biosample",
+                "schema": "beacon-biosample-v2.0.0",
+                "name": "Default schema for a biological sample",
+                "url": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2-Models/main/BEACON-V2-Model/biosamples/defaultSchema.json",
+                "version": "v2.0.0"
+            }
+        ]
+    },
+    "responseSummary": {
+        "exists": true,
+        "numTotalResults": 100
+    },
+}
+```
+Notes about the `resultCount` and the filters for the `/individuals` endpoint apply also for `biospecimens`
 
 [ ^ Back to the top](#top)
 
 <hr>
-<h3 id="catalogs"> Catalogs endpoint </h3>
+<h3 id="-catalogs-endpoint-"> Catalogs endpoint </h3>
 
 > Method: POST
 
 [/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
 
-<h4 id="catalogs-filters"> List of filters and permitted values for the catalogs endpoint </h4>
+<h4 id="-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-"> List of filters and permitted values for the catalogs endpoint </h4>
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
@@ -357,22 +470,17 @@ In this example, the result could be a count of individuals between 71 to 80 (th
         <td colspan="2">NA</td>
     </tr>
     <tr>
-        <td rowspan="4"><b>Resource Types</b></td>
-        <td rowspan="4">rdf:type</td>
-        <td rowspan="4">Alphanumerical</td>
-        <td rowspan="4">A single value or ana array of values representing a resource type of the resource. It must be one of the types defined in EJP Resource Metadata Schema</td>
-        <td rowspan="4">=</td>
+        <td rowspan="5"><b>Resource Types</b></td>
+        <td rowspan="5">rdf:type</td>
+        <td rowspan="5">Alphanumerical</td>
+        <td rowspan="5">A single value or an array of values representing a resource type of the resource. It must be one of the types defined in EJP Resource Metadata Schema</td>
+        <td rowspan="5">=</td>
         <td>ejprd:PatientRegistry</td>
     </tr>
-    <tr>
-        <td>ejprd:Biobank</td>
-    </tr>
-    <tr>
-        <td>ejprd:Guideline</td>
-    </tr>
-    <tr>
-        <td>dcat:Dataset</td>
-    </tr>
+    <tr><td>ejprd:Biobank</td></tr>
+    <tr><td>ejprd:Guideline</td></tr>
+    <tr><td>dcat:Dataset</td></tr>
+    <tr><td>An array of any of the above</td></tr>
     <tr>
         <td><b>ID</b></td> 
         <td>NA</td>
@@ -404,7 +512,7 @@ In this example, the result could be a count of individuals between 71 to 80 (th
 
 <hr>
 
-<h3 id="catalogs-filters-description"> Catalogs Filters Description </h3>
+<h3 id="-catalogs-filters-description-"> Catalogs Filters Description </h3>
 
 **Disease or Disorder**: All rare diseases that are associated **within a catalog**. It corresponds to the `dcat:theme` property of the Resource Metadata Schema. The values follow CURIE syntax and use the `ordo:` prefix.
 
@@ -416,7 +524,7 @@ In this example, the result could be a count of individuals between 71 to 80 (th
 
 **Description**: The description of the resource in the **catalog**. It corresponds to the `dct:description` property of the Resource Metadata Schema
 
-**Organisation**: The organisation of the resource in the **catalog**. 
+**Organisation**: The organisation that owns the resouce. It corresponds to the dct:publisher property. 
 
 **Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are the type of resources in the Resource Metadata Schema:  `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Datasest` or an array of any of these values.
 
@@ -426,7 +534,7 @@ In this example, the result could be a count of individuals between 71 to 80 (th
 
 <h3 id="catalogs-response">Catalogs Response</h3>
 
-The response is a Beacon Collection response that correspond to a Resource described by the Resource Metadata Schema. Depending on the resource type, the properties may slighlty differ: for example some resource types can have properties that others don't have. Notice that an important field in all resources is the `@context` that specifies the semantics of the properties returned. It must be the [link](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json) to the `json-ld-contexts/ejprd-context.json` file  in this repository. The schemas for each specific resource are in teh `/schemas` directory.
+The response is a Beacon Collection response that corresponds to a Resource described by the Resource Metadata Schema. Depending on the resource type, the properties may slighlty differ: for example some resource types can have properties that others don't have. Notice that an important field in all resources is the `@context` that specifies the semantics of the properties returned. It must be the [link](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json) to the `json-ld-contexts/ejprd-context.json` file  in this repository. The schemas for each specific resource are in the `/schemas` directory.
 In the meta section of the response, the `returnedSchemas` object must specify the correct json schema for the resource. An example is:
 
 ```JSON
@@ -435,15 +543,15 @@ In the meta section of the response, the `returnedSchemas` object must specify t
         "entityType": "resources",
         "schema": "ejprd-biobank-registry-v1.0.0",
         "name": "EJPRD schema for biobank and patient registry",
-        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/schemas/biobank-registry-schema.json",
+        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/biobank-registry-schema.json",
         "version": "v1.0.0"
     }
 ]
 ```
 
-<h3> An example request & response to query for resources via the /catalogs endpoint is shown below. </h3>
+<h3 id="-example-request-and-response-for-catalogs-"> Example request and response for catalogs </h3>
 
-<h5 id="catalogs-example"> EXAMPLE /catalogs REQUEST </h5>
+**EXAMPLE /catalogs REQUEST**
 
 ```JSON
 { 
@@ -504,7 +612,7 @@ The following is an example response
                 "entityType": "resources",
                 "schema": "ejprd-resources-v1.0.0",
                 "name": "EJPRD schema for resources",
-                "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/schemas/biboank-registry-schema.json",
+                "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/biobank-registry-schema.json",
                 "version": "v1.0.0"
             }
         ]
@@ -519,26 +627,26 @@ The following is an example response
             {
                 "resultsCount": 1,
                 "results": [{
-                    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/versions/json-ld-contexts/ejprd-context.json",
+                    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
                     "@id": "biobank-1:collection:collection-1",
                     "@type": "ejprd:Biobank",
                     "title": "Rare Disease Biobank",
-                    "logo": "http://raredisease.biobanl.eu/logo.png",
+                    "logo": "http://raredisease.biobank.eu/logo.png",
                     "description": "Rare disease biobank with data about muscular distrophy",
                     "populationCoverage": "European",
                     "theme": "ordo:Orphanet_730",
                     "vpConnection": "ejprd:VPContentDiscovery",
-                    "landingPage": "http://biobank.raredisease.org",
+                    "landingPage": ["http://biobank.raredisease.org"],
                     "personalData": "true",
+                    "language": "EN",
                     "publisher": {
+                        "@id": "biobank-1",
                         "title": "Biobank hosting collection",
                         "description": "The biobank that hosts the collection",
-                        "location": {
-                            "title": "Italy Cagliari",
-                            "description": "Via Mario Rossi"
+                        "spatial": {
+                            "title": "Italy"
                         }
-                    },
-                    "language": "EN"
+                    }
                 }]
             }
         ]
@@ -550,7 +658,7 @@ The following is an example response
 
 <hr>
 
-<h2 id="auth-header"> Authentication using Header </h2>
+<h2 id="-authentication-using-header-"> Authentication using Header </h2>
 
 Since the specification allows for record level queries of individuals, additional information is required in the request header to verify the requester is authorised:
 
@@ -571,15 +679,15 @@ Since the specification allows for record level queries of individuals, addition
 
 > **Note:** Implementers can provide distinct auth-keys to each requester or a single auth-key to all requesters.
 
-To see this live in action in Swagger UI, see [Authentication in Swagger](#swagger-auth).
+To see this live in action in Swagger UI, see [Authentication in Swagger](#-authentication-using-header-for-swagger-).
 
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h2 id="understand-query"> Understanding the query </h2>
+<h2 id="-understanding-the-query-"> Understanding the query </h2>
 
-<h3 id="syntax-usage"> Syntax & Usage: </h3>
+<h3 id="-syntax-and-usage-"> Syntax and Usage: </h3>
 
 > Method: POST
 
@@ -628,7 +736,7 @@ These usage rules are illustrated using a general syntax as below:
 
 As shown above, different types of filters can be sent in a single query. These are further elucidated below. 
 
-<h4 id="multi-and"> Beacon queries using multiple filters (AND logical operator between filters):</h4>
+<h4 id="beacon-queries-using-multiples-of-the-same-type-of-filter-and-logical-operator-between-filters"> Beacon queries using multiple filters (AND logical operator between filters):</h4>
 
 ```JSON
 {
@@ -654,7 +762,7 @@ This filter is asking for individuals that have been diagnosed with Danon diseas
 
 <hr>
 
-<h4 id="same-and">Beacon queries using multiples of the same type of filter (AND logical operator between filters):</h4>
+<h4 id="beacon-queries-using-multiple-values-as-in-phenotype-or-disease-filters-and-logical-operator-between-filter-values">Beacon queries using multiples of the same type of filter (AND logical operator between filters):</h4>
 
 To query for individuals with more than one instance of any of the filters you can send multiple of the same filter, such as in the below example:
 
@@ -704,7 +812,7 @@ This query is looking if there are any individuals with RNA sequence information
 
 <hr>
 
-<h4 id="multi-or-arrays">Beacon queries using multiple values as in phenotype or disease filters (OR logical operator between filter values):</h4>
+<h4 id="beacon-queries-using-multiples-of-the-same-type-of-filter-or-logical-operator-between-filters">Beacon queries using multiples of the same type of filter (OR logical operator between filters):</h4>
 
 > Ontology Filter using Array Example:
 
@@ -728,13 +836,13 @@ All of the defined filters are optional, the user can provide as many or as few 
 
 If a user sends a query with a filter not supported by a resource, then the resource should complete the query but ignore the unsupported filter(s) and respond as usual, but with a warning noting that certain filters were ignored as they are unsupported.
 
-The warning messages will be provided within the ['info' section](#warning-response-example) of the Beacon.
+The warning messages will be provided within the [`info`](#partial-query-matches-with-warning-messages)  section of the Beacon.
 
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h2 id="warning-response-example"> Partial Request & Response with warning message Example </h2>
+<h2 id="partial-query-matches-with-warning-messages"> Partial Request & Response with warning message Example </h2>
 
 **EXAMPLE REQUEST**
 
@@ -812,11 +920,74 @@ This request is sent to a resource which does not hold information about causati
 
 This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine. Please see the info part of the [IndividualResponse](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/IndividualResponse) schema on swagger. 
 
+
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h2 id="info-endpoints"> Informational Endpoints </h2>
+<h2 id="-understanding-the-response-with-ranges-for-individuals-and-biospecimens"> Understanding the response with ranges (for /individuals and /biospecimens)</h2>
+
+In the examples of the response for the `/individuals` and `/biosamples` endpoints, information of the resultant dataset matching the query is provided within the **`resultSets`** attribute. 
+
+To provide flexibility for implementers between using a range, the `info` section of each resultant dataset in `resultSets` need to conform to the following standardised structure:
+
+```JSON
+"info": {
+   "resultCountDescription": {
+      "minRange": N,
+      "maxRange": N
+   },
+   "contactPoint": "Person/point of contact",
+   "contactEmail": "Email for contact regarding this dataset/resource", 
+   "contactURL": "URL of the implementer"
+}
+```
+
+> **Note**: Here, N is an integer where the implementer can respond with **"minRange" & "maxRange"** (if employing a range) - the maximum value of whatever range that result is within, whereupon the "maxRange" value should match the "resultCount" value and the "numTotalResults" value.
+
+**Example response employing a range:**
+
+```JSON
+{
+  "meta": {
+      "apiVersion": "v2.0",
+      "beaconId": "Responding unique Beacon ID in reverse domain name notation",
+      "returnedGranularity": "count"
+  },
+  "response": {
+     "resultSets": [
+      {
+         "id": "Vivify",
+         "type": "dataset", 
+         "exists": true,
+         "resultCount": 80,
+         "info": {
+            "resultCountDescription": {
+               "minRange": 71,
+               "maxRange": 80
+            },
+            "contactPoint": "admin",
+            "contactEmail": "admin@cafevariome.org", 
+            "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+         }      
+      }
+    ]
+  },
+  "responseSummary":{
+    "exists": true,
+    "numTotalResults": 80
+  }
+}
+```
+
+In this example, the result could be a count of individuals between 71 to 80 (the resource only responds with ranges of size 10).
+
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h2 id="-informational-endpoints-"> Informational Endpoints </h2>
 
 > **HTTP Request Method : GET**
 
@@ -831,7 +1002,7 @@ Get Beacon Configuration.
 ##### /entry_types: 
 Get list of entry types in this Beacon.
 ##### /filtering_terms: 
-Get information about available individual filtters for this beacon's entry types.
+Get information about available individual filters for this beacon's entry types.
 ##### /map: 
 Get the Beacon map with information related to the list of endpoints included in this Beacon instance.
 
@@ -839,100 +1010,6 @@ Get the Beacon map with information related to the list of endpoints included in
 
 <hr>
 
-<h2 id="deprecated-filters"> Deprecated Filters </h2>
-
-These filters are currently supported, but will be removed from from future versions of this specification
-
-<table>
-<thead>
-  <tr>
-    <th>Filter name</th>
-    <th>Type term</th>
-    <th>Permitted values</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td rowspan="4">Sex</td>
-    <td rowspan="4">obo:NCIT_C28421</td>
-    <td>obo:NCIT_C16576</td>
-  </tr>
-  <tr>
-    <td>obo:NCIT_C20197</td>
-  </tr>
-  <tr>
-    <td>obo:NCIT_C124294</td>
-  </tr>
-  <tr>
-    <td>obo:NCIT_C17998</td>
-  </tr>
-  <tr>
-    <td>Diagnosis of the rare<br />disease</td>
-    <td>sio:SIO_001003</td>
-    <td>Any orphanet term. <b>e.g. ordo:Orphanet_558</b></td>
-  </tr>
-  <tr>
-    <td>Phenotype</td>
-    <td>sio:SIO_010056</td>
-    <td>Any hpo term. <b>e.g. obo:HP_0001251</b></td>
-  </tr>
-  <tr>
-    <td>Causative genes</td>
-    <td>obo:NCIT_C16612</td>
-    <td>any HGNC gene symbol</td>
-  </tr>
-  <tr>
-    <td>Age this year</td>
-    <td>obo:NCIT_C25150</td>
-    <td>any integer</td>
-  </tr>
-  <tr>
-    <td>Age at disease manifestation</td>
-    <td>efo:EFO_0004847</td>
-    <td>any integer</td>
-  </tr>
-  <tr>
-    <td>Age at diagnosis</td>
-    <td>obo:NCIT_C156420</td>
-    <td>any integer</td>
-  </tr>
-  <tr>
-    <td rowspan="9">Available materials</td>
-    <td rowspan="9"></td>
-        <td>Whole Genome Sequence</td>
-  </tr>
-  <tr>
-    <td>Whole Exome Sequence</td>
-  </tr>
-  <tr>
-    <td>Exome panel sequence</td>
-  </tr>
-  <tr>
-    <td>RNA sequence</td>
-  </tr>
-  <tr>
-    <td>methylomics</td>
-  </tr>
-  <tr>
-    <td>Epigenomics</td>
-  </tr>
-  <tr>
-    <td>Pedigree data</td>
-  </tr>
-  <tr>
-    <td>Clinical data</td>
-  </tr>
-  <tr>
-    <td>Biosamples</td>
-  </tr>
-</tbody>
-</table>
-
-> **Note**: '**Available Materials**' is currently deprecated, but we anticipate that this will be included in the query endpoints in later versions. 
-
-[ ^ Back to the top](#top)
-
-<hr>
 
 <h2 id="swagger-auth"> Authentication using Header for Swagger </h2>
 
