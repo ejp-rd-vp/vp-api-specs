@@ -38,7 +38,7 @@ In this work, we present API specification for querying RD patient registries, b
  
 <h2 id="#-try-out-the-api-"> Try out the API </h2>
 
-Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v2.0 
+Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/ 
 
 <hr>
 
@@ -447,7 +447,7 @@ Notes about the `resultCount` and the filters for the `/individuals` endpoint ap
 
 > Method: POST
 
-[/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
+[/catalogs](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
 
 <h4 id="-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-"> List of filters and permitted values for the catalogs endpoint </h4>
 
@@ -926,7 +926,7 @@ This request is sent to a resource which does not hold information about causati
 }
 ```
 
-This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine. Please see the info part of the [IndividualResponse](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/IndividualResponse) schema on swagger. 
+This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine. Please see the info part of the [IndividualResponse](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/IndividualResponse) schema on swagger. 
 
 
 [ ^ Back to the top](#top)
@@ -995,28 +995,6 @@ In this example, the result could be a count of individuals between 71 to 80 (th
 
 <hr>
 
-<h2 id="-informational-endpoints-"> Informational Endpoints </h2>
-
-> **HTTP Request Method : GET**
-
-The following endpoints respond with basic information related to this Beacon Implementation.
-
-##### /info: 
-Get information about the Beacon.
-##### /service-info: 
-Get this Beacon's basic metadata concerning its service, based on the [reference specification](https://github.com/ga4gh-discovery/ga4gh-service-info/).
-##### /configuration: 
-Get Beacon Configuration.
-##### /entry_types: 
-Get list of entry types in this Beacon.
-##### /filtering_terms: 
-Get information about available individual filters for this beacon's entry types.
-##### /map: 
-Get the Beacon map with information related to the list of endpoints included in this Beacon instance.
-
-[ ^ Back to the top](#top)
-
-<hr>
 
 
 <h2 id="-informational-endpoints-"> Informational Endpoints </h2>
@@ -1073,7 +1051,7 @@ This specification defines GET endpoints to request information about resources.
 
 [/service-info](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the basic metadata concerning its service, based on the [reference specification](https://github.com/ga4gh-discovery/ga4gh-service-info/).
 
-<h3 id="-example-request-and-response-for-service-info"> Example request and response for service-info </h3>
+<h3 id="-example-request-and-response-for-service-info"> Example response for service-info </h3>
 
 
 
@@ -1106,7 +1084,7 @@ This specification defines GET endpoints to request information about resources.
 
 [/configuration](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
 
-<h3 id="-example-request-and-response-for-configuration"> Example request and response for service-info </h3>
+<h3 id="-example-request-and-response-for-configuration"> Example response for service-info </h3>
 
 
 
@@ -1171,7 +1149,7 @@ This specification defines GET endpoints to request information about resources.
 
 [/entry-types](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
 
-<h3 id="example-request-and-response-for-entry-types"> Example request and response for entry-types </h3>
+<h3 id="example-request-and-response-for-entry-types"> Example response for entry-types </h3>
 
 
 
@@ -1231,7 +1209,7 @@ This specification defines GET endpoints to request information about resources.
 
 [/filtering_terms](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
 
-<h3 id="example-request-and-response-for-filtering_terms"> Example request and response for filtering_terms </h3>
+<h3 id="example-request-and-response-for-filtering_terms"> Example response for filtering_terms </h3>
 
 
 
