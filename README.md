@@ -266,6 +266,92 @@ The "resultCount" attribute in the above response is the **maximum value of what
 
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#individuals). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
 
+**EXAMPLE warning when unsupported filters are requested**
+
+
+```JSON
+ {
+    "meta": {
+        "beaconId": "org.rd-connect.beacon",
+        "apiVersion": "v2.0.0-draft.4",
+        "returnedGranularity": "count",
+        "receivedRequestSummary": {
+            "apiVersion": "v2.0",
+            "requestedSchemas": [
+                {
+                    "entityType": "individuals",
+                    "schema": "beacon-individual-v2.0.0-draft.4"
+                }
+            ],
+            "filters": [
+                [
+                    {
+                        "id": [
+                            "Orphanet_730",
+                            "Orphanet_2730"
+                        ]
+                    },
+                    {
+                        "id": "NCIT_C28421",
+                        "operator": "=",
+                        "value": "NCIT_C20197"
+                    },
+                    {
+                        "id": "data_2295",
+                        "operator": "=",
+                        "value": "100"
+                    },
+                    {
+                        "id": "NCIT_C83164",
+                        "operator": ">=",
+                        "value": "0"
+                    },
+                    {
+                        "id": "NCIT_C124353",
+                        "operator": ">=",
+                        "value": "0"
+                    },
+                    {
+                        "id": "NCIT_C156420",
+                        "operator": ">=",
+                        "value": "0"
+                    }
+                ]
+            ]
+        },
+        "returnedSchemas": [
+            {
+                "entityType": "individuals",
+                "schema": "beacon-individual-v2.0.0-draft.4"
+            }
+        ]
+    },
+    "responseSummary": {
+        "exists": false,
+        "numTotalResults": 0
+    },
+    "info": {
+        "warnings": {
+            "unsupportedFilters": [
+                "NCIT_C83164",
+                "NCIT_C124353",
+                "NCIT_C156420"
+            ]
+        }
+    },
+    "response": {
+        "resultSets": [
+            {
+                "id": "datasetBeacon",
+                "type": "individuals",
+                "exists": false,
+                "resultCount": 0
+            }
+        ]
+    }
+}
+```
+
 <h3 id="-biosamples-endpoint"> Biosamples endpoint</h3>
 
 > **HTTP Request Method : POST**
