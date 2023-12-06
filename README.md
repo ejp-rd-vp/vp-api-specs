@@ -32,13 +32,13 @@ In this work, we present API specification for querying RD patient registries, b
     * [Partial query matches with warning messages](#partial-query-matches-with-warning-messages)
 * [Understanding the response with ranges (for /individuals and /biospecimens)](#-understanding-the-response-with-ranges-for-individuals-and-biospecimens)
 * [Informational Endpoints](#-informational-endpoints-)
-* [Deprecated Filters](#-deprecated-filters-)
+
 
 <hr>
  
 <h2 id="#-try-out-the-api-"> Try out the API </h2>
 
-Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v2.0 
+Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/ 
 
 <hr>
 
@@ -52,7 +52,7 @@ The request and response conforms to the [Beacon Reference Framework](https://gi
 
 <hr>
 
-<h2 id="-query-endpoints-"> Query Endpoints </h2>
+<h2 id="-query-endpoints-"> Query Endpoints ( Mandatory to implement atleast one of the query endpoints) </h2>
 
 This specification defines POST endpoints to request information about resources. Each endpoint makes use of the [Filters](http://docs.genomebeacons.org/filters/) capability of the Beacon API.
 
@@ -258,6 +258,92 @@ The "resultCount" attribute in the above response is the **maximum value of what
 
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#individuals). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
 
+**EXAMPLE warning when unsupported filters are requested**
+
+
+```JSON
+ {
+    "meta": {
+        "beaconId": "org.rd-connect.beacon",
+        "apiVersion": "v2.0.0-draft.4",
+        "returnedGranularity": "count",
+        "receivedRequestSummary": {
+            "apiVersion": "v2.0",
+            "requestedSchemas": [
+                {
+                    "entityType": "individuals",
+                    "schema": "beacon-individual-v2.0.0-draft.4"
+                }
+            ],
+            "filters": [
+                [
+                    {
+                        "id": [
+                            "Orphanet_730",
+                            "Orphanet_2730"
+                        ]
+                    },
+                    {
+                        "id": "NCIT_C28421",
+                        "operator": "=",
+                        "value": "NCIT_C20197"
+                    },
+                    {
+                        "id": "data_2295",
+                        "operator": "=",
+                        "value": "100"
+                    },
+                    {
+                        "id": "NCIT_C83164",
+                        "operator": ">=",
+                        "value": "0"
+                    },
+                    {
+                        "id": "NCIT_C124353",
+                        "operator": ">=",
+                        "value": "0"
+                    },
+                    {
+                        "id": "NCIT_C156420",
+                        "operator": ">=",
+                        "value": "0"
+                    }
+                ]
+            ]
+        },
+        "returnedSchemas": [
+            {
+                "entityType": "individuals",
+                "schema": "beacon-individual-v2.0.0-draft.4"
+            }
+        ]
+    },
+    "responseSummary": {
+        "exists": false,
+        "numTotalResults": 0
+    },
+    "info": {
+        "warnings": {
+            "unsupportedFilters": [
+                "NCIT_C83164",
+                "NCIT_C124353",
+                "NCIT_C156420"
+            ]
+        }
+    },
+    "response": {
+        "resultSets": [
+            {
+                "id": "datasetBeacon",
+                "type": "individuals",
+                "exists": false,
+                "resultCount": 0
+            }
+        ]
+    }
+}
+```
+
 <h3 id="-biosamples-endpoint"> Biosamples endpoint</h3>
 
 > **HTTP Request Method : POST**
@@ -439,7 +525,7 @@ Notes about the `resultCount` and the filters for the `/individuals` endpoint ap
 
 > Method: POST
 
-[/catalogs](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
+[/catalogs](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
 
 <h4 id="-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-"> List of filters and permitted values for the catalogs endpoint </h4>
 
@@ -918,7 +1004,7 @@ This request is sent to a resource which does not hold information about causati
 }
 ```
 
-This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine. Please see the info part of the [IndividualResponse](https://app.swaggerhub.com/apis/VM172_1/vp_individuals/v0.2#/IndividualResponse) schema on swagger. 
+This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine. Please see the info part of the [IndividualResponse](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/IndividualResponse) schema on swagger. 
 
 
 [ ^ Back to the top](#top)
@@ -987,29 +1073,335 @@ In this example, the result could be a count of individuals between 71 to 80 (th
 
 <hr>
 
-<h2 id="-informational-endpoints-"> Informational Endpoints </h2>
+
+
+<h2 id="-informational-endpoints-"> Informational Endpoints (Mandatory to be implemented for all the resources )</h2>
+
+This specification defines GET endpoints to request information about resources.
+
+<h3 id="-info-endpoint"> Info endpoint</h3>
 
 > **HTTP Request Method : GET**
 
-The following endpoints respond with basic information related to this Beacon Implementation.
+[/info](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
 
-##### /info: 
-Get information about the Beacon.
-##### /service-info: 
-Get this Beacon's basic metadata concerning its service, based on the [reference specification](https://github.com/ga4gh-discovery/ga4gh-service-info/).
-##### /configuration: 
-Get Beacon Configuration.
-##### /entry_types: 
-Get list of entry types in this Beacon.
-##### /filtering_terms: 
-Get information about available individual filters for this beacon's entry types.
-##### /map: 
-Get the Beacon map with information related to the list of endpoints included in this Beacon instance.
+<h3 id="-example-request-and-response-for-info-"> Example response for info </h3>
+
+
+
+
+
+```JSON
+{
+    "meta": {
+        "beaconId": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
+        "apiVersion": "v2.0",
+        "returnedSchemas": {
+            "entityType": "Info Endpoint",
+            "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/endpoints.json"
+        }
+    },
+    "response": {
+        "id": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
+        "name": "Cafe Variome Beacon",
+        "apiVersion": "v2.0",
+        "createDateTime": "2021-02-03 15:07 BST",
+        "updateDateTime": "2022-10-05 17:18 BST",
+        "description": "This Beacon is based on the Beacon specification by GA4GH. Implemented by The Brookeslab @ University of Leicester, this Beacon contains all informational endpoints along with individuals and biosamples discovery.",
+        "environment": "dev",
+        "organization": {
+            "id": "ULEIC",
+            "name": "University of Leicester",
+            "address": "University Road, Leicester, LE1 7RH",
+            "contactUrl": "mailto:admin@cafevariome.org?subject=Beacon Info",
+            "logoUrl": "https://rdnexusdev.molgeniscloud.org/cv2/resources/images/logos/cafevariome-logo-full.png",
+            "welcomeUrl": "https://le.ac.uk/health-data-research/",
+            "description": "Cafe Variome is a flexible data discovery software. Cafe Variome + Beacon makes discovering genomic data easier."
+        },
+        "welcomeUrl": "https://www.cafevariome.org/",
+        "alternativeUrl": "https://le.ac.uk/health-data-research/activities/"
+    }
+}
+```
+<h3 id="service-info-endpoint"> Service-info endpoint</h3>
+
+> **HTTP Request Method : GET**
+
+[/service-info](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the basic metadata concerning its service, based on the [reference specification](https://github.com/ga4gh-discovery/ga4gh-service-info/).
+
+<h3 id="-example-request-and-response-for-service-info"> Example response for service-info </h3>
+
+
+
+
+```JSON
+{
+    "id": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
+    "name": "Cafe Variome Beacon",
+    "type": {
+        "artifact": "beacon",
+        "group": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
+        "version": "v2.0"
+    },
+    "organization": {
+        "name": "University of Leicester",
+        "url": "https://www.le.ac.uk"
+    },
+    "contactUrl": "mailto:admin@cafevariome.org?subject=Beacon Service Info",
+    "createdAt": "2021-02-03 15:07 BST",
+    "updatedAt": "2022-10-06 11:56 BST",
+    "description": "This service provides information about Beacon deployed by Cafe Variome Software.",
+    "documentationUrl": "https://cafe-variome.gitbook.io/cafe-variome-docs/features/beacon/beacon-api",
+    "environment": "dev",
+    "version": "v2.0"
+}
+```
+<h3 id="configuration-endpoint">Configuration</h3>
+
+> **HTTP Request Method : GET**
+
+[/configuration](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
+
+<h3 id="-example-request-and-response-for-configuration"> Example response for service-info </h3>
+
+
+
+```JSON
+{
+    "meta": {
+        "beaconId": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
+        "apiVersion": "v2.0",
+        "returnedSchemas": [
+            {
+                "entityType": "individuals",
+                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/individuals/defaultSchema.json"
+            },
+            {
+                "entityType": "biosamples",
+                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/biosamples/defaultSchema.json"
+            }
+        ]
+    },
+    "response": {
+        "$schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/framework/json/configuration/beaconConfigurationSchema.json",
+        "entryTypes": {
+            "Individuals": {
+                "id": "Individuals",
+                "name": "Individuals",
+                "ontologyTermForThisType": {
+                    "id": "NCIT:C25190"
+                },
+                "partOfSpecification": "v2.0",
+                "defaultSchema": {
+                    "id": "beacon-v2-individual",
+                    "name": "Default Schema for Individuals",
+                    "referenceToSchemaDefinition": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/individuals/defaultSchema.json"
+                }
+            },
+            "Biosamples": {
+                "id": "Biosamples",
+                "name": "Biosamples",
+                "ontologyTermForThisType": {
+                    "id": "NCIT:C43412"
+                },
+                "partOfSpecification": "v2.0",
+                "defaultSchema": {
+                    "id": "beacon-v2-biosample",
+                    "name": "Default Schema for Biosamples",
+                    "referenceToSchemaDefinition": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/biosamples/defaultSchema.json"
+                }
+            }
+        },
+        "maturityAttributes": {
+            "productionStatus": "DEV"
+        },
+        "securityAttributes": {
+            "defaultGranularity": "count"
+        }
+    }
+}
+```
+<h3 id="entry-types-endpoint">Entry-types</h3>
+
+> **HTTP Request Method : GET**
+
+[/entry-types](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
+
+<h3 id="example-request-and-response-for-entry-types"> Example response for entry-types </h3>
+
+
+
+
+
+```JSON
+{
+    "meta": {
+        "beaconId": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
+        "apiVersion": "v2.0",
+        "returnedSchemas": [
+            {
+                "entityType": "individuals",
+                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/individuals/defaultSchema.json"
+            },
+            {
+                "entityType": "biosamples",
+                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/biosamples/defaultSchema.json"
+            }
+        ]
+    },
+    "response": {
+        "entryTypes": {
+            "Individuals": {
+                "id": "Individuals",
+                "name": "Individuals",
+                "ontologyTermForThisType": {
+                    "id": "NCIT:C25190"
+                },
+                "partOfSpecification": "v2.0",
+                "defaultSchema": {
+                    "id": "beacon-v2-individual",
+                    "name": "Default Schema for Individuals",
+                    "referenceToSchemaDefinition": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2-Models/main/BEACON-V2-draft4-Model/individuals/defaultSchema.json"
+                }
+            },
+            "Biosamples": {
+                "id": "Biosamples",
+                "name": "Biosamples",
+                "ontologyTermForThisType": {
+                    "id": "NCIT:C43412"
+                },
+                "partOfSpecification": "v2.0",
+                "defaultSchema": {
+                    "id": "beacon-v2-biosample",
+                    "name": "Default Schema for Biosamples",
+                    "referenceToSchemaDefinition": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/biosamples/defaultSchema.json"
+                }
+            }
+        }
+    }
+}
+```
+<h3 id="filtering_terms-endpoint">Filtering_terms</h3>
+
+> **HTTP Request Method : GET**
+
+[/filtering_terms](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
+
+<h3 id="example-request-and-response-for-filtering_terms"> Example response for filtering_terms </h3>
+
+
+
+
+
+```JSON
+{
+    "meta": {
+        "beaconId": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
+        "apiVersion": "v2.0",
+        "returnedSchemas": [
+            {
+                "entityType": "individuals",
+                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/individuals/defaultSchema.json"
+            },
+            {
+                "entityType": "biosamples",
+                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/biosamples/defaultSchema.json"
+            }
+        ]
+    },
+    "response": {
+        "filteringTerms": [
+            {
+                "id": "NCIT_C28421",
+                "label": "Sex. Permitted values: NCIT_C16576, NCIT_C20197, NCIT_C124294, NCIT_C17998",
+                "type": "alphanumeric"
+            },
+            {
+                "id": "A single value or an array of orphanet terms.",
+                "label": "Disease or disorder",
+                "type": "ontology"
+            },
+            {
+                "id": "A single value or an array of HPO terms.",
+                "label": "Phenotype",
+                "type": "ontology"
+            },
+            {
+                "id": "data_2295",
+                "label": "Causative genes. Permitted values: any HGNC gene symbol",
+                "type": "alphanumeric"
+            },
+            {
+                "id": "NCIT_C83164",
+                "label": "Age this year",
+                "type": "numeric"
+            },
+            {
+                "id": "NCIT_C124353",
+                "label": "Symptom Onset",
+                "type": "numeric"
+            },
+            {
+                "id": "NCIT_C156420",
+                "label": "Age at diagnosis",
+                "type": "numeric"
+            },
+            {
+                "id": "Available Materials",
+                "label": "Available materials",
+                "type": "alphanumeric"
+            }
+        ]
+    }
+}
+```
+
+<h3 id="map-endpoint">Map</h3>
+
+> **HTTP Request Method : GET**
+
+[/map](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information related to the list of endpoints included in this Beacon instance.
+
+<h3 id="example-request-and-response-for-map"> Example response for map </h3>
+
+
+
+```JSON
+{
+    "meta": {
+        "beaconId": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
+        "apiVersion": "v2.0",
+        "returnedSchemas": [
+            {
+                "entityType": "individuals",
+                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/individuals/defaultSchema.json"
+            },
+            {
+                "entityType": "biosamples",
+                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/biosamples/defaultSchema.json"
+            }
+        ]
+    },
+    "response": {
+        "$schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/framework/json/configuration/beaconMapSchema.json",
+        "endpointSets": {
+            "Individuals": {
+                "entryType": "Individuals",
+                "rootUrl": "https://rdnexusdev.molgeniscloud.org/cv2/BeaconAPI/Individuals",
+                "filteringTermsUrl": "https://rdnexusdev.molgeniscloud.org/cv2/resources/beacon/filtering_terms.json"
+            },
+            "Biosamples": {
+                "entryType": "Biosamples",
+                "rootUrl": "https://rdnexusdev.molgeniscloud.org/cv2/BeaconAPI/Biosamples"
+            }
+        }
+    }
+}
+```
 
 [ ^ Back to the top](#top)
 
 <hr>
-
 
 <h2 id="swagger-auth"> Authentication using Header for Swagger </h2>
 
