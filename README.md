@@ -52,7 +52,7 @@ The request and response conforms to the [Beacon Reference Framework](https://gi
 
 <hr>
 
-<h2 id="-query-endpoints-"> Query Endpoints </h2>
+<h2 id="-query-endpoints-"> Query Endpoints ( Mandatory to implement atleast one of the query endpoints) </h2>
 
 This specification defines POST endpoints to request information about resources. Each endpoint makes use of the [Filters](http://docs.genomebeacons.org/filters/) capability of the Beacon API.
 
@@ -76,7 +76,6 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <th>ID</th>
         <th>Operator</th>
         <th>Permitted Values</th>
-        <th>Supported On</th>
 </thead>
 <tbody>
     <tr>
@@ -98,7 +97,6 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td>
             NCIT_C16576
         </td>
-        <td colspan="2">ERKNET, Solve-RD, CHD7-PUBLIC, GPAP Real </td>
     </tr>
     <tr>
         <td>
@@ -126,7 +124,6 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td>Ontology</td>
         <td>A single value or an array of orphanet terms. <b>e.g. Orphanet_558 or [Orphanet_558, Orphanet_773]</b></td>
         <td colspan="2">NA</td>
-         <td colspan="2">ERKNET, Solve-RD, CHD7-PUBLIC, GPAP Real </td>
     </tr>
     <tr>
         <td><b>Phenotype</b></td>
@@ -134,7 +131,6 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td>Ontology</td>
         <td>A single value or an array of HPO terms. <b>e.g. HP_0001251 or [HP_0001251, HP_0012250]</b></td>
         <td colspan="2">NA</td>
-        <td colspan="2">ERKNET, Solve-RD, CHD7-PUBLIC, GPAP Real </td>
     </tr>
     <tr>
         <td><b>Causative Genes</b></td>
@@ -143,7 +139,6 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td>data_2295 </td>
         <td>=</td>
         <td>any HGNC gene symbol or array of HGNC symbols</td>
-        <td colspan="2">ERKNET, Solve-RD, CHD7-PUBLIC, GPAP Real </td>
     </tr>
     <tr>
       <td><b>Age this year</b></td><td>obo:NCIT_C83164</td>
@@ -151,7 +146,6 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td>NCIT_C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
-        <td colspan="2">ERKNET, Solve-RD</td>
     </tr>
     <tr>
       <td><b>Symptom Onset</b></td><td>obo:NCIT_C124353</td>
@@ -159,7 +153,6 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td>NCIT_C124353</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
-        <td colspan="2">ERKNET</td>
     </tr>
     <tr>
       <td><b>Age at diagnosis</b></td><td>obo:NCIT_C156420</td>
@@ -167,7 +160,6 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td>NCIT_C156420</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
-        <td colspan="2">ERKNET</td>
     </tr>
 </tbody>
 </table>
@@ -1083,7 +1075,7 @@ In this example, the result could be a count of individuals between 71 to 80 (th
 
 
 
-<h2 id="-informational-endpoints-"> Informational Endpoints </h2>
+<h2 id="-informational-endpoints-"> Informational Endpoints (Mandatory to be implemented for all the resources )</h2>
 
 This specification defines GET endpoints to request information about resources.
 
