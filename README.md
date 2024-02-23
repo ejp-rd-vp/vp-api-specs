@@ -200,7 +200,8 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
     "query": {
         "filters": [
               {
-                "id": "Orphanet_34587"
+                "id": "Orphanet_34587",
+                "includeDescendantTerms": true
               },
               {
                 "id": "data_2295",
@@ -253,10 +254,14 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
   }
 }
 ```
-
+<p  id="-notes-">
 The "resultCount" attribute in the above response is the **maximum value of whatever range that result** is within, rather than giving out the actual count of individuals. More information on responding using ranges can be found [here](#ranges). 
 
-The filter **SHOULD** be one of the terms from the [filters and permitted values table](#individuals). Please note that not all resources will support all of the filters. In such cases the response should include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
+The filter **SHOULD** be one of the terms from the [filters and permitted values table](#individuals). Please note that not all resources will support all of the filters. In such cases the response **MUST** include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
+
+The "includeDescendantTerms" is used to query for entities associated with the submitted bio-ontology term(s). The default and assumed value of includeDescendantTerms is **false** . If the parameter is set to true, then the request implies that a hierarchical ontology search is requested.
+
+</p>
 
 **EXAMPLE warning when unsupported filters are requested**
 
@@ -516,7 +521,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
     },
 }
 ```
-Notes about the `resultCount` and the filters for the `/individuals` endpoint apply also for `biospecimens`
+[Notes](#-notes-) about the `resultCount` and unsupported filters for the `/individuals` endpoint apply also for `biospecimens`
 
 [ ^ Back to the top](#top)
 
@@ -739,6 +744,7 @@ The following is an example response
     }
 }
 ```
+[Notes](#-notes-) about "resultsCount" and the unsupported filters for the `/individuals` endpoint apply also for `catalogs`
 
 [ ^ Back to the top](#top)
 
