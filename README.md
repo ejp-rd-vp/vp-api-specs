@@ -260,8 +260,6 @@ The "resultCount" attribute in the above response is the **maximum value of what
 
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#-list-of-filters-and-permitted-values-for-the-individuals-endpoint-). Please note that not all resources will support all of the filters. In such cases the response **MUST** include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
 
-**requestedGranularity**: It is not mandatory to respond with the requested granularity, but the response granularity must be stated in the response metadata. Allowed granularity values include "boolean", "count", "aggregated" and "record", with "record" being the default value.
-
 The "includeDescendantTerms" is used to query for entities associated with the submitted bio-ontology term(s). The default and assumed value of includeDescendantTerms is **false** . If the parameter is set to true, then the request implies that a hierarchical ontology search is requested.
 
 </p>
