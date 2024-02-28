@@ -925,7 +925,7 @@ This query is looking for individuals either with Danon disease (Orphanet_34587)
 
 > **Note**: There are no OR operators available **between** filters with beacon queries.
 
-All of the defined filters are optional, the user can provide as many or as few as wanted and the resource does not have to implement all filters.
+All of the defined filters are optional, the user can provide as many or as few as wanted and the resource does not have to implement all filters.And if the user does not provide any filters all the list of entities will be returned.
 
 If a user sends a query with a filter not supported by a resource, then the resource should complete the query but ignore the unsupported filter(s) and respond as usual, but with a warning noting that certain filters were ignored as they are unsupported.
 
