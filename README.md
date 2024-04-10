@@ -83,7 +83,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
             <b>Sex</b>
         </td>
         <td rowspan="5">
-            obo:NCIT_C28421
+            NCIT:C28421
         </td>
         <td rowspan="5">
             Alphanumerical
