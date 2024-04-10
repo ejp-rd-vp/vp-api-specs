@@ -89,28 +89,28 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
             Alphanumerical
         </td>
         <td rowspan="5">
-            NCIT_C28421
+            A single value or an array of values.
         </td>
         <td rowspan="5">
             =
         </td>
         <td>
-            NCIT_C16576
+            NCIT:C16576
         </td>
     </tr>
     <tr>
         <td>
-            NCIT_C20197
+            NCIT:C20197
         </td>
     </tr>
     <tr>
         <td>
-            NCIT_C124294
+            NCIT:C124294
         </td>
     </tr>
     <tr>
         <td>
-            NCIT_C17998
+            NCIT:C17998
         </td>
     </tr>
     <tr>
