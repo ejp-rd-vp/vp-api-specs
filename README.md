@@ -89,7 +89,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
             Alphanumerical
         </td>
         <td rowspan="5">
-           NCIT_C28421
+            NCIT_C28421
         </td>
         <td rowspan="5">
             =
@@ -122,14 +122,14 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td><b>Disease or Disorder</b>
         </td><td>obo:NCIT_C2991</td>
         <td>Ontology</td>
-        <td>A single value or an array of orphanet terms. <b>e.g. Orphanet:558 or [Orphanet:558, Orphanet:773]</b></td>
+        <td>A single value or an array of orphanet terms. <b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
         <td><b>Phenotype</b></td>
         <td>sio:SIO_010056</td>
         <td>Ontology</td>
-        <td>A single value or an array of HPO terms. <b>e.g. HP:0001251 or [HP:0001251, HP:0012250]</b></td>
+        <td>A single value or an array of HPO terms. <b>e.g. HP_0001251 or [HP_0001251, HP_0012250]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
@@ -200,7 +200,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
     "query": {
         "filters": [
               {
-                "id": "Orphanet:34587",
+                "id": "ordo:Orphanet_34587",
                 "includeDescendantTerms": true
               },
               {
@@ -285,8 +285,8 @@ The "includeDescendantTerms" is used to query for entities associated with the s
                 [
                     {
                         "id": [
-                            "Orphanet:730",
-                            "Orphanet:2730"
+                            "ordo:Orphanet_730",
+                            "ordo:Orphanet_2730"
                         ]
                     },
                     {
@@ -388,7 +388,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td><b>Disease or Disorder</b></td>
         <td>obo:NCIT_C2991</td>
         <td>Ontology</td>
-        <td>A single value or an array of orphanet terms. <b>e.g. Orphanet:558 or [Orphanet:558, Orphanet:773]</b></td>
+        <td>A single value or an array of orphanet terms. <b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
@@ -469,7 +469,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
     "query": {
         "filters": [
               {
-                "id": "Orphanet:34587"
+                "id": "ordo:Orphanet_34587"
               },
               {
                 "id": "obo:NCIT_C70713",
@@ -495,7 +495,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
             "apiVersion": "2.0",
             "filters": [
                 {
-                    "id": "Orphanet:34587"
+                    "id": "ordo:Orphanet_34587"
                 },
                 {
                     "id": "obo:NCIT_C70713",
@@ -551,7 +551,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td><b>Disease or Disorder</b></td>
         <td>dcat:theme</td>
         <td>Ontology</td>
-        <td>A single value or an array of orphanet terms in CURIE syntax prefixed with `ordo:`<b>e.g. Orphanet:558 or [Orphanet:558, Orphanet:773]</b></td>
+        <td>A single value or an array of orphanet terms in CURIE syntax prefixed with `ordo:`<b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
@@ -653,7 +653,7 @@ In the meta section of the response, the `returnedSchemas` object must specify t
  "query": {
       "filters": [
         {
-          "id": "Orphanet:730"
+          "id": "ordo:Orphanet_730"
         },
         {
           "id": "rdf:type",
@@ -681,7 +681,7 @@ The following is an example response
             "requestedSchemas": [],
             "filters": [
                 {
-                    "id": "Orphanet:730"
+                    "id": "ordo:Orphanet_730"
                 },
                 {
                 "id": "rdf:type",
@@ -726,7 +726,8 @@ The following is an example response
                     "logo": "http://raredisease.biobank.eu/logo.png",
                     "description": "Rare disease biobank with data about muscular distrophy",
                     "populationCoverage": "European",
-                    "theme": "Orphanet:730",
+                    "theme": "ordo:Orphanet_730",
+                    "vpConnection": "ejprd:VPContentDiscovery",
                     "landingPage": ["http://biobank.raredisease.org"],
                     "personalData": "true",
                     "language": "EN",
@@ -814,7 +815,7 @@ These usage rules are illustrated using a general syntax as below:
         "value":"AlphanumericFilter_value"
       },
       { 
-        "id": "OntologyFilter:value"
+        "id": "OntologyFilter_value"
       }
     ],
      "requestedGranularity": "boolean"
@@ -835,7 +836,7 @@ As shown above, different types of filters can be sent in a single query. These 
 "query": {
       "filters": [
         {
-          "id": "Orphanet:34587" 
+          "id": "ordo:Orphanet_34587" 
         },
         {
           "id": "data_2295",
@@ -847,7 +848,7 @@ As shown above, different types of filters can be sent in a single query. These 
 }
 ```
 
-This filter is asking for individuals that have been diagnosed with Danon disease (Orphanet:34587) **and** where LAMP2 gene has been identified as causative. These filters are handled independently, this means that individuals with Danon disease where LAMP2 has been identified as a causative gene, specifically for Danon disease, will match the query. It also means that individuals with Danon disease and where LAMP2 has been identified as a causative gene for a second rare disease, other than Danon disease, will also match this query.
+This filter is asking for individuals that have been diagnosed with Danon disease (ordo:Orphanet_34587) **and** where LAMP2 gene has been identified as causative. These filters are handled independently, this means that individuals with Danon disease where LAMP2 has been identified as a causative gene, specifically for Danon disease, will match the query. It also means that individuals with Danon disease and where LAMP2 has been identified as a causative gene for a second rare disease, other than Danon disease, will also match this query.
 
 
 [ ^ Back to the top](#top)
@@ -866,16 +867,16 @@ To query for individuals with more than one instance of any of the filters you c
     {
       "filters": [
         {
-          "id": "Orphanet:34587"
+          "id": "ordo:Orphanet_34587"
         },
         {
-          "id": "Orphanet:1653"
+          "id": "ordo:Orphanet_1653"
         }
       ]
    }
 }
 ```
-This query is looking for individuals with Danon disease ("Orphanet:34587") AND Dentin dysplasia ("Orphanet:1653").
+This query is looking for individuals with Danon disease ("ordo:Orphanet_34587") AND Dentin dysplasia ("ordo:Orphanet_1653").
 
 > Alphanumeric Filter example: 
 
@@ -914,13 +915,13 @@ This query is looking if there are any individuals with RNA sequence information
     {
       "filters": [
         {
-          "id": ["Orphanet:34587","Orphanet:1653"]
+          "id": ["ordo:Orphanet_34587","ordo:Orphanet_1653"]
         }
       ]
    }
 }
 ```
-This query is looking for individuals either with Danon disease (Orphanet:34587) OR Dentin dysplasia (Orphanet:1653).
+This query is looking for individuals either with Danon disease (ordo:Orphanet_34587) OR Dentin dysplasia (ordo:Orphanet_1653).
 
 > **Note**: There are no OR operators available **between** filters with beacon queries.
 
@@ -946,7 +947,7 @@ The warning messages will be provided within the [`info`](#partial-query-matches
   "query":{
     "filters": [
         {
-          "id": "Orphanet:34587"
+          "id": "ordo:Orphanet_34587"
         },
         {
           "id": "data_2295",
