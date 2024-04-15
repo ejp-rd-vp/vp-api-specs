@@ -1297,7 +1297,7 @@ The filtering terms endpoint is used by the become to give the list of the terms
 
 <h3 id="example-request-and-response-for-filtering_terms"> Example response for filtering_terms </h3>
 
-Here is an example response for the filtering terms enpoint
+Here is an example response for the filtering terms enpoints
 
 ```JSON
 {
@@ -1394,69 +1394,17 @@ means that the `ordo` prefix is used for the orphanet codes and terms starting w
 
 The following table shows the preferred codes prefixes used by the Virtual Platform. Notice that implementers may use different prefixes but adoption of the following one is highly reccommended.
 
-<table>
-<thead>
-  <th>Onotology</th>
-  <th>Prefix</th>
-  <th>IRI</th>
-  <th>Example</th>
-</thead>
-<tbody>
-  <tr>        
-    <td>Orphanet</td>
-    <td>ordo</td>
-    <td>http://www.orpha.net/ORDO/</td>
-    <td>ordo:Orphanet_730</td>
-  </tr>
-  <tr>        
-    <td>DCAT</td>
-    <td>dcat</td>
-    <td>http://www.w3.org/ns/dcat#</td>
-    <td>dcat:Dataset</td>
-  </tr>
-  <tr>        
-    <td>DCMI Terms</td>
-    <td>dct</td>
-    <td>http://purl.org/dc/terms/</td>
-    <td>dct:spatial</td>
-  </tr>
-  <tr>        
-    <td>Dublin Core Vocabulary</td>
-    <td>dct</td>
-    <td>http://purl.org/dc/terms/</td>
-    <td>dct:spatial</td>
-  </tr>
-  <tr>        
-    <td>Resource Description Framework</td>
-    <td>rdf</td>
-    <td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td>
-    <td>rdf:type</td>
-  </tr>
-  <tr>        
-    <td>EJP-RD Vocabulary</td>
-    <td>ejp-rd</td>
-    <td>https://w3id.org/ejp-rd/vocabulary#</td>
-    <td>ejp-rd:Biobank</td>
-  </tr>
-  <tr>        
-    <td>Semanticscience Integrated Ontology (SIO)</td>
-    <td>sio</td>
-    <td>http://semanticscience.org/ontology/</td>
-    <td>sio</td>
-  </tr>
-  <tr>        
-    <td>NCI Thesaurus</td>
-    <td>ncit</td>
-    <td>http://purl.obolibrary.org/obo/NCIT_</td>
-    <td>ncit:C28421</td>
-  </tr>
-  <tr>        
-    <td>Human Phenotype Ontology</td>
-    <td>hp</td>
-    <td>http://purl.obolibrary.org/obo/HP_</td>
-    <td>hp:0001251</td>
-  </tr>  
-</tbody>
+| Ontology | Prefix | IRI | Example |
+| -------- | ------ | --- | ------- |
+| Orphanet | ordo   | http://www.orpha.net/ORDO/ | ordo:Orphanet_730 | 
+| DCAT | dcat | http://www.w3.org/ns/dcat# | dcat:Dataset |
+| DCMI Terms | dct | http://purl.org/dc/terms/ | dct:spatial |
+| Dublin Core Vocabulary | dct | http://purl.org/dc/terms/ | dct:spatial |
+| Resource Description Framework | rdf | http://www.w3.org/1999/02/22-rdf-syntax-ns# | rdf:type |
+| EJP-RD Vocabulary | ejp-rd | https://w3id.org/ejp-rd/vocabulary# | ejp-rd:Biobank | 
+| Semanticscience Integrated Ontology (SIO) | sio | http://semanticscience.org/ontology/ | sio |
+| NCI Thesaurus | ncit | http://purl.obolibrary.org/obo/NCIT_ | ncit:C28421 |
+| Human Phenotype Ontology | hp | http://purl.obolibrary.org/obo/HP_ | hp:0001251 |
 
 <h3 id="map-endpoint">Map</h3>
 
