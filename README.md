@@ -472,7 +472,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
                 "id": "ordo:Orphanet_34587"
               },
               {
-                "id": "NCIT_C70713",
+                "id": "NCIT:C70713",
                 "operator": "=",
                 "value": "OBI:0000655"
               }
@@ -498,7 +498,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
                     "id": "ordo:Orphanet_34587"
                 },
                 {
-                    "id": "NCIT_C70713",
+                    "id": "NCIT:C70713",
                     "operator": "=",
                     "value": "OBI:0000655"
                 }
