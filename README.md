@@ -38,7 +38,7 @@ In this work, we present API specification for querying RD patient registries, b
  
 <h2 id="#-try-out-the-api-"> Try out the API </h2>
 
-Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/ 
+Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v4.0
 
 <hr>
 
@@ -89,28 +89,28 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
             Alphanumerical
         </td>
         <td rowspan="5">
-            NCIT_C28421
+            NCIT:C28421
         </td>
         <td rowspan="5">
             =
         </td>
         <td>
-            NCIT_C16576
+            NCIT:C16576
         </td>
     </tr>
     <tr>
         <td>
-            NCIT_C20197
+            NCIT:C20197
         </td>
     </tr>
     <tr>
         <td>
-            NCIT_C124294
+            NCIT:C124294
         </td>
     </tr>
     <tr>
         <td>
-            NCIT_C17998
+            NCIT:C17998
         </td>
     </tr>
     <tr>
@@ -129,35 +129,35 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td><b>Phenotype</b></td>
         <td>sio:SIO_010056</td>
         <td>Ontology</td>
-        <td>A single value or an array of HPO terms. <b>e.g. HP_0001251 or [HP_0001251, HP_0012250]</b></td>
+        <td>A single value or an array of HPO terms. <b>e.g. HP:0001251 or [HP:0001251, HP:0012250]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
         <td><b>Causative Genes</b></td>
         <td>edam:data_2295</td>
         <td>Alphanumerical</td>
-        <td>data_2295 </td>
+        <td>data:2295 </td>
         <td>=</td>
         <td>any HGNC gene symbol or array of HGNC symbols</td>
     </tr>
     <tr>
       <td><b>Age this year</b></td><td>obo:NCIT_C83164</td>
         <td>Numerical</td>
-        <td>NCIT_C83164 </td>
+        <td>NCIT:C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
     <tr>
       <td><b>Symptom Onset</b></td><td>obo:NCIT_C124353</td>
         <td>Numerical</td>
-        <td>NCIT_C124353</td>
+        <td>NCIT:C124353</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
     <tr>
       <td><b>Age at diagnosis</b></td><td>obo:NCIT_C156420</td>
         <td>Numerical</td>
-        <td>NCIT_C156420</td>
+        <td>NCIT:C156420</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
@@ -204,14 +204,14 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
                 "includeDescendantTerms": true
               },
               {
-                "id": "data_2295",
+                "id": "data:2295",
                 "value": "LAMP2",
                 "operator": "="
               },
               {
-                "id": "NCIT_C28421",
+                "id": "NCIT:C28421",
                 "operator": "=",
-                "value": "NCIT_C16576"
+                "value": "NCIT:C16576"
               }
         ],
         "requestedGranularity": "boolean"
@@ -290,27 +290,27 @@ The "includeDescendantTerms" is used to query for entities associated with the s
                         ]
                     },
                     {
-                        "id": "NCIT_C28421",
+                        "id": "NCIT:C28421",
                         "operator": "=",
-                        "value": "NCIT_C20197"
+                        "value": "NCIT:C20197"
                     },
                     {
-                        "id": "data_2295",
+                        "id": "data:2295",
                         "operator": "=",
                         "value": "100"
                     },
                     {
-                        "id": "NCIT_C83164",
+                        "id": "NCIT:C83164",
                         "operator": ">=",
                         "value": "0"
                     },
                     {
-                        "id": "NCIT_C124353",
+                        "id": "NCIT:C124353",
                         "operator": ">=",
                         "value": "0"
                     },
                     {
-                        "id": "NCIT_C156420",
+                        "id": "NCIT:C156420",
                         "operator": ">=",
                         "value": "0"
                     }
@@ -331,9 +331,9 @@ The "includeDescendantTerms" is used to query for entities associated with the s
     "info": {
         "warnings": {
             "unsupportedFilters": [
-                "NCIT_C83164",
-                "NCIT_C124353",
-                "NCIT_C156420"
+                "NCIT:C83164",
+                "NCIT:C124353",
+                "NCIT:C156420"
             ]
         }
     },
@@ -376,13 +376,13 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td rowspan="5"><b>Sex</b></td>
         <td rowspan="5">obo:NCIT_C28421</td>
         <td rowspan="5">Alphanumerical</td>
-        <td rowspan="5">NCIT_C28421</td>
+        <td rowspan="5">NCIT:C28421</td>
         <td rowspan="5">=</td>
-        <td>NCIT_C16576</td>
+        <td>NCIT:C16576</td>
     </tr>
-    <tr><td>NCIT_C20197</td></tr>
-    <tr><td>NCIT_C124294</td></tr>
-    <tr><td>NCIT_C17998</td></tr>
+    <tr><td>NCIT:C20197</td></tr>
+    <tr><td>NCIT:C124294</td></tr>
+    <tr><td>NCIT:C17998</td></tr>
     <tr><td>An array of any of the above</td></tr>
     <tr>
         <td><b>Disease or Disorder</b></td>
@@ -395,7 +395,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td><b>Year of birth</b></td>
         <td>obo:NCIT_C83164</td>
         <td>Numerical</td>
-        <td>NCIT_C83164 </td>
+        <td>NCIT:C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
@@ -403,7 +403,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td><b>Age at diagnosis</b></td>
         <td>obo:NCIT_C156420</td>
         <td>Numerical</td>
-        <td>NCIT_C156420</td>
+        <td>NCIT:C156420</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
@@ -411,28 +411,28 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td rowspan="20"><b>Biospecimen Type</b></td>
         <td rowspan="20">obo:NCIT_C70713</td>
         <td rowspan="20">Alphanumerical</td>
-        <td rowspan="20">NCIT_C70713</td>
+        <td rowspan="20">NCIT:C70713</td>
         <td rowspan="20">=</td>
-        <td>OBI_0000655 (blood specimen)</td>
+        <td>OBI:0000655 (blood specimen)</td>
     </tr>
-    <tr><td>OBI_0002512 (bone marrow)</td></tr>
-    <tr><td>OBIB_0000036 (buffy coat)</td></tr>
-    <tr><td>CL_2000001 (peripheral blood mononuclear cell)</td></tr>
-    <tr><td>OBI_0100016 (blood plasma specime)</td></tr>
-    <tr><td>OBI_0100017 (blood serum)</td></tr>
-    <tr><td>UBERON_0007795 (ascites fluid)</td></tr>
-    <tr><td>OBI_0002502 (cerebrospinal fluid)</td></tr>
-    <tr><td>OBI_0002507 (saliva)</td></tr>
-    <tr><td>OBI_0002503 (feces)</td></tr>
-    <tr><td>OBI_0000651 (urine)</td></tr>
-    <tr><td>OBI_0002599 (swab)</td></tr>
-    <tr><td>OBI_2000009 (bodily fluid specimen)</td></tr>
-    <tr><td>OBI_1200000 (FFPE specimen)</td></tr>
-    <tr><td>OBI_0000922 (frozen specimen)</td></tr>
-    <tr><td>OBI_0001472 (specimen with known storage state)</td></tr>
-    <tr><td>OBI_0001051 (DNA extract)</td></tr>
-    <tr><td>OBI_0000880 (RNA extract)</td></tr>
-    <tr><td>OBI_0001479 (specimen from organism)</td></tr>
+    <tr><td>OBI:0002512 (bone marrow)</td></tr>
+    <tr><td>OBIB:0000036 (buffy coat)</td></tr>
+    <tr><td>CL:2000001 (peripheral blood mononuclear cell)</td></tr>
+    <tr><td>OBI:0100016 (blood plasma specime)</td></tr>
+    <tr><td>OBI:0100017 (blood serum)</td></tr>
+    <tr><td>UBERON:0007795 (ascites fluid)</td></tr>
+    <tr><td>OBI:0002502 (cerebrospinal fluid)</td></tr>
+    <tr><td>OBI:0002507 (saliva)</td></tr>
+    <tr><td>OBI:0002503 (feces)</td></tr>
+    <tr><td>OBI:0000651 (urine)</td></tr>
+    <tr><td>OBI:0002599 (swab)</td></tr>
+    <tr><td>OBI:2000009 (bodily fluid specimen)</td></tr>
+    <tr><td>OBI:1200000 (FFPE specimen)</td></tr>
+    <tr><td>OBI:0000922 (frozen specimen)</td></tr>
+    <tr><td>OBI:0001472 (specimen with known storage state)</td></tr>
+    <tr><td>OBI:0001051 (DNA extract)</td></tr>
+    <tr><td>OBI:0000880 (RNA extract)</td></tr>
+    <tr><td>OBI:0001479 (specimen from organism)</td></tr>
     <tr><td>An array of any of the above</td></tr>    
 </tbody>
 </table>
@@ -472,9 +472,9 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
                 "id": "ordo:Orphanet_34587"
               },
               {
-                "id": "obo:NCIT_C70713",
+                "id": "NCIT_C70713",
                 "operator": "=",
-                "value": "OBI_0000655"
+                "value": "OBI:0000655"
               }
         ],
         "requestedGranularity": "count"
@@ -498,9 +498,9 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
                     "id": "ordo:Orphanet_34587"
                 },
                 {
-                    "id": "obo:NCIT_C70713",
+                    "id": "NCIT_C70713",
                     "operator": "=",
-                    "value": "OBI_0000655"
+                    "value": "OBI:0000655"
                 }
             ],
             "requestedGranularity": "count",
@@ -804,18 +804,18 @@ These usage rules are illustrated using a general syntax as below:
   "query": {
     "filters": [
       {
-        "id": "AlphanumericFilter_id",
+        "id": "AlphanumericFilter:id",
         "operator": "=",
-        "value":"AlphanumericFilter_value"
+        "value":"AlphanumericFilter:value"
         
       },
       {
-        "id": "AlphanumericFilter_id",
+        "id": "AlphanumericFilter:id",
         "operator": "=",
-        "value":"AlphanumericFilter_value"
+        "value":"AlphanumericFilter:value"
       },
       { 
-        "id": "OntologyFilter_value"
+        "id": "OntologyFilter:value"
       }
     ],
      "requestedGranularity": "boolean"
@@ -839,7 +839,7 @@ As shown above, different types of filters can be sent in a single query. These 
           "id": "ordo:Orphanet_34587" 
         },
         {
-          "id": "data_2295",
+          "id": "data:2295",
           "operator": "=",
           "value": "LAMP2"
         }
@@ -950,14 +950,14 @@ The warning messages will be provided within the [`info`](#partial-query-matches
           "id": "ordo:Orphanet_34587"
         },
         {
-          "id": "data_2295",
+          "id": "data:2295",
           "value": "LAMP2",
           "operator": "="
         },
         {
-          "id": "NCIT_C28421",
+          "id": "NCIT:C28421",
           "operator": "=",
-          "value": "NCIT_C16576"
+          "value": "NCIT:C16576"
         }
     ],
      "requestedGranularity": "boolean"
@@ -1004,7 +1004,7 @@ This request is sent to a resource which does not hold information about causati
   "info": { 
     "warnings":{
       "unsupportedFilters": [
-        "data_2295"
+        "data:2295"
       ]
     }
   }
@@ -1319,8 +1319,8 @@ This specification defines GET endpoints to request information about resources.
     "response": {
         "filteringTerms": [
             {
-                "id": "NCIT_C28421",
-                "label": "Sex. Permitted values: NCIT_C16576, NCIT_C20197, NCIT_C124294, NCIT_C17998",
+                "id": "NCIT:C28421",
+                "label": "Sex. Permitted values: NCIT:C16576, NCIT:C20197, NCIT:C124294, NCIT:C17998",
                 "type": "alphanumeric"
             },
             {
@@ -1334,22 +1334,22 @@ This specification defines GET endpoints to request information about resources.
                 "type": "ontology"
             },
             {
-                "id": "data_2295",
+                "id": "data:2295",
                 "label": "Causative genes. Permitted values: any HGNC gene symbol",
                 "type": "alphanumeric"
             },
             {
-                "id": "NCIT_C83164",
+                "id": "NCIT:C83164",
                 "label": "Age this year",
                 "type": "numeric"
             },
             {
-                "id": "NCIT_C124353",
+                "id": "NCIT:C124353",
                 "label": "Symptom Onset",
                 "type": "numeric"
             },
             {
-                "id": "NCIT_C156420",
+                "id": "NCIT:C156420",
                 "label": "Age at diagnosis",
                 "type": "numeric"
             },
