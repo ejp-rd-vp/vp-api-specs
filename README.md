@@ -89,28 +89,28 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
             Alphanumerical
         </td>
         <td rowspan="5">
-            NCIT:C28421
+            ncit:C28421
         </td>
         <td rowspan="5">
             =
         </td>
         <td>
-            NCIT:C16576
+            ncit:C16576
         </td>
     </tr>
     <tr>
         <td>
-            NCIT:C20197
+            ncit:C20197
         </td>
     </tr>
     <tr>
         <td>
-            NCIT:C124294
+            ncit:C124294
         </td>
     </tr>
     <tr>
         <td>
-            NCIT:C17998
+            ncit:C17998
         </td>
     </tr>
     <tr>
@@ -129,7 +129,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td><b>Phenotype</b></td>
         <td>sio:SIO_010056</td>
         <td>Ontology</td>
-        <td>A single value or an array of HPO terms. <b>e.g. HP:0001251 or [HP:0001251, HP:0012250]</b></td>
+        <td>A single value or an array of HPO terms. <b>e.g. hp:0001251 or [hp:0001251, hp:0012250]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
@@ -143,21 +143,21 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
     <tr>
       <td><b>Age this year</b></td><td>obo:NCIT_C83164</td>
         <td>Numerical</td>
-        <td>NCIT:C83164 </td>
+        <td>ncit:C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
     <tr>
       <td><b>Symptom Onset</b></td><td>obo:NCIT_C124353</td>
         <td>Numerical</td>
-        <td>NCIT:C124353</td>
+        <td>ncit:C124353</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
     <tr>
       <td><b>Age at diagnosis</b></td><td>obo:NCIT_C156420</td>
         <td>Numerical</td>
-        <td>NCIT:C156420</td>
+        <td>ncit:C156420</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
@@ -209,9 +209,9 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
                 "operator": "="
               },
               {
-                "id": "NCIT:C28421",
+                "id": "ncit:C28421",
                 "operator": "=",
-                "value": "NCIT:C16576"
+                "value": "ncit:C16576"
               }
         ],
         "requestedGranularity": "boolean"
@@ -239,7 +239,8 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
          "info": {
             "resultCountDescription": {
                "minRange": 71,
-               "maxRange": 80
+               "maxRange": 80,
+               "resultCountDescription": "This count refers to VCF files available in the dataset."
             },
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org", 
@@ -259,6 +260,8 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 The "resultCount" attribute in the above response is the **maximum value of whatever range that result** is within, rather than giving out the actual count of individuals. More information on responding using ranges can be found [here](#-understanding-the-response-with-ranges-for-individuals-and-biospecimens) 
 
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#-list-of-filters-and-permitted-values-for-the-individuals-endpoint-). Please note that not all resources will support all of the filters. In such cases the response **MUST** include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
+
+The count **MUST** be accompanied by an unrestricted free text term stating what type of entity the count refers to (e.g., biobanks, trial sites, RD cases, biosamples, cell lines, VCF files, etc) 
 
 The "includeDescendantTerms" is used to query for entities associated with the submitted bio-ontology term(s). The default and assumed value of includeDescendantTerms is **false** . If the parameter is set to true, then the request implies that a hierarchical ontology search is requested.
 
@@ -290,9 +293,9 @@ The "includeDescendantTerms" is used to query for entities associated with the s
                         ]
                     },
                     {
-                        "id": "NCIT:C28421",
+                        "id": "ncit:C28421",
                         "operator": "=",
-                        "value": "NCIT:C20197"
+                        "value": "ncit:C20197"
                     },
                     {
                         "id": "data:2295",
@@ -300,17 +303,17 @@ The "includeDescendantTerms" is used to query for entities associated with the s
                         "value": "100"
                     },
                     {
-                        "id": "NCIT:C83164",
+                        "id": "ncit:C83164",
                         "operator": ">=",
                         "value": "0"
                     },
                     {
-                        "id": "NCIT:C124353",
+                        "id": "ncit:C124353",
                         "operator": ">=",
                         "value": "0"
                     },
                     {
-                        "id": "NCIT:C156420",
+                        "id": "ncit:C156420",
                         "operator": ">=",
                         "value": "0"
                     }
@@ -331,9 +334,9 @@ The "includeDescendantTerms" is used to query for entities associated with the s
     "info": {
         "warnings": {
             "unsupportedFilters": [
-                "NCIT:C83164",
-                "NCIT:C124353",
-                "NCIT:C156420"
+                "ncit:C83164",
+                "ncit:C124353",
+                "ncit:C156420"
             ]
         }
     },
@@ -376,13 +379,13 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td rowspan="5"><b>Sex</b></td>
         <td rowspan="5">obo:NCIT_C28421</td>
         <td rowspan="5">Alphanumerical</td>
-        <td rowspan="5">NCIT:C28421</td>
+        <td rowspan="5">ncit:C28421</td>
         <td rowspan="5">=</td>
-        <td>NCIT:C16576</td>
+        <td>ncit:C16576</td>
     </tr>
-    <tr><td>NCIT:C20197</td></tr>
-    <tr><td>NCIT:C124294</td></tr>
-    <tr><td>NCIT:C17998</td></tr>
+    <tr><td>ncit:C20197</td></tr>
+    <tr><td>ncit:C124294</td></tr>
+    <tr><td>ncit:C17998</td></tr>
     <tr><td>An array of any of the above</td></tr>
     <tr>
         <td><b>Disease or Disorder</b></td>
@@ -395,7 +398,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td><b>Year of birth</b></td>
         <td>obo:NCIT_C83164</td>
         <td>Numerical</td>
-        <td>NCIT:C83164 </td>
+        <td>ncit:C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
@@ -403,7 +406,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td><b>Age at diagnosis</b></td>
         <td>obo:NCIT_C156420</td>
         <td>Numerical</td>
-        <td>NCIT:C156420</td>
+        <td>ncit:C156420</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
@@ -411,28 +414,28 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td rowspan="20"><b>Biospecimen Type</b></td>
         <td rowspan="20">obo:NCIT_C70713</td>
         <td rowspan="20">Alphanumerical</td>
-        <td rowspan="20">NCIT:C70713</td>
+        <td rowspan="20">ncit:C70713</td>
         <td rowspan="20">=</td>
-        <td>OBI:0000655 (blood specimen)</td>
+        <td>obi:0000655 (blood specimen)</td>
     </tr>
-    <tr><td>OBI:0002512 (bone marrow)</td></tr>
+    <tr><td>obi:0002512 (bone marrow)</td></tr>
     <tr><td>OBIB:0000036 (buffy coat)</td></tr>
-    <tr><td>CL:2000001 (peripheral blood mononuclear cell)</td></tr>
-    <tr><td>OBI:0100016 (blood plasma specime)</td></tr>
-    <tr><td>OBI:0100017 (blood serum)</td></tr>
-    <tr><td>UBERON:0007795 (ascites fluid)</td></tr>
-    <tr><td>OBI:0002502 (cerebrospinal fluid)</td></tr>
-    <tr><td>OBI:0002507 (saliva)</td></tr>
-    <tr><td>OBI:0002503 (feces)</td></tr>
-    <tr><td>OBI:0000651 (urine)</td></tr>
-    <tr><td>OBI:0002599 (swab)</td></tr>
-    <tr><td>OBI:2000009 (bodily fluid specimen)</td></tr>
-    <tr><td>OBI:1200000 (FFPE specimen)</td></tr>
-    <tr><td>OBI:0000922 (frozen specimen)</td></tr>
-    <tr><td>OBI:0001472 (specimen with known storage state)</td></tr>
-    <tr><td>OBI:0001051 (DNA extract)</td></tr>
-    <tr><td>OBI:0000880 (RNA extract)</td></tr>
-    <tr><td>OBI:0001479 (specimen from organism)</td></tr>
+    <tr><td>cl:2000001 (peripheral blood mononuclear cell)</td></tr>
+    <tr><td>obi:0100016 (blood plasma specime)</td></tr>
+    <tr><td>obi:0100017 (blood serum)</td></tr>
+    <tr><td>uberon:0007795 (ascites fluid)</td></tr>
+    <tr><td>obi:0002502 (cerebrospinal fluid)</td></tr>
+    <tr><td>obi:0002507 (saliva)</td></tr>
+    <tr><td>obi:0002503 (feces)</td></tr>
+    <tr><td>obi:0000651 (urine)</td></tr>
+    <tr><td>obi:0002599 (swab)</td></tr>
+    <tr><td>obi:2000009 (bodily fluid specimen)</td></tr>
+    <tr><td>obi:1200000 (FFPE specimen)</td></tr>
+    <tr><td>obi:0000922 (frozen specimen)</td></tr>
+    <tr><td>obi:0001472 (specimen with known storage state)</td></tr>
+    <tr><td>obi:0001051 (DNA extract)</td></tr>
+    <tr><td>obi:0000880 (RNA extract)</td></tr>
+    <tr><td>obi:0001479 (specimen from organism)</td></tr>
     <tr><td>An array of any of the above</td></tr>    
 </tbody>
 </table>
@@ -472,9 +475,9 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
                 "id": "ordo:Orphanet_34587"
               },
               {
-                "id": "NCIT:C70713",
+                "id": "ncit:C70713",
                 "operator": "=",
-                "value": "OBI:0000655"
+                "value": "obi:0000655"
               }
         ],
         "requestedGranularity": "count"
@@ -498,9 +501,9 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
                     "id": "ordo:Orphanet_34587"
                 },
                 {
-                    "id": "NCIT:C70713",
+                    "id": "ncit:C70713",
                     "operator": "=",
-                    "value": "OBI:0000655"
+                    "value": "obi:0000655"
                 }
             ],
             "requestedGranularity": "count",
@@ -558,7 +561,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td><b>Phenotype</b></td>
         <td>sio:SIO_010056</td>
         <td>Ontology</td>
-        <td>A single value or an array of HPO terms prefixed with `HP:` <b>e.g. HP:0001251 or [HP:0001251, HP:0012250]</b></td>
+        <td>A single value or an array of HPO terms prefixed with `hp:` <b>e.g. hp:0001251 or [hp:0001251, hp:0012250]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
@@ -608,7 +611,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 
 **Disease or Disorder**: All rare diseases that are associated **within a catalog**. It corresponds to the `dcat:theme` property of the Resource Metadata Schema. The values follow CURIE syntax and use the `ordo:` prefix.
 
-**Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources. The values follow CURIE syntax and use the `HP:` prefix. 
+**Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources. The values follow CURIE syntax and use the `hp:` prefix. 
 
 **ID**: The resource identifier ID **within the catalog**. It corresponds to the identifier of the RDF resource
 
@@ -955,9 +958,9 @@ The warning messages will be provided within the [`info`](#partial-query-matches
           "operator": "="
         },
         {
-          "id": "NCIT:C28421",
+          "id": "ncit:C28421",
           "operator": "=",
-          "value": "NCIT:C16576"
+          "value": "ncit:C16576"
         }
     ],
      "requestedGranularity": "boolean"
@@ -990,6 +993,7 @@ This request is sent to a resource which does not hold information about causati
                "minRange": 11,
                "maxRange": 20
             },
+            "resultCountDescription": "This count refers to VCF files available in the dataset.",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org",
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
@@ -1059,6 +1063,7 @@ To provide flexibility for implementers between using a range, the `info` sectio
                "minRange": 71,
                "maxRange": 80
             },
+            "resultCountDescription": "This count refers to VCF files available in the dataset.",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org", 
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
@@ -1196,7 +1201,7 @@ This specification defines GET endpoints to request information about resources.
                 "id": "Individuals",
                 "name": "Individuals",
                 "ontologyTermForThisType": {
-                    "id": "NCIT:C25190"
+                    "id": "ncit:C25190"
                 },
                 "partOfSpecification": "v2.0",
                 "defaultSchema": {
@@ -1209,7 +1214,7 @@ This specification defines GET endpoints to request information about resources.
                 "id": "Biosamples",
                 "name": "Biosamples",
                 "ontologyTermForThisType": {
-                    "id": "NCIT:C43412"
+                    "id": "ncit:C43412"
                 },
                 "partOfSpecification": "v2.0",
                 "defaultSchema": {
@@ -1262,7 +1267,7 @@ This specification defines GET endpoints to request information about resources.
                 "id": "Individuals",
                 "name": "Individuals",
                 "ontologyTermForThisType": {
-                    "id": "NCIT:C25190"
+                    "id": "ncit:C25190"
                 },
                 "partOfSpecification": "v2.0",
                 "defaultSchema": {
@@ -1275,7 +1280,7 @@ This specification defines GET endpoints to request information about resources.
                 "id": "Biosamples",
                 "name": "Biosamples",
                 "ontologyTermForThisType": {
-                    "id": "NCIT:C43412"
+                    "id": "ncit:C43412"
                 },
                 "partOfSpecification": "v2.0",
                 "defaultSchema": {
@@ -1319,8 +1324,8 @@ This specification defines GET endpoints to request information about resources.
     "response": {
         "filteringTerms": [
             {
-                "id": "NCIT:C28421",
-                "label": "Sex. Permitted values: NCIT:C16576, NCIT:C20197, NCIT:C124294, NCIT:C17998",
+                "id": "ncit:C28421",
+                "label": "Sex. Permitted values: ncit:C16576, ncit:C20197, ncit:C124294, ncit:C17998",
                 "type": "alphanumeric"
             },
             {
@@ -1339,17 +1344,17 @@ This specification defines GET endpoints to request information about resources.
                 "type": "alphanumeric"
             },
             {
-                "id": "NCIT:C83164",
+                "id": "ncit:C83164",
                 "label": "Age this year",
                 "type": "numeric"
             },
             {
-                "id": "NCIT:C124353",
+                "id": "ncit:C124353",
                 "label": "Symptom Onset",
                 "type": "numeric"
             },
             {
-                "id": "NCIT:C156420",
+                "id": "ncit:C156420",
                 "label": "Age at diagnosis",
                 "type": "numeric"
             },
