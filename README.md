@@ -129,7 +129,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td><b>Phenotype</b></td>
         <td>sio:SIO_010056</td>
         <td>Ontology</td>
-        <td>A single value or an array of HPO terms. <b>e.g. HP_0001251 or [HP_0001251, HP_0012250]</b></td>
+        <td>A single value or an array of HPO terms. <b>e.g. HP:0001251 or [HP:0001251, HP:0012250]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
@@ -815,7 +815,7 @@ These usage rules are illustrated using a general syntax as below:
         "value":"AlphanumericFilter_value"
       },
       { 
-        "id": "OntologyFilter_value"
+        "id": "OntologyFilter:value"
       }
     ],
      "requestedGranularity": "boolean"

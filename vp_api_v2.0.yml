@@ -249,11 +249,11 @@ components:
               items:
                 type: string
               description: "Array of string orpha ids."
-          example: '"Orphanet_558" or ["Orphanet_558","Orphanet_773","Orphanet_12345"]'
+          example: '"ordo:Orphanet_558" or ["ordo:Orphanet_558","ordo:Orphanet_773","ordo:Orphanet_12345"]'
           description: |
             Concept ID of CDEs using Orpha ontology format. 
               Allowed values:
-              * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"Orphanet_558\" or [\"Orphanet_558\", \"Orphanet_773\"]
+              * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"ordo:Orphanet_558\" or [\"ordo:Orphanet_558\", \"ordo:Orphanet_773\"]
     CatalogRequestQuery:
       type: object
       properties:
@@ -327,10 +327,10 @@ components:
               items:
                 type: string
               description: "Array of string orpha ids."
-          example: '"Orphanet_558" or ["Orphanet_558","Orphanet_773","Orphanet_12345"]'
+          example: '"ordo:Orphanet_558" or ["ordo:Orphanet_558","ordo:Orphanet_773","ordo:Orphanet_12345"]'
           description: |
             Ontology term for the specific Metadata Schema term.
-              * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"Orphanet_558\" or [\"Orphanet_558\", \"Orphanet_773\"]
+              * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"ordo:Orphanet_558\" or [\"ordo:Orphanet_558\", \"ordo:Orphanet_773\"]
               * For `Phenotype`: a single value or an array of HPO terms
     BiosampleRequestQuery:
       type: object
@@ -425,11 +425,11 @@ components:
               items:
                 type: string
               description: "Array of string orpha ids."
-          example: '"Orphanet_558" or ["Orphanet_558","Orphanet_773","Orphanet_12345"]'
+          example: '"ordo:Orphanet_558" or ["ordo:Orphanet_558","ordo:Orphanet_773","ordo:Orphanet_12345"]'
           description: |
             Concept ID of Biosamples term using Orpha ontology format. 
               Allowed values:
-              * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"Orphanet_558\" or [\"Orphanet_558\", \"Orphanet_773\"]
+              * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"ordo:Orphanet_558\" or [\"ordo:Orphanet_558\", \"ordo:Orphanet_773\"]
     InfoResponse:
       required:
         - meta
