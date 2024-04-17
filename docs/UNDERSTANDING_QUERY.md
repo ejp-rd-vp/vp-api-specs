@@ -2,7 +2,7 @@
 
 This section explains how to perform queries to Beacon services compliant with the specs.
 
-* [Syntax & Usage of Beacon Query with Filters](#-syntax-and-usage-)
+* [Syntax & Usage of Beacon Query with Filters](#syntax-and-usage)
   * [Multi-Filter (AND) query](#beacon-queries-using-multiple-filters-and-logical-operator-between-filters)
   * [Same Filter (AND) query](#beacon-queries-using-multiples-of-the-same-type-of-filter-and-logical-operator-between-filters)
   * [Multi-Filter (OR) query using **Arrays**](#beacon-queries-using-multiples-of-the-same-type-of-filter-or-logical-operator-between-filters)
