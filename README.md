@@ -1297,76 +1297,119 @@ This specification defines GET endpoints to request information about resources.
 
 > **HTTP Request Method : GET**
 
-[/filtering_terms](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
+The `/filtering_terms` endpoint is used by the Beacon to inform the clients on the list of the terms supported to filter 
+the results.
 
 <h3 id="example-request-and-response-for-filtering_terms"> Example response for filtering_terms </h3>
 
-
-
-
+Here is an example response for the filtering terms enpoints
 
 ```JSON
 {
-    "meta": {
-        "beaconId": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
-        "apiVersion": "v2.0",
-        "returnedSchemas": [
-            {
-                "entityType": "individuals",
-                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/individuals/defaultSchema.json"
-            },
-            {
-                "entityType": "biosamples",
-                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/biosamples/defaultSchema.json"
-            }
+  "meta": {
+    "beaconId": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
+    "apiVersion": "v2.0",
+    "returnedSchemas": []
+  },
+  "response": {
+    "resources": [
+      {
+        "id": "ordo",
+        "name": "Orphanet Ontology",
+        "url": "https://www.orphadata.com/data/ontologies/ordo/last_version/ORDO_en_4.4.owl",
+        "version": "4.4",
+        "namespacePrefix": "ordo",
+        "iriPrefix": "http://www.orpha.net/ORDO/"
+      },  
+      {
+        "id": "dcat",
+        "name": "DCAT 2 Vocabulary",
+        "url": "https://www.w3.org/ns/dcat2.ttl",
+        "version": "2.0",
+        "namespacePrefix": "dcat",
+        "iriPrefix": "http://www.w3.org/ns/dcat#"
+      },
+      {
+        "id": "ncit",
+        "name": "NCIT",
+        "url": "http://purl.obolibrary.org/obo/ncit.owl",
+        "version": "2023-101-19",
+        "namespacePrefix": "ncit",
+        "iriPrefix": "http://purl.obolibrary.org/obo/NCIT_"
+
+      }
+
+    ],
+    "filteringTerms": [
+      {
+        "id": "ordo:*",
+        "label": "Disease or disorder",
+        "type": "ontology",
+        "scopes": [
+          "individuals",
+          "biosamples",
+          "catalogs"
         ]
-    },
-    "response": {
-        "filteringTerms": [
-            {
-                "id": "ncit:C28421",
-                "label": "Sex. Permitted values: ncit:C16576, ncit:C20197, ncit:C124294, ncit:C17998",
-                "type": "alphanumeric"
-            },
-            {
-                "id": "A single value or an array of orphanet terms.",
-                "label": "Disease or disorder",
-                "type": "ontology"
-            },
-            {
-                "id": "A single value or an array of HPO terms.",
-                "label": "Phenotype",
-                "type": "ontology"
-            },
-            {
-                "id": "data:2295",
-                "label": "Causative genes. Permitted values: any HGNC gene symbol",
-                "type": "alphanumeric"
-            },
-            {
-                "id": "ncit:C83164",
-                "label": "Age this year",
-                "type": "numeric"
-            },
-            {
-                "id": "ncit:C124353",
-                "label": "Symptom Onset",
-                "type": "numeric"
-            },
-            {
-                "id": "ncit:C156420",
-                "label": "Age at diagnosis",
-                "type": "numeric"
-            },
-            {
-                "id": "Available Materials",
-                "label": "Available materials",
-                "type": "alphanumeric"
-            }
+      },
+      {
+        "id": "ncit:C156420",
+        "label": "Age at diagnosis",
+        "type": "numeric",
+        "scopes": [
+          "individuals",
+          "biosamples"
         ]
-    }
+      },
+      {
+        "id": "dct:spatial",
+        "label": "Country",
+        "type": "alphanumeric",
+        "scopes": [
+          "catalogs"
+        ]
+      }
+    ]
+  }
 }
 ```
+
+This response notifies the clients that this beacon supports three filtering terms, as defined in the filteringTerms items:
+ - ordo:* whatever term from the Orphanet (ORDO) ontology is accepted (e.g., ordo:Orphanet_730)
+ - ncit:C156420: filters by age at diagnosis
+ - dct:spatial: filter by country
+
+Notice that each term may specify also a `"scopes"` attribute: this is used to specify for which type of enpoints the filter is supported. For example the `ncit:C156420` term can be used only for `/individuals` and `/biosamples` endpoint.
+
+The `"resource"` section of the endpoint is used the client how the CURIEs prefixes are interpreted by the beacon endpoint. 
+
+For example the item:
+
+```JSON
+{
+  "id": "ordo",
+  "name": "Orphanet Ontology",
+  "url": "https://www.orphadata.com/data/ontologies/ordo/last_version/ORDO_en_4.4.owl",
+  "version": "4.4",
+  "namespacePrefix": "ordo",
+  "iriPrefix": "http://www.orpha.net/ORDO/"
+}
+```
+
+means that the `ordo` prefix is used for the orphanet codes and terms starting with `ordo` (`"namespacePrefix"` attribute) are expanded to `"http://www.orpha.net/ORDO/"` ("iriPrefix").
+
+The following table shows the preferred codes prefixes used by the Virtual Platform. Notice that implementers may use different prefixes but adoption of the following one is highly reccommended.
+
+| Ontology | Prefix | IRI | Example |
+| -------- | ------ | --- | ------- |
+| Orphanet | ordo   | http://www.orpha.net/ORDO/ | ordo:Orphanet_730 | 
+| DCAT | dcat | http://www.w3.org/ns/dcat# | dcat:Dataset |
+| DCMI Terms | dct | http://purl.org/dc/terms/ | dct:spatial |
+| Dublin Core Vocabulary | dct | http://purl.org/dc/terms/ | dct:spatial |
+| Resource Description Framework | rdf | http://www.w3.org/1999/02/22-rdf-syntax-ns# | rdf:type |
+| EJP-RD Vocabulary | ejp-rd | https://w3id.org/ejp-rd/vocabulary# | ejp-rd:Biobank | 
+| Semanticscience Integrated Ontology (SIO) | sio | http://semanticscience.org/ontology/ | sio |
+| NCI Thesaurus | ncit | http://purl.obolibrary.org/obo/NCIT_ | ncit:C28421 |
+| Human Phenotype Ontology | hp | http://purl.obolibrary.org/obo/HP_ | hp:0001251 |
 
 <h3 id="map-endpoint">Map</h3>
 
