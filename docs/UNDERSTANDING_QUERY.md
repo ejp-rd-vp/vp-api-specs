@@ -6,7 +6,8 @@ This section explain how to perform queries to Beacon services compliant with th
   * [Multi-Filter (AND) query](#beacon-queries-using-multiples-of-the-same-type-of-filter-and-logical-operator-between-filters)
   * [Same Filter (AND) query](#beacon-queries-using-multiple-filters-and-logical-operator-between-filters)
   * [Multi-Filter (OR) query using **Arrays**](#beacon-queries-using-multiples-of-the-same-type-of-filter-or-logical-operator-between-filters)
-* [Partial query matches with warning messages](#partial-query-matches-with-warning-messages)
+* [Partial query matches with warning messages](#partial-request-and-response-with-warning-message-example)
+* 
 
 ## Syntax and Usage
 
@@ -155,7 +156,7 @@ The warning messages will be provided within the [`info`](#partial-query-matches
 
 [ ^ Back to the top](#top)
 
-## Partial Request & Response with warning message Example
+## Partial Request and Response with warning message Example
 
 **EXAMPLE REQUEST**
 
@@ -233,67 +234,6 @@ This request is sent to a resource which does not hold information about causati
 ```
 
 This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine. Please see the info part of the [IndividualResponse](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/IndividualResponse) schema on swagger. 
-
-
-[ ^ Back to the top](#top)
-
-## Understanding the response with ranges (for /individuals and /biospecimens)
-
-In the examples of the response for the `/individuals` and `/biosamples` endpoints, information of the resultant dataset matching the query is provided within the **`resultSets`** attribute. 
-
-To provide flexibility for implementers between using a range, the `info` section of each resultant dataset in `resultSets` need to conform to the following standardised structure:
-
-```JSON
-"info": {
-   "resultCountDescription": {
-      "minRange": N,
-      "maxRange": N
-   },
-   "contactPoint": "Person/point of contact",
-   "contactEmail": "Email for contact regarding this dataset/resource", 
-   "contactURL": "URL of the implementer"
-}
-```
-
-> **Note**: Here, N is an integer where the implementer can respond with **"minRange" & "maxRange"** (if employing a range) - the maximum value of whatever range that result is within, whereupon the "maxRange" value should match the "resultCount" value and the "numTotalResults" value.
-
-**Example response employing a range:**
-
-```JSON
-{
-  "meta": {
-      "apiVersion": "v2.0",
-      "beaconId": "Responding unique Beacon ID in reverse domain name notation",
-      "returnedGranularity": "count"
-  },
-  "response": {
-     "resultSets": [
-      {
-         "id": "Vivify",
-         "type": "dataset", 
-         "exists": true,
-         "resultCount": 80,
-         "info": {
-            "resultCountDescription": {
-               "minRange": 71,
-               "maxRange": 80
-            },
-            "resultCountDescription": "This count refers to VCF files available in the dataset.",
-            "contactPoint": "admin",
-            "contactEmail": "admin@cafevariome.org", 
-            "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
-         }      
-      }
-    ]
-  },
-  "responseSummary":{
-    "exists": true,
-    "numTotalResults": 80
-  }
-}
-```
-
-In this example, the result could be a count of individuals between 71 to 80 (the resource only responds with ranges of size 10).
 
 
 [ ^ Back to the top](#top)
