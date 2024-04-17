@@ -546,6 +546,10 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
+| Metadata Schema Concept | Metadata Schema Term | Filter Type | ID | Operator | Permitted Values | 
+| ---- | ----- | ----- | ----- | ----- |
+
+
 <table>
 <thead>
         <th>Metadata Schema Concept</th>
@@ -560,14 +564,14 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
         <td><b>Disease or Disorder</b></td>
         <td>dcat:theme</td>
         <td>Ontology</td>
-        <td>A single value or an array of orphanet terms in CURIE syntax prefixed with `ordo:`<b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
+        <td>A single value or an array of orphanet terms in CURIE syntax prefixed with `ordo:` <b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
         <td><b>Phenotype</b></td>
         <td>sio:SIO_010056</td>
         <td>Ontology</td>
-        <td>A single value or an array of HPO terms prefixed with `hp:` <b>e.g. hp:0001251 or [hp:0001251, hp:0012250]</b></td>
+        <td>A single value or an array of HPO terms prefixed with `hp` <b>e.g. hp:0001251 or [hp:0001251, hp:0012250]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
