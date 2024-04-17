@@ -89,7 +89,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
             <b>Sex</b>
         </td>
         <td rowspan="5">
-            obo:NCIT_C28421
+            ncit:C28421
         </td>
         <td rowspan="5">
             Alphanumerical
@@ -126,21 +126,21 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
     </tr>
     <tr>
         <td><b>Disease or Disorder</b>
-        </td><td>obo:NCIT_C2991</td>
+        </td><td>ncit:C2991</td>
         <td>Ontology</td>
         <td>A single value or an array of orphanet terms. <b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
         <td><b>Phenotype</b></td>
-        <td>sio:SIO_010056</td>
+        <td>sio:010056</td>
         <td>Ontology</td>
         <td>A single value or an array of HPO terms. <b>e.g. hp:0001251 or [hp:0001251, hp:0012250]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
         <td><b>Causative Genes</b></td>
-        <td>edam:data_2295</td>
+        <td>data:2295</td>
         <td>Alphanumerical</td>
         <td>data:2295 </td>
         <td>=</td>
@@ -247,7 +247,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
                "minRange": 71,
                "maxRange": 80  
             },
-            "description": "This count refers to VCF files available in the dataset.",
+            "countType": "VCF file",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org", 
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
@@ -383,7 +383,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 <tbody>
     <tr>
         <td rowspan="5"><b>Sex</b></td>
-        <td rowspan="5">obo:NCIT_C28421</td>
+        <td rowspan="5">ncit:C28421</td>
         <td rowspan="5">Alphanumerical</td>
         <td rowspan="5">ncit:C28421</td>
         <td rowspan="5">=</td>
@@ -395,14 +395,14 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
     <tr><td>An array of any of the above</td></tr>
     <tr>
         <td><b>Disease or Disorder</b></td>
-        <td>obo:NCIT_C2991</td>
+        <td>ncit:C2991</td>
         <td>Ontology</td>
         <td>A single value or an array of orphanet terms. <b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
         <td><b>Year of birth</b></td>
-        <td>obo:NCIT_C83164</td>
+        <td>ncit:C83164</td>
         <td>Numerical</td>
         <td>ncit:C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
@@ -410,7 +410,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
     </tr>
     <tr>
         <td><b>Age at diagnosis</b></td>
-        <td>obo:NCIT_C156420</td>
+        <td>ncit:C156420</td>
         <td>Numerical</td>
         <td>ncit:C156420</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
@@ -418,7 +418,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
     </tr>
     <tr>
         <td rowspan="20"><b>Biospecimen Type</b></td>
-        <td rowspan="20">obo:NCIT_C70713</td>
+        <td rowspan="20">ncit:C70713</td>
         <td rowspan="20">Alphanumerical</td>
         <td rowspan="20">ncit:C70713</td>
         <td rowspan="20">=</td>
@@ -565,7 +565,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
     </tr>
     <tr>
         <td><b>Phenotype</b></td>
-        <td>sio:SIO_010056</td>
+        <td>sio:010056</td>
         <td>Ontology</td>
         <td>A single value or an array of HPO terms prefixed with `hp:` <b>e.g. hp:0001251 or [hp:0001251, hp:0012250]</b></td>
         <td colspan="2">NA</td>
@@ -999,7 +999,7 @@ This request is sent to a resource which does not hold information about causati
                "minRange": 11,
                "maxRange": 20
             },
-            "description": "This count refers to VCF files available in the dataset.",
+            "countType": "VCF file",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org",
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
@@ -1069,7 +1069,7 @@ To provide flexibility for implementers between using a range, the `info` sectio
                "minRange": 71,
                "maxRange": 80
             },
-            "description": "This count refers to VCF files available in the dataset.",
+            "countType": "VCF file.",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org", 
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
