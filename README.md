@@ -32,6 +32,12 @@ In this work, we present API specification for querying RD patient registries, b
     * [Partial query matches with warning messages](#partial-query-matches-with-warning-messages)
 * [Understanding the response with ranges (for /individuals and /biospecimens)](#-understanding-the-response-with-ranges-for-individuals-and-biospecimens)
 * [Informational Endpoints](#-informational-endpoints-)
+    * [Info endpoint](#-info-endpoint-)
+    * [Service Info endpoint](#-service-info-endpoint-)
+    * [Configuration endpoint](#-configuration-endpoint-)
+    * [Entry Types endpoint](#-entry-types-endpoint-)
+    * [Filtering terms endpoint](#-filtering-terms-endpoint-)
+    * [Map endpoint](#-map-endpoint-)
 
 
 <hr>
@@ -1091,17 +1097,13 @@ In this example, the result could be a count of individuals between 71 to 80 (th
 
 This specification defines GET endpoints to request information about resources.
 
-<h3 id="-info-endpoint"> Info endpoint</h3>
+<h3 id="-info-endpoint-"> Info endpoint</h3>
 
 > **HTTP Request Method : GET**
 
 [/info](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
 
 <h3 id="-example-request-and-response-for-info-"> Example response for info </h3>
-
-
-
-
 
 ```JSON
 {
@@ -1135,16 +1137,13 @@ This specification defines GET endpoints to request information about resources.
     }
 }
 ```
-<h3 id="service-info-endpoint"> Service-info endpoint</h3>
+<h3 id="-service-info-endpoint-"> Service-info endpoint</h3>
 
 > **HTTP Request Method : GET**
 
 [/service-info](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the basic metadata concerning its service, based on the [reference specification](https://github.com/ga4gh-discovery/ga4gh-service-info/).
 
 <h3 id="-example-request-and-response-for-service-info"> Example response for service-info </h3>
-
-
-
 
 ```JSON
 {
@@ -1168,15 +1167,13 @@ This specification defines GET endpoints to request information about resources.
     "version": "v2.0"
 }
 ```
-<h3 id="configuration-endpoint">Configuration</h3>
+<h3 id="-configuration-endpoint-">Configuration</h3>
 
 > **HTTP Request Method : GET**
 
 [/configuration](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
 
 <h3 id="-example-request-and-response-for-configuration"> Example response for service-info </h3>
-
-
 
 ```JSON
 {
@@ -1233,17 +1230,14 @@ This specification defines GET endpoints to request information about resources.
     }
 }
 ```
-<h3 id="entry-types-endpoint">Entry-types</h3>
+
+<h3 id="-entry-types-endpoint-">Entry-types</h3>
 
 > **HTTP Request Method : GET**
 
 [/entry-types](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
 
 <h3 id="example-request-and-response-for-entry-types"> Example response for entry-types </h3>
-
-
-
-
 
 ```JSON
 {
@@ -1293,7 +1287,7 @@ This specification defines GET endpoints to request information about resources.
     }
 }
 ```
-<h3 id="filtering_terms-endpoint">Filtering_terms</h3>
+<h3 id="-filtering-terms-endpoint-">Filtering_terms</h3>
 
 > **HTTP Request Method : GET**
 
@@ -1411,15 +1405,13 @@ The following table shows the preferred codes prefixes used by the Virtual Platf
 | NCI Thesaurus | ncit | http://purl.obolibrary.org/obo/NCIT_ | ncit:C28421 |
 | Human Phenotype Ontology | hp | http://purl.obolibrary.org/obo/HP_ | hp:0001251 |
 
-<h3 id="map-endpoint">Map</h3>
+<h3 id="-map-endpoint-">Map</h3>
 
 > **HTTP Request Method : GET**
 
 [/map](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information related to the list of endpoints included in this Beacon instance.
 
 <h3 id="example-request-and-response-for-map"> Example response for map </h3>
-
-
 
 ```JSON
 {
