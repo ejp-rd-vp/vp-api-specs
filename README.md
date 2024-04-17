@@ -245,9 +245,9 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
          "info": {
             "resultCountDescription": {
                "minRange": 71,
-               "maxRange": 80,
-               "resultCountDescription": "This count refers to VCF files available in the dataset."
+               "maxRange": 80  
             },
+            "description": "This count refers to VCF files available in the dataset.",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org", 
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
@@ -999,7 +999,7 @@ This request is sent to a resource which does not hold information about causati
                "minRange": 11,
                "maxRange": 20
             },
-            "resultCountDescription": "This count refers to VCF files available in the dataset.",
+            "description": "This count refers to VCF files available in the dataset.",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org",
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
@@ -1069,7 +1069,7 @@ To provide flexibility for implementers between using a range, the `info` sectio
                "minRange": 71,
                "maxRange": 80
             },
-            "resultCountDescription": "This count refers to VCF files available in the dataset.",
+            "description": "This count refers to VCF files available in the dataset.",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org", 
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
