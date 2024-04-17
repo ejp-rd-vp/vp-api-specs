@@ -40,24 +40,7 @@ filters that are not Ontology or Alphanumeric. Indeed, the id of the filters are
 Orpha codes and HPO terms, but they are not in a semantic format. This has been 
 changed in version 4.0 as we will see.
 
-The filters of type Custom have the format: 
-
-```json
-{
-  "id": "<term>"
-}
-```
-
-The Alphanumeric filters have the format: 
-```json
-{
-  "id": "<filterId>",
-  "operator": "=",
-  "value": "<value required>"
-}
-```
-
-Examples of filters for each of the filters are
+Examples of body for each of the filters are
 
  * Disease: `{ "id": "Orphanet_589"}`, `{ "id": ["Orphanet_589", "Orphanet_730"]}`
  * Phenotype: `{ "id": "HP_0001251"}`, `{ "id": ["HP_0001251", "HP_0012250"]}`
@@ -68,9 +51,9 @@ Examples of filters for each of the filters are
 ## Version 4.0
 
 A problem with the version 1.0 is that both the filters and the schema of the results
-don't have a proper semantic support, meaning that the filters and the properties are 
+don't have a proper semantic support, meaning that they are not 
 associated to a term from an ontology or a controlled vocabulary.
-To overcome this problem this version was designed
+To overcome this problem a new version was designed.
 This version provides the same filters but uses terms from ontologies. The schema of 
 the response uses JSON-LD and is compliant with the model of the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema), adding semantic support to the returned resouces
 
@@ -89,19 +72,11 @@ response for this version
 | Country | `dct:spatial` | Alphanumeric | Country using ISO 3166-1 alpha-2 format (e.g, IT for Italy) | = | An ISO 3166-1 alpha-2 code |   
 
 As can be noticed, the filters are the same as before but they are defined 
-differently. Disease and Phenotype are now of type `Ontology` a they adopt the same 
+differently. Disease and Phenotype are now of type `Ontology` and they adopt the same 
 codes but in CURIES syntax. Also the Resource Types has been changed to Ontology type 
 since it uses terms from the controlled vocabularies defined by EJPRD. Finally, 
 Country remains of type Alphanumeric but now the ID is dct:spatial, as defined by the 
 resource metadata schema.
-
-The filters of type Ontology have the same format as the Custom ones: 
-
-```json
-{
-  "id": "<term>"
-}
-```
 
 Examples of filter body for all of the filters are:
 
@@ -119,13 +94,11 @@ schema.
 
 Each item must contain the property `@context` used to specify the 
 JSON-LD context where the semantic of the properties is defined. 
-The value of this property must be the [url](https://raw.githubusercontent.com/
-ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json) of 
+The value of this property must be the [url](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json) of 
 the `json-ld-contexts/ejprd-context.json` file in this repository.
 
 The schema id for this version is `ejprd-resource-v4.0.0`. The properties 
-are described in the [ejprd-resources-v4.0.0](../schemas/4.0.0/
-ejprd-resources-v4.0.0.json) file.
+are described in the [ejprd-resources-v4.0.0](../schemas/4.0.0/ejprd-resources-v4.0.0.json) file.
 
 ## Request and response for Version 1.0
 
