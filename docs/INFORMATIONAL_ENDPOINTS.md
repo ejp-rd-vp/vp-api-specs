@@ -247,7 +247,7 @@ Here is an example response for the filtering terms enpoints
     ],
     "filteringTerms": [
       {
-        "id": "ordo:*",
+        "id": "ordo:Orphanet_589",
         "label": "Disease or disorder",
         "type": "ontology",
         "scopes": [
@@ -279,7 +279,7 @@ Here is an example response for the filtering terms enpoints
 ```
 
 This response notifies the clients that this beacon supports three filtering terms, as defined in the filteringTerms items:
- - ordo:* whatever term from the Orphanet (ORDO) ontology is accepted (e.g., ordo:Orphanet_730)
+ - ordo:Orphanet_589 filter by this code
  - ncit:C156420: filters by age at diagnosis
  - dct:spatial: filter by country
 
@@ -302,7 +302,7 @@ For example the item:
 
 means that the `ordo` prefix is used for the orphanet codes and terms starting with `ordo` (`"namespacePrefix"` attribute) are expanded to `"http://www.orpha.net/ORDO/"` ("iriPrefix").
 
-The following table shows the preferred codes prefixes used by the Virtual Platform. Notice that implementers may use different prefixes but adoption of the following one is highly reccommended.
+The following table shows the recommended prefixes used by the Virtual Platform. 
 
 | Ontology | Prefix | IRI | Example |
 | -------- | ------ | --- | ------- |
