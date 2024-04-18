@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "description": "A resource available in the catalog",
+  "$comment": "Beacon Schema for EJPRD Resources",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the resource. It has the same meaning as @id in JSON-LD"
+    },
+    "type": {      
+      "description": "The type of resource. It must be one of ejprd:Biobank, ejprd:PatientRegistry, ejprd:Guideline, dcat:Dataset",
+      "enum": [
+        "BiobankDataset",
+        "PatientRegistryDataset",
+        "Guideline",
+        "Dataset"
+      ],
+      "examples": [
+        "Biobank"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the resource.",
+      "examples": [
+        "Bank of muscular disease"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the resource (optional)"
+    },
+    "publisher": {
+      "type": "object",
+      "$ref": "./ejprd-organization-v4.0.0.json"
+    },
+    "homepage": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri",
+        "description": "One or more web pages that can be navigated to in a Web browser to gain access to the resource (optional)"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "name",
+    "homepage"
+  ],
+  "additionalProperties": true
+}

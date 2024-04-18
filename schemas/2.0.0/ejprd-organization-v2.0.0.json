@@ -36,7 +36,7 @@
     },
     "spatial": {
       "type": "object",
-      "@ref": "./ejprd-location-v4.0.0.json"
+      "@ref": "./ejprd-location-v2.0.0.json"
     }
   },
   "required": [

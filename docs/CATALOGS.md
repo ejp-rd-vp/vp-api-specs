@@ -7,7 +7,7 @@ The [/catalogs](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_a
 There are two possible versions for this endpoint, each one specifying a set of filters and a schema for the responses.
 
  * **Version 1.0**: This is the legacy one which is derived by the Query Builder. It returns the resources as JSON with properties not having a specific semantic (i.e., they are not associated to an ontology term). Also the filters don't have specific semantic meaning.
- * **Version 4.0**: This version is semantically compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). The response contains json-ld items and it adds semantic to the properties (i.e., they are associated using @context to a term from an ontology or controlled vocabulary). Also the filters for this version are semantically compatible with the Resource Metadata Schema as well.
+ * **Version 2.0**: This version is semantically compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). The response contains json-ld items and it adds semantic to the properties (i.e., they are associated using @context to a term from an ontology or controlled vocabulary). Also the filters for this version are semantically compatible with the Resource Metadata Schema as well.
 
 ## Version 1.0
 
@@ -38,7 +38,7 @@ The definition for the filter is the following:
 Notice that Disease and Phenotype are of type `Custom`: this is the Beacon type for 
 filters that are not Ontology or Alphanumeric. Indeed, the id of the filters are 
 Orpha codes and HPO terms, but they are not in a semantic format. This has been 
-changed in version 4.0 as we will see.
+changed in version 2.0 as we will see.
 
 Examples of body for each of the filters are
 
@@ -47,8 +47,17 @@ Examples of body for each of the filters are
  * Resource types: `{ "id": "resourceTypes", "operator": "=", "value": ["BiobankDataset", "PatientRegistryDataset"] }`
  * Country: `{ "id": "country", "operator": "=", "value": ["IT", "DE"] }`
 
+### Resources schema
 
-## Version 4.0
+The response contains a list of json items with metadata of the 
+resources in the catalog. The attributes represents a minimal subset of attributes of the 
+Resource Metadata Schema but without semantic support.
+
+The schema id for this version is `ejprd-resource-v1.0.0`. The properties 
+are described in the [ejprd-resources-v1.0.0](../schemas/1.0.0/ejprd-resources-v1.0.0.json) file.
+
+
+## Version 2.0
 
 A problem with the version 1.0 is that both the filters and the schema of the results
 don't have a proper semantic support, meaning that they are not 
@@ -97,8 +106,8 @@ JSON-LD context where the semantic of the properties is defined.
 The value of this property must be the [url](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json) of 
 the `json-ld-contexts/ejprd-context.json` file in this repository.
 
-The schema id for this version is `ejprd-resource-v4.0.0`. The properties 
-are described in the [ejprd-resources-v4.0.0](../schemas/4.0.0/ejprd-resources-v4.0.0.json) file.
+The schema id for this version is `ejprd-resource-v2.0.0`. The properties 
+are described in the [ejprd-resources-v2.0.0](../schemas/2.0.0/ejprd-resources-v2.0.0.json) file.
 
 ## Request and response for Version 1.0
 
@@ -146,7 +155,7 @@ The following is an example response for the query below, returning one correspo
     "returnedGranularity": "record",
     "receivedRequestSummary": {
       "apiVersion": "2.0",
-      "requestedSchemas": ["ejprd-resources-v4.0.0"],
+      "requestedSchemas": ["ejprd-resources-v2.0.0"],
       "filters": [{
           "id": "Orphanet_730"
         }, {
@@ -218,13 +227,13 @@ The response part contains a `resultSet` with the resources formatted using Vers
 
 ## Request and response for Version 4
 
-What follows is an example of the same request as before, that uses version 4.0 filters and schema
+What follows is an example of the same request as before, that uses version 2.0 filters and schema
 
 ```json
 {
     "meta": {
         "apiVersion": "2.0",
-        "requestedSchemas": ["ejprd-resources-v4.0.0"]
+        "requestedSchemas": ["ejprd-resources-v2.0.0"]
     },
     "query": {
         "filters": [{
@@ -240,7 +249,7 @@ What follows is an example of the same request as before, that uses version 4.0 
 }
 ```
 
-The following is an example of the response with the 4.0.0 schema
+The following is an example of the response with the 2.0.0 schema
 
 ```JSON
 {
@@ -250,7 +259,7 @@ The following is an example of the response with the 4.0.0 schema
     "returnedGranularity": "record",
     "receivedRequestSummary": {
       "apiVersion": "2.0",
-      "requestedSchemas": ["ejprd-resources-v4.0.0"],
+      "requestedSchemas": ["ejprd-resources-v2.0.0"],
       "filters": [{
           "id": "ordo:Orphanet_730"
         }, {
@@ -273,10 +282,10 @@ The following is an example of the response with the 4.0.0 schema
     "returnedSchemas": [
       {
         "entityType": "resources",
-        "schema": "ejprd-resources-v4.0.0",
+        "schema": "ejprd-resources-v2.0.0",
         "name": "EJPRD schema for resources",
-        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/4.0.0/ejprd-resources-v4.0.0.json",
-        "version": "v4.0.0"
+        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/2.0.0/ejprd-resources-v2.0.0.json",
+        "version": "v2.0.0"
       }
     ]
   },
@@ -323,8 +332,8 @@ The following is an example of the response with the 4.0.0 schema
 
 Notice some differences with the version 1.0.0
 
-* `"returnedSchemas"`: Now the schemas specified by the beacon is the 4.0.0 (`ejprd-resources-v4.0.0.json`)
-* `response`: the items in the result are now formatted with the v4.0.0 schema
+* `"returnedSchemas"`: Now the schemas specified by the beacon is the 2.0.0 (`ejprd-resources-v2.0.0.json`)
+* `response`: the items in the result are now formatted with the v2.0.0 schema
 
 
 [Notes](#-notes-) about the unsupported filters for the `/individuals` endpoint apply also for `catalogs`

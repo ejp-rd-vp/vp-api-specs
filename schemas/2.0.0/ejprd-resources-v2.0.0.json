@@ -65,7 +65,7 @@
     },
     "publisher": {
       "type": "object",
-      "$ref": "./ejprd-organization-v4.0.0.json"
+      "$ref": "./ejprd-organization-v2.0.0.json"
     },
     "license": {
       "type": "string",
