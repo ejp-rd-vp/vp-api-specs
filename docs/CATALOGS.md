@@ -9,6 +9,8 @@ There are two possible versions for this endpoint, each one specifying a set of 
  * **Version 1.0**: This is the legacy one which is derived by the Query Builder. It returns the resources as JSON with properties not having a specific semantic (i.e., they are not associated to an ontology term). Also the filters don't have specific semantic meaning.
  * **Version 2.0**: This version is semantically compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). The response contains json-ld items and it adds semantic to the properties (i.e., they are associated using @context to a term from an ontology or controlled vocabulary). Also the filters for this version are semantically compatible with the Resource Metadata Schema as well.
 
+# Contents
+
 * [Version 1.0](#version-10)
   * [List of filters](#list-of-filters-and-permitted-values-for-version-10)
   * [Resources schema](#resources-schema-for-version-10)
