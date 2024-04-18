@@ -367,7 +367,7 @@ Notice some differences with the version 1.0.0
 * `"returnedSchemas"`: Now the schemas specified by the beacon is the 2.0.0 (`ejprd-resources-v2.0.0.json`)
 * `response`: the items in the result are now formatted with the v2.0.0 schema
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#)
 
 ## Unsupported filters
 
@@ -466,4 +466,4 @@ An example of info section in the response is:
 }
 ```
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#)
