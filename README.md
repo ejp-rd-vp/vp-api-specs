@@ -41,7 +41,7 @@ The request and response conforms to the [Beacon Reference Framework](https://gi
         * [Same Filter (AND) query](./docs/UNDERSTANDING_QUERY.md#beacon-queries-using-multiple-values-as-in-phenotype-or-disease-filters-or-logical-operator-between-filter-values)
         * [Multi-Filter (OR) query using **Arrays**](./docs/UNDERSTANDING_QUERY.md#beacon-queries-using-multiples-of-the-same-type-of-filter-or-logical-operator-between-filters)
     * [Partial query matches with warning messages](./docs/UNDERSTANDING_QUERY.md#partial-request-and-response-with-warning-message-example)
-* [Understanding the response with ranges (for /individuals and /biospecimens)](./docs/UNDERSTANDING_RESPONSE_WITH_RANGES.md.md)
+* [Understanding the response with ranges (for /individuals and /biospecimens)](./docs/UNDERSTANDING_RESPONSE_WITH_RANGES.md)
 * [Informational Endpoints](./docs/INFORMATIONAL_ENDPOINTS.md)
 * [Authentication Using Header for Swagger](./docs/AUTHENTICATION_SWAGGER.md)
 
