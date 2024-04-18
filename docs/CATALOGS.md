@@ -14,7 +14,7 @@ There are two possible versions for this endpoint, each one specifying a set of 
 This version is the first one used to query for catalogs. 
 The following sections describe the list of possible filters that a Beacon can support to query for catalogs and the schema of the responses
 
-### List of filters and permitted values
+### List of filters and permitted values for Version 1.0
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
@@ -24,6 +24,8 @@ The following sections describe the list of possible filters that a Beacon can s
 | Phenotype | `sio:SIO_010056` | Custom | A single term or an array of HPO terms in the format `hp_<code>` e.g. `HP_0001251` or `[HP_0001251, HP_0012250]` | Not Available | Any HPO code in the format  |
 | Resource types | `rdf:type` | Alphanumeric | A single term or an array of terms among the ones listed | Not Available | `PatientRegistryDataset`, `BiobankDataset`, `Dataset`, `Guideline` |  
 | Country | `dct:spatial` | Alphanumeric | country | = | An ISO 3166-1 alpha-2 code (e.g., IT for Italy) |   
+
+### Filters Description for Version 1.0
 
 The definition for the filter is the following:
 
@@ -47,7 +49,7 @@ Examples of body for each of the filters are
  * Resource types: `{ "id": "resourceTypes", "operator": "=", "value": ["BiobankDataset", "PatientRegistryDataset"] }`
  * Country: `{ "id": "country", "operator": "=", "value": ["IT", "DE"] }`
 
-### Resources schema
+### Resources schema for Version 1.0
 
 The response contains a list of json items with metadata of the 
 resources in the catalog. The attributes represents a minimal subset of attributes of the 
@@ -56,64 +58,11 @@ Resource Metadata Schema but without semantic support.
 The schema id for this version is `ejprd-resource-v1.0.0`. The properties 
 are described in the [ejprd-resources-v1.0.0](../schemas/1.0.0/ejprd-resources-v1.0.0.json) file.
 
-
-## Version 2.0
-
-A problem with the version 1.0 is that both the filters and the schema of the results
-don't have a proper semantic support, meaning that they are not 
-associated to a term from an ontology or a controlled vocabulary.
-To overcome this problem a new version was designed.
-This version provides the same filters but uses terms from ontologies. The schema of 
-the response uses JSON-LD and is compliant with the model of the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema), adding semantic support to the returned resouces
-
-The following sections describe the filtering terms and the model of the items in the
-response for this version
-
-### List of filters and permitted values
-
-> **Note**: Elements within arrays in **value** fields are treated as **ORs**
-
-| Metadata Schema Concept | Associated Metadata Schema Term | Filter Type | ID | Operator | Permitted Values |
-| ---- | ----- | ----- | ----- | ----- | ------ |
-| Disease | `dcat:theme` | Ontology | A single term or an array of Orphanet terms in CURIE format prefixed with `ordo:` e.g. `ordo:Orphanet_558` or `[ordo:Orphanet_558, ordo:Orphanet_773]` | Not Available | Any Orphanet code in CURIE format | 
-| Phenotype | `sio:SIO_010056` | Ontology | A single term or an array of HPO terms in CURIE format prefixed with `hp:` e.g. `hp:0001251` or `[hp:0001251, hp:0012250]` | Not Available | Any HPO code in CURIE format |
-| Resource types | `rdf:type` | Ontology | A single term or an array of terms among the EJPRD supported resource's types | Not Available | `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Dataset` |  
-| Country | `dct:spatial` | Alphanumeric | Country using ISO 3166-1 alpha-2 format (e.g, IT for Italy) | = | An ISO 3166-1 alpha-2 code |   
-
-As can be noticed, the filters are the same as before but they are defined 
-differently. Disease and Phenotype are now of type `Ontology` and they adopt the same 
-codes but in CURIES syntax. Also the Resource Types has been changed to Ontology type 
-since it uses terms from the controlled vocabularies defined by EJPRD. Finally, 
-Country remains of type Alphanumeric but now the ID is dct:spatial, as defined by the 
-resource metadata schema.
-
-Examples of filter body for all of the filters are:
-
- * Disease: `{ "id": "ordo:Orphanet_589"}`, `{ "id": ["ordo:Orphanet_589", "ordo:Orphanet_730"]}`
- * Phenotype: `{ "id": "hp:0001251"}`, `{ "id": ["hp:0001251", "hp:0012250"]}`
- * Resource types: `{ "id": "ejprd:Biobank"}`, `{ "id": ["ejprd:PatientRegistry", "ejprd:Guideline"] }`
- * Country: `{ "id": "dct:sptial", "operator": "=", "value": ["IT", "DE"] }`
-
-### Resources schema
-
-The response contains a list of JSON-LD items with metadata of the 
-resources in the catalog. The resources represent Biobanks, Patient 
-Registries, Guidelines or Datasets as defined by the Resource Metadata 
-schema. 
-
-Each item must contain the property `@context` used to specify the 
-JSON-LD context where the semantic of the properties is defined. 
-The value of this property must be the [url](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json) of 
-the `json-ld-contexts/ejprd-context.json` file in this repository.
-
-The schema id for this version is `ejprd-resource-v2.0.0`. The properties 
-are described in the [ejprd-resources-v2.0.0](../schemas/2.0.0/ejprd-resources-v2.0.0.json) file.
-
-## Request and response for Version 1.0
+### Example request and response for Version 1.0
 
 The request, as for the other endpoints, is performed via a POST REST request with a `meta` part and a `query` part. 
 
-Here is an example of a request using filters of version 1
+**REQUEST**
 
 ```json
 {
@@ -144,6 +93,8 @@ default schema of the Beacon. The default schema and the supported schemas are l
 using the `/entry_types` informational endpoint.
 
 The `query` part contains the list of filters.
+
+**RESPONSE**
 
 The following is an example response for the query below, returning one corresponding Biobank
 
@@ -225,9 +176,64 @@ Some of the points to notice in the meta part are:
 
 The response part contains a `resultSet` with the resources formatted using Version 1.0
 
-## Request and response for Version 4
+
+## Version 2.0
+
+A problem with the version 1.0 is that both the filters and the schema of the results
+don't have a proper semantic support, meaning that they are not 
+associated to a term from an ontology or a controlled vocabulary.
+To overcome this problem a new version was designed.
+This version provides the same filters but uses terms from ontologies. The schema of 
+the response uses JSON-LD and is compliant with the model of the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema), adding semantic support to the returned resouces
+
+The following sections describe the filtering terms and the model of the items in the
+response for this version
+
+### List of filters and permitted values for version 2.0
+
+> **Note**: Elements within arrays in **value** fields are treated as **ORs**
+
+| Metadata Schema Concept | Associated Metadata Schema Term | Filter Type | ID | Operator | Permitted Values |
+| ---- | ----- | ----- | ----- | ----- | ------ |
+| Disease | `dcat:theme` | Ontology | A single term or an array of Orphanet terms in CURIE format prefixed with `ordo:` e.g. `ordo:Orphanet_558` or `[ordo:Orphanet_558, ordo:Orphanet_773]` | Not Available | Any Orphanet code in CURIE format | 
+| Phenotype | `sio:SIO_010056` | Ontology | A single term or an array of HPO terms in CURIE format prefixed with `hp:` e.g. `hp:0001251` or `[hp:0001251, hp:0012250]` | Not Available | Any HPO code in CURIE format |
+| Resource types | `rdf:type` | Ontology | A single term or an array of terms among the EJPRD supported resource's types | Not Available | `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Dataset` |  
+| Country | `dct:spatial` | Alphanumeric | Country using ISO 3166-1 alpha-2 format (e.g, IT for Italy) | = | An ISO 3166-1 alpha-2 code |   
+
+As can be noticed, the filters are the same as before but they are defined 
+differently. Disease and Phenotype are now of type `Ontology` and they adopt the same 
+codes but in CURIES syntax. Also the Resource Types has been changed to Ontology type 
+since it uses terms from the controlled vocabularies defined by EJPRD. Finally, 
+Country remains of type Alphanumeric but now the ID is dct:spatial, as defined by the 
+resource metadata schema.
+
+Examples of filter body for all of the filters are:
+
+ * Disease: `{ "id": "ordo:Orphanet_589"}`, `{ "id": ["ordo:Orphanet_589", "ordo:Orphanet_730"]}`
+ * Phenotype: `{ "id": "hp:0001251"}`, `{ "id": ["hp:0001251", "hp:0012250"]}`
+ * Resource types: `{ "id": "ejprd:Biobank"}`, `{ "id": ["ejprd:PatientRegistry", "ejprd:Guideline"] }`
+ * Country: `{ "id": "dct:sptial", "operator": "=", "value": ["IT", "DE"] }`
+
+### Resources schema for version 2.0
+
+The response contains a list of JSON-LD items with metadata of the 
+resources in the catalog. The resources represent Biobanks, Patient 
+Registries, Guidelines or Datasets as defined by the Resource Metadata 
+schema. 
+
+Each item must contain the property `@context` used to specify the 
+JSON-LD context where the semantic of the properties is defined. 
+The value of this property must be the [url](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json) of 
+the `json-ld-contexts/ejprd-context.json` file in this repository.
+
+The schema id for this version is `ejprd-resource-v2.0.0`. The properties 
+are described in the [ejprd-resources-v2.0.0](../schemas/2.0.0/ejprd-resources-v2.0.0.json) file.
+
+### Example request and response for Version 2.0
 
 What follows is an example of the same request as before, that uses version 2.0 filters and schema
+
+**REQUEST**
 
 ```json
 {
@@ -248,6 +254,8 @@ What follows is an example of the same request as before, that uses version 2.0 
     }
 }
 ```
+
+**RESPONSE**
 
 The following is an example of the response with the 2.0.0 schema
 

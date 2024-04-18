@@ -1,4 +1,4 @@
-<h3 id="-individuals-endpoint"> Individuals endpoint</h3>
+# Individuals endpoint
 
 > **HTTP Request Method : POST**
 
@@ -6,7 +6,7 @@
 
 Please **do not use HTTP GET method** to query the individuals endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
 
-<h4 id="-list-of-filters-and-permitted-values-for-the-individuals-endpoint-"> List of filters and permitted values for the individuals endpoint </h4>
+## List of filters and permitted values for the individuals endpoint </h4>
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
@@ -110,7 +110,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 
 <hr>
 
-<h3 id="-individuals-filters-description-"> Individuals Filters Description </h3>
+## Individuals Filters Description
 
 **Sex**: The biological sex of an individual patient.
 
@@ -130,9 +130,9 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 
 <hr>
 
-<h3 id="-example-request-and-response-for-individuals-"> Example request and response for individuals </h3>
+## Example request and response
 
-**EXAMPLE /individuals REQUEST**
+**REQUEST**
 
 ```JSON
 {
@@ -161,7 +161,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 }
 ```
 
-**EXAMPLE /individuals RESPONSE**
+**RESPONSE**
 
 
 ```JSON
