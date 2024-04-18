@@ -189,12 +189,12 @@ components:
           description: >
             Concept ID of CDEs. 
               Allowed terms:
-               * `ncit:C28421` - Sex
-               * `data:2295` - Causative Gene(s)
-               * `ncit:C83164` - Age this year
-               * `ncit:C124353` - Symptom Onset
-               * `ncit:C156420` - Age at diagnosis
-          example: "ncit:C28421"
+               * `obo:NCIT_C28421` - Sex
+               * `edam:data_2295` - Causative Gene(s)
+               * `obo:NCIT_C83164` - Age this year
+               * `obo:NCIT_C124353` - Symptom Onset
+               * `obo:NCIT_C156420` - Age at diagnosis
+          example: "obo:NCIT_C28421"
         operator:
           type: string
           description: |
@@ -209,32 +209,32 @@ components:
       description: "Query parameters to filter individuals based on CDEs."
     IndividualStringValue:
       type: string
-      example: '"ncit:C17998"'
+      example: '"obo:NCIT_C17998"'
       description: |
         The actual value of the CDE in string format. Allowed values:
-          * For `ncit:C28421`(Sex): 
-            * `ncit:C16576`, (Female)
-            * `ncit:C20197`, (Male)
-            * `ncit:C124294`, (Undetermined)
-            * `ncit:C17998` (Unknown)
-              * Ex: \"ncit:C16576\"
-          * For `data:2295`(Causative Gene): 
+          * For `obo:NCIT_C28421`(Sex): 
+            * `obo:NCIT_C16576`, (Female)
+            * `obo:NCIT_C20197`, (Male)
+            * `obo:NCIT_C124294`, (Undetermined)
+            * `obo:NCIT_C17998` (Unknown)
+              * Ex: \"obo:NCIT_C16576\"
+          * For `edam:data_2295`(Causative Gene): 
             * Any HGNC Gene symbol or an array of HGNC Symbols. 
               * Ex: \"FOXRED1\"
-          * For `ncit:C83164`(Age this year): 
+          * For `obo:NCIT_C83164`(Age this year): 
             * Any age as an integer
               * Ex: 13
-          * For `ncit:C124353`(Symptom Onset): 
+          * For `obo:NCIT_C124353`(Symptom Onset): 
             * Any integer
               * Ex: 5
-          * For `ncit:C156420`(Age at diagnosis):
+          * For `obo:NCIT_C156420`(Age at diagnosis):
             * Any integer
               * Ex: 8
     IndividualArrayValues:
       type: array
       items:
         type: string
-      example: '["ncit:C16576","ncit:C20197"]'
+      example: '["obo:NCIT_C16576","obo:NCIT_C20197"]'
       description: |
         An array of allowed CDE value(s) in string format.
     IndividualOntologyRequestArrayFilter:
@@ -356,11 +356,11 @@ components:
           description: >
             Concept ID for biosamples
               Allowed terms:
-               * `ncit:C28421` - Sex
-               * `ncit:C83164` - Year of birth
-               * `ncit:C156420` - Age at diagnosis
-               * `ncit:C70713` - Biospecimen type
-          example: "ncit:C70713"
+               * `obo:NCIT_C28421` - Sex
+               * `obo:NCIT_C83164` - Year of birth
+               * `obo:NCIT_C156420` - Age at diagnosis
+               * `obo:NCIT_C70713` - Biospecimen type
+          example: "obo:NCIT_C70713"
         operator:
           type: string
           description: "This is an advanced filter option to compare filter IDs with filter values using '=' operator in the query."
@@ -374,19 +374,19 @@ components:
       type: string
       description: |
         The actual value of the CDE in string format. Allowed values:
-          * For `ncit:C28421`(Sex): 
-            * `ncit:C16576`, (Female)
-            * `ncit:C20197`, (Male)
-            * `ncit:C124294`, (Undetermined)
-            * `ncit:C17998` (Unknown)
-              * Ex: \"ncit:C16576\"
-          * For `ncit:C83164`(Year of birth): 
+          * For `obo:NCIT_C28421`(Sex): 
+            * `obo:NCIT_C16576`, (Female)
+            * `obo:NCIT_C20197`, (Male)
+            * `obo:NCIT_C124294`, (Undetermined)
+            * `obo:NCIT_C17998` (Unknown)
+              * Ex: \"obo:NCIT_C16576\"
+          * For `obo:NCIT_C83164`(Year of birth): 
             * Any age as an integer
               * Ex: 13
-          * For `ncit:C156420`(Age at diagnosis):
+          * For `obo:NCIT_C156420`(Age at diagnosis):
             * Any integer
               * Ex: 8
-          * For ncit:C70713 (Biospecimen type):
+          * For obo:NCIT_C70713 (Biospecimen type):
             * obi:0000655 (blood specimen)
             * obi:0002512 (bone marrow)
             * OBIB:0000036 (buffy coat)
@@ -469,7 +469,7 @@ components:
           type: string
           description: |
             The field id in the case of numeric or alphanumeric fields, or the term id in the case of ontology or custom terms. CURIE syntax in the case of an ontology term.
-          example: ncit:C28421
+          example: obo:NCIT_C28421
         type:
           type: string
           description: |
@@ -705,7 +705,7 @@ components:
                     id:
                       description: |
                         A CURIE identifier as `id` for ontology term.
-                      example: ncit:C25190
+                      example: obo:NCIT_C25190
                       type: string
                 partOfSpecification:
                   description: |
@@ -858,21 +858,21 @@ components:
                 type: string
                 description: |
                   In an array of strings, any filter(s) that are unsupported by an implementation go here.
-                example: '"data:2295"'
+                example: '"edam:data_2295"'
             unsupportedFilterValues:
               type: array
               items:
                 type: string
                 description: |
-                  If an implementation does not support a filter value, let's say, for example, 'ncit:C124294'(Undetermined) Sex, this unsupported value goes here as a string, and will be ignored while a partial query is performed with other supported filter(s) from the request body (if any).
-                example: '"ncit:C124294","ncit:C179980"'
+                  If an implementation does not support a filter value, let's say, for example, 'obo:NCIT_C124294'(Undetermined) Sex, this unsupported value goes here as a string, and will be ignored while a partial query is performed with other supported filter(s) from the request body (if any).
+                example: '"obo:NCIT_C124294","obo:NCIT_C179980"'
           description: |
             Respond with a list of (comma-separated) unsupported filter(s).
           example: |
             {
-            unsupportedFilters: ["ncit:C156420"], 
+            unsupportedFilters: ["obo:NCIT_C156420"], 
 
-            unsupportedFilterValues:["ncit:C124294"]
+            unsupportedFilterValues:["obo:NCIT_C124294"]
             }
     IndividualResponseContent:
       required:
@@ -1091,7 +1091,7 @@ components:
           description: an array with the orphacodes specifying the disease theme of the resource
           items:
             type: string
-        personalData:
+        personaledam:data_
           type: string
           description: a boolean represente as a string (true or false) specifying whether the resource manage personal data or not
           enum:
