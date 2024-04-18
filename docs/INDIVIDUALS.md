@@ -112,7 +112,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 </tbody>
 </table>
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#individuals-endpoint)
 
 <hr>
 
@@ -132,7 +132,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 
 **Age at diagnosis**: Age at the diagnosis of a rare disease. For individuals with more than one rare disease, this filter will look at all age of manifestations independently. -/+ will be added to all age queries when executed by the query engine at the resource.
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#individuals-endpoint)
 
 <hr>
 
@@ -298,3 +298,5 @@ The "includeDescendantTerms" is used to query for entities associated with the s
   }
 }
 ```
+
+[ ^ Back to the top](#individuals-endpoint)

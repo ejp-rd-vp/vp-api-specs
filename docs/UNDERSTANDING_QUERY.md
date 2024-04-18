@@ -51,7 +51,7 @@ These usage rules are illustrated using a general syntax as below:
 }
 ```
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#understanding-the-query)
 
 As shown above, different types of filters can be sent in a single query. These are further elucidated below. 
 
@@ -77,7 +77,7 @@ As shown above, different types of filters can be sent in a single query. These 
 This filter is asking for individuals that have been diagnosed with Danon disease (ordo:Orphanet_34587) **and** where LAMP2 gene has been identified as causative. These filters are handled independently, this means that individuals with Danon disease where LAMP2 has been identified as a causative gene, specifically for Danon disease, will match the query. It also means that individuals with Danon disease and where LAMP2 has been identified as a causative gene for a second rare disease, other than Danon disease, will also match this query.
 
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#understanding-the-query)
 
 ### Beacon queries using multiples of the same type of filter (AND logical operator between filters)
 
@@ -125,7 +125,7 @@ This query is looking for individuals with Danon disease ("ordo:Orphanet_34587")
 ```
 This query is looking if there are any individuals with RNA sequence information AND Whole Genome Sequence information available.
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#understanding-the-query)
 
 ### Beacon queries using multiples of the same type of filter (OR logical operator between filters)
 
@@ -153,7 +153,7 @@ If a user sends a query with a filter not supported by a resource, then the reso
 
 The warning messages will be provided within the [`info`](#partial-query-matches-with-warning-messages)  section of the Beacon.
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#understanding-the-query)
 
 ## Partial Request and Response with warning message Example
 
@@ -235,4 +235,4 @@ This request is sent to a resource which does not hold information about causati
 This response provides a warning message within the info section advising of unsupported filters which were ignored when the query was processed by the resources query engine. Please see the info part of the [IndividualResponse](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/IndividualResponse) schema on swagger. 
 
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#understanding-the-query)

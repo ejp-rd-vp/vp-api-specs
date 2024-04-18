@@ -55,5 +55,3 @@ To provide flexibility for implementers between using a range, the `info` sectio
 ```
 
 In this example, the result could be a count of individuals between 71 to 80 (the resource only responds with ranges of size 10).
-
-[ ^ Back to the top](#top)

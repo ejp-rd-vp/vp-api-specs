@@ -11,4 +11,3 @@ Use one of the authentication token provided to perform record level queries.
 
 > Developers Note: No matter the user agent being used to query (i.e., SwaggerUI, Postman, cURL, etc.,), the authentication header **auth-key is required**. 
 
-[ ^ Back to the top](#top)

@@ -25,7 +25,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 | Age at diagnosis | ncit:C156420 | Numerical | ncit:C156420 | =, &gt;=, &gt;, &lt;=, &lt; | any integer | 
 | Biospecimen Type | ncit:C70713 | Ontology | One of the permitted values | NA | `obi:0000655 (blood specimen)`, `obi:0002512 (bone marrow)`,  `obib:0000036 (buffy coat)`, `cl:2000001 (peripheral blood mononuclear cell)`, `obi:0100016 (blood plasma specime)`, `obi:0100017 (blood serum)`, `uberon:0007795 (ascites fluid)`, `obi:0002502 (cerebrospinal fluid)`, `obi:0002507 (saliva)`, `obi:0002503 (feces)`, `obi:0000651 (urine)`, `obi:0002599 (swab)`, `obi:2000009 (bodily fluid specimen)`, `obi:1200000 (FFPE specimen)`, `obi:0000922 (frozen specimen)`, `obi:0001472 (specimen with known storage state)`, `obi:0001051 (DNA extract)`, `obi:0000880 (RNA extract)`, `obi:0001479 (specimen from organism)` |
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#biosamples-endpoint)
 
 ## Biosamples Filters Description
 
@@ -39,7 +39,7 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 
 **Biospecimen Type**: One or more biospecimen type. The list is a list of ontology terms taken from OBIB ontology corresponding to terms of [MIABIS](https://github.com/BBMRI-ERIC/miabis).
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#biosamples-endpoint)
 
 ## Example request and response for biosamples
 
@@ -111,4 +111,4 @@ The count **MUST** be accompanied by an unrestricted free text term stating what
 The "includeDescendantTerms" is used to query for entities associated with the submitted bio-ontology term(s). The default and assumed value of includeDescendantTerms is **false** . If the parameter is set to true, then the request implies that a hierarchical ontology search is requested.
 </p>
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#biosamples-endpoint)

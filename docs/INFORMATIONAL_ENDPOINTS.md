@@ -357,4 +357,4 @@ The following table shows the preferred codes prefixes used by the Virtual Platf
 }
 ```
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#informational-endpoints-mandatory-to-be-implemented-for-all-the-resources)
