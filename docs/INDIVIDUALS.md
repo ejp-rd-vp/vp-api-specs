@@ -6,6 +6,12 @@
 
 Please **do not use HTTP GET method** to query the individuals endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
 
+# Contents
+
+* [List of filters](#list-of-filters-and-permitted-values-for-the-individuals-endpoint)
+* [Filters description](#individuals-filters-description)
+* [Example request & response](#example-request-and-response)
+
 ## List of filters and permitted values for the individuals endpoint
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**

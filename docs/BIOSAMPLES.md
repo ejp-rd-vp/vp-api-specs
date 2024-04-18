@@ -1,13 +1,17 @@
 # Biosamples endpoint
 
-This section describes how to query a Beacon for biosamples using the `/biosamples` endpoint
-
 > **HTTP Request Method : POST**
 
 Similarly to the `/individuals` endpoint, `/biosamples` endpoint returns the **__maximum value of biosamples within a specified range__** from an 
 RD resource (usually the resource is a Biobank). Queries are performed in the same way as for `/individuals` endpoint, adding filters in the body of the request.
 
 Please **do not use HTTP GET method** to query the biosamples endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
+
+# Contents
+
+* [List of filters](#list-of-filters-and-permitted-values-for-the-biosamples-endpoint)
+* [Filters description](#biosamples-filters-description)
+* [Example request & response](#example-request-and-response-for-biosamples)
 
 ## List of filters and permitted values for the biosamples endpoint
 
