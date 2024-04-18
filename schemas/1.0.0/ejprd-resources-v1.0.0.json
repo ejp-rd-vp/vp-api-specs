@@ -1,4 +1,5 @@
 {
+  "$id": "ejprd-resources-v1.0.0",
   "$schema": "http://json-schema.org/draft-07/schema",
   "description": "A resource available in the catalog",
   "$comment": "Beacon Schema for EJPRD Resources",
@@ -33,7 +34,7 @@
     },
     "publisher": {
       "type": "object",
-      "$ref": "./ejprd-organization-v4.0.0.json"
+      "$ref": "./ejprd-organization-v1.0.0.json"
     },
     "homepage": {
       "type": "array",
