@@ -98,6 +98,13 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 }
 ```
 
-[Notes](./INDIVIDUALS.md#-notes-) about the `resultCount` and unsupported filters for the `/individuals` endpoint apply also for `biospecimens`
+Also for Biosamples, the "resultCount" attribute in the above response is the **maximum value of whatever range that result** is within, rather than giving out the actual count of individuals. More information on responding using ranges can be found [here](./UNDERSTANDING_RESPONSE_WITH_RANGES.md) 
+
+The filter **SHOULD** be one of the terms from the [filters and permitted values table](#list-of-filters-and-permitted-values-for-the-biosamples-endpoint). Please note that not all resources will support all of the filters. In such cases the response **MUST** include a [warning message in the 'info' part](#example-warning-when-unsupported-filters-are-requested) indicating which requested filters are unsupported and these were not included in the query.
+
+The count **MUST** be accompanied by an unrestricted free text term stating what type of entity the count refers to (e.g., biobanks, trial sites, RD cases, biosamples, cell lines, VCF files, etc) 
+
+The "includeDescendantTerms" is used to query for entities associated with the submitted bio-ontology term(s). The default and assumed value of includeDescendantTerms is **false** . If the parameter is set to true, then the request implies that a hierarchical ontology search is requested.
+</p>
 
 [ ^ Back to the top](#top)

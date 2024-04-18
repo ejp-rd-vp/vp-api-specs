@@ -6,7 +6,7 @@
 
 Please **do not use HTTP GET method** to query the individuals endpoint, as it is **not permitted** per this specification, and will result in a 403 error response.
 
-## List of filters and permitted values for the individuals endpoint </h4>
+## List of filters and permitted values for the individuals endpoint
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
@@ -198,15 +198,13 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 }
 ```
 <p  id="-notes-">
+The "resultCount" attribute in the above response is the **maximum value of whatever range that result** is within, rather than giving out the actual count of individuals. More information on responding using ranges can be found [here](./UNDERSTANDING_RESPONSE_WITH_RANGES.md) 
 
-The "resultCount" attribute in the above response is the **maximum value of whatever range that result** is within, rather than giving out the actual count of individuals. More information on responding using ranges can be found [here](#-understanding-the-response-with-ranges-for-individuals-and-biospecimens) 
-
-The filter **SHOULD** be one of the terms from the [filters and permitted values table](#-list-of-filters-and-permitted-values-for-the-individuals-endpoint-). Please note that not all resources will support all of the filters. In such cases the response **MUST** include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
+The filter **SHOULD** be one of the terms from the [filters and permitted values table](#list-of-filters-and-permitted-values-for-the-individuals-endpoint). Please note that not all resources will support all of the filters. In such cases the response **MUST** include a [warning message in the 'info' part](#example-warning-when-unsupported-filters-are-requested) indicating which requested filters are unsupported and these were not included in the query.
 
 The count **MUST** be accompanied by an unrestricted free text term stating what type of entity the count refers to (e.g., biobanks, trial sites, RD cases, biosamples, cell lines, VCF files, etc) 
 
 The "includeDescendantTerms" is used to query for entities associated with the submitted bio-ontology term(s). The default and assumed value of includeDescendantTerms is **false** . If the parameter is set to true, then the request implies that a hierarchical ontology search is requested.
-
 </p>
 
 **EXAMPLE warning when unsupported filters are requested**
@@ -214,83 +212,83 @@ The "includeDescendantTerms" is used to query for entities associated with the s
 
 ```JSON
  {
-    "meta": {
-        "beaconId": "org.rd-connect.beacon",
-        "apiVersion": "v2.0.0-draft.4",
-        "returnedGranularity": "count",
-        "receivedRequestSummary": {
-            "apiVersion": "v2.0",
-            "requestedSchemas": [
-                {
-                    "entityType": "individuals",
-                    "schema": "beacon-individual-v2.0.0-draft.4"
-                }
-            ],
-            "filters": [
-                [
-                    {
-                        "id": [
-                            "ordo:Orphanet_730",
-                            "ordo:Orphanet_2730"
-                        ]
-                    },
-                    {
-                        "id": "ncit:C28421",
-                        "operator": "=",
-                        "value": "ncit:C20197"
-                    },
-                    {
-                        "id": "data:2295",
-                        "operator": "=",
-                        "value": "100"
-                    },
-                    {
-                        "id": "ncit:C83164",
-                        "operator": ">=",
-                        "value": "0"
-                    },
-                    {
-                        "id": "ncit:C124353",
-                        "operator": ">=",
-                        "value": "0"
-                    },
-                    {
-                        "id": "ncit:C156420",
-                        "operator": ">=",
-                        "value": "0"
-                    }
-                ]
-            ]
-        },
-        "returnedSchemas": [
-            {
-                "entityType": "individuals",
-                "schema": "beacon-individual-v2.0.0-draft.4"
-            }
-        ]
-    },
-    "responseSummary": {
-        "exists": false,
-        "numTotalResults": 0
-    },
-    "info": {
-        "warnings": {
-            "unsupportedFilters": [
-                "ncit:C83164",
-                "ncit:C124353",
-                "ncit:C156420"
-            ]
+  "meta": {
+    "beaconId": "org.rd-connect.beacon",
+    "apiVersion": "v2.0.0-draft.4",
+    "returnedGranularity": "count",
+    "receivedRequestSummary": {
+      "apiVersion": "v2.0",
+      "requestedSchemas": [
+        {
+          "entityType": "individuals",
+          "schema": "beacon-individual-v2.0.0-draft.4"
         }
-    },
-    "response": {
-        "resultSets": [
-            {
-                "id": "datasetBeacon",
-                "type": "individuals",
-                "exists": false,
-                "resultCount": 0
-            }
+      ],
+      "filters": [
+        [
+          {
+            "id": [
+              "ordo:Orphanet_730",
+              "ordo:Orphanet_2730"
+            ]
+          },
+          {
+            "id": "ncit:C28421",
+            "operator": "=",
+            "value": "ncit:C20197"
+          },
+          {
+            "id": "data:2295",
+            "operator": "=",
+            "value": "100"
+          },
+          {
+            "id": "ncit:C83164",
+            "operator": ">=",
+            "value": "0"
+          },
+          {
+            "id": "ncit:C124353",
+            "operator": ">=",
+            "value": "0"
+          },
+          {
+            "id": "ncit:C156420",
+            "operator": ">=",
+            "value": "0"
+          }
         ]
+      ]
+    },
+    "returnedSchemas": [
+      {
+        "entityType": "individuals",
+        "schema": "beacon-individual-v2.0.0-draft.4"
+      }
+    ]
+  },
+  "responseSummary": {
+    "exists": false,
+    "numTotalResults": 0
+  },
+  "info": {
+    "warnings": {
+      "unsupportedFilters": [
+        "ncit:C83164",
+        "ncit:C124353",
+        "ncit:C156420"
+      ]
     }
+  },
+  "response": {
+    "resultSets": [
+      {
+        "id": "datasetBeacon",
+        "type": "individuals",
+        "exists": false,
+        "resultCount": 0
+      }
+    ]
+  }
 }
 ```
