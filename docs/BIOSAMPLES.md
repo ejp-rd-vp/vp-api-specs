@@ -19,11 +19,11 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 
 | Concept | Ontological Term | Filter Type | ID | Operator | Permitted Values | 
 | ----- | ----- | ----- | ----- | ----- | ----- |
-| Sex | ncit:C28421 | Alhanumerical | ncit:C28421 | = | `ncit:C16576`, `ncit:C20197`, `ncit:C124294`, `ncit:C17998` | 
+| Sex | ncit:C28421 | Alhanumerical | ncit:C28421 | = | ncit:C16576, ncit:C20197, ncit:C124294, ncit:C17998 | 
 | Disease | ncit::C2991 | Ontology | A single value of an array of Orphanet terms using CURIE format (e.g., `ordo:Orphanet_589`, [`ordo:Orphanet_589`, `ordo:Orphanet_730`]) | NA | Any Orphanet codes in CURIE format
 | Year of birth | ncit:C83164 | Numerical | ncit:C83164 | =, &gt;=, &gt;, &lt;=, &lt; | any integer | 
 | Age at diagnosis | ncit:C156420 | Numerical | ncit:C156420 | =, &gt;=, &gt;, &lt;=, &lt; | any integer | 
-| Biospecimen Type | ncit:C70713 | Ontology | One of the permitted values | NA | `obi:0000655 (blood specimen)`, `obi:0002512 (bone marrow)`,  `obib:0000036 (buffy coat)`, `cl:2000001 (peripheral blood mononuclear cell)`, `obi:0100016 (blood plasma specime)`, `obi:0100017 (blood serum)`, `uberon:0007795 (ascites fluid)`, `obi:0002502 (cerebrospinal fluid)`, `obi:0002507 (saliva)`, `obi:0002503 (feces)`, `obi:0000651 (urine)`, `obi:0002599 (swab)`, `obi:2000009 (bodily fluid specimen)`, `obi:1200000 (FFPE specimen)`, `obi:0000922 (frozen specimen)`, `obi:0001472 (specimen with known storage state)`, `obi:0001051 (DNA extract)`, `obi:0000880 (RNA extract)`, `obi:0001479 (specimen from organism)` |
+| Biospecimen Type | ncit:C70713 | Ontology | One of the permitted values | NA | obi:0000655 (blood specimen), obi:0002512 (bone marrow), obib:0000036 (buffy coat), cl:2000001 (peripheral blood mononuclear cell), obi:0100016 (blood plasma specime), obi:0100017 (blood serum), uberon:0007795 (ascites fluid), obi:0002502 (cerebrospinal fluid), obi:0002507 (saliva), obi:0002503 (feces), obi:0000651 (urine), obi:0002599 (swab), obi:2000009 (bodily fluid specimen), obi:1200000 (FFPE specimen), obi:0000922 (frozen specimen), obi:0001472 (specimen with known storage state), obi:0001051 (DNA extract), obi:0000880 (RNA extract), obi:0001479 (specimen from organism) |
 
 [ ^ Back to the top](#biosamples-endpoint)
 

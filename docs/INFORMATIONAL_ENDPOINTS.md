@@ -313,8 +313,12 @@ The following table shows the preferred codes prefixes used by the Virtual Platf
 | Resource Description Framework | rdf | http://www.w3.org/1999/02/22-rdf-syntax-ns# | rdf:type |
 | EJP-RD Vocabulary | ejp-rd | https://w3id.org/ejp-rd/vocabulary# | ejp-rd:Biobank | 
 | Semanticscience Integrated Ontology (SIO) | sio | http://semanticscience.org/ontology/ | sio |
-| NCI Thesaurus | ncit | http://purl.obolibrary.org/obo/NCIT_ | ncit:C28421 |
 | Human Phenotype Ontology | hp | http://purl.obolibrary.org/obo/HP_ | hp:0001251 |
+| NCI Thesaurus (NCIT) | ncit | http://purl.obolibrary.org/obo/NCIT_ | ncit:C28421 |
+| Ontology for Biomedical Investigations (OBI) | obi | http://purl.obolibrary.org/obo/OBI_ | obi:0000655 |
+| Ontology for BIoBanking (OBIB) | obib | http://purl.obolibrary.org/obo/OBIB_ | obib:0000036 |
+| Uber-anatomy ontology | uberon | http://purl.obolibrary.org/obo/UBERON_ | uberon:0007795 |
+| Cell ontology | cl | http://purl.obolibrary.org/obo/CL_ | cl:2000001 | 
 
 ## Map
 
