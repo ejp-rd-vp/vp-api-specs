@@ -98,6 +98,6 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 }
 ```
 
-[Notes](./README.md#-notes-) about the `resultCount` and unsupported filters for the `/individuals` endpoint apply also for `biospecimens`
+[Notes](./INDIVIDUALS.md#-notes-) about the `resultCount` and unsupported filters for the `/individuals` endpoint apply also for `biospecimens`
 
 [ ^ Back to the top](#top)

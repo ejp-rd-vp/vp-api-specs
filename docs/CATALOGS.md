@@ -344,4 +344,4 @@ Notice some differences with the version 1.0.0
 * `response`: the items in the result are now formatted with the v2.0.0 schema
 
 
-[Notes](#-notes-) about the unsupported filters for the `/individuals` endpoint apply also for `catalogs`
+[Notes](./INDIVIDUALS.md#-notes-) about the unsupported filters for the `/individuals` endpoint apply also for `catalogs`
