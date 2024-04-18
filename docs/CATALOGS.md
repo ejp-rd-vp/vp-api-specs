@@ -76,7 +76,7 @@ The request, as for the other endpoints, is performed via a POST REST request wi
     }, {
         "id": "resourceTypes",
         "operator": "=",
-        "value": ["BiobankDataset", "PatientRegistryDataset"]
+        "value": ["BiobankDataset"]
     }, {
       "id": "country",
       "operator": "=",
@@ -110,7 +110,7 @@ The following is an example response for the query below, returning one correspo
       "filters": [{
           "id": "Orphanet_730"
         }, {
-          "id": ["ejprd:Biobank", "ejprd:PatientRegistry"]
+          "id": ["ejprd:Biobank"]
         }, {
           "id": "country",
           "operator": "=",
@@ -245,7 +245,7 @@ What follows is an example of the same request as before, that uses version 2.0 
         "filters": [{
             "id": "ordo:Orphanet_100"
         }, {
-            "id": ["ejprd:Biobank", "ejprd:PatientRegistry"]
+            "id": ["ejprd:Biobank"]
         }, {
           "id": "dct:spatial",
           "operator": "=",
@@ -271,7 +271,7 @@ The following is an example of the response with the 2.0.0 schema
       "filters": [{
           "id": "ordo:Orphanet_730"
         }, {
-          "id": ["ejprd:Biobank", "ejprd:PatientRegistry"]
+          "id": ["ejprd:Biobank"]
         }, {
           "id": "dct:spatial",
           "operator": "=",
@@ -343,5 +343,99 @@ Notice some differences with the version 1.0.0
 * `"returnedSchemas"`: Now the schemas specified by the beacon is the 2.0.0 (`ejprd-resources-v2.0.0.json`)
 * `response`: the items in the result are now formatted with the v2.0.0 schema
 
+## Unsupported filters
 
-[Notes](./INDIVIDUALS.md#-notes-) about the unsupported filters for the `/individuals` endpoint apply also for `catalogs`
+Similarly to what happens with the `/individuals` and `/biosamples` 
+endpoints, filter **SHOULD** be one of the terms from the allowed ones. 
+Not all resources will support all of the filters. In such cases 
+the response **MUST** include a **warning message in the 'info' 
+part** indicating which requested filters are unsupported and these 
+were ignored.
+
+An example of info section in the response is: 
+
+```JSON
+{
+  "meta": {
+    "beaconId": "ejprd.beacon.directory.bbmri-eric.eu",
+    "apiVersion": "v2.0.0",
+    "returnedGranularity": "record",
+    "receivedRequestSummary": {
+      "apiVersion": "2.0",
+      "requestedSchemas": ["ejprd-resources-v2.0.0"],
+      "filters": [{
+          "id": "ordo:Orphanet_730"
+        }, {
+          "id": ["ejprd:Biobank", "ejprd:PatientRegistry"]
+        }, {
+          "id": "dct:spatial",
+          "operator": "=",
+          "value": ["IT", "DE"]
+        }
+      ],
+      "requestParameters": {},
+      "includeResultsetResponses": "HIT",
+      "pagination": {
+        "skip": 0,
+        "limit": 50
+      },
+      "requestedGranularity": "record",
+      "testMode": false
+    },
+    "returnedSchemas": [
+      {
+        "entityType": "resources",
+        "schema": "ejprd-resources-v2.0.0",
+        "name": "EJPRD schema for resources",
+        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/2.0.0/ejprd-resources-v2.0.0.json",
+        "version": "v2.0.0"
+      }
+    ]
+  },
+  "responseSummary": {
+    "exists": true,
+    "numTotalResults": 1
+  },
+  "info": {
+    "warnings": {
+      "unsupportedFilters": [
+        "ejprd:PatientRegistry"  
+      ]
+    }
+  },
+  "beaconHandovers": [],
+  "response": {
+    "resultSets": [
+      {
+        "resultsCount": 0,
+        "results": [
+          {
+            "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
+            "@id": "biobank-1:collection:collection-1",
+            "@type": "ejprd:Biobank",
+            "title": "Rare Disease Biobank",
+            "logo": "http://raredisease.biobank.eu/logo.png",
+            "description": "Rare disease biobank with data about muscular distrophy",
+            "populationCoverage": "European",
+            "theme": "ordo:Orphanet_730",
+            "vpConnection": "ejprd:VPContentDiscovery",
+            "landingPage": [
+              "http://biobank.raredisease.org"
+            ],
+            "personalData": "true",
+            "language": "IT",
+            "publisher": {
+              "@id": "biobank-1",
+              "title": "Organization hosting the collection of samples",
+              "description": "The biobank that hosts the collection",
+              "spatial": {
+                "title": "IT"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
