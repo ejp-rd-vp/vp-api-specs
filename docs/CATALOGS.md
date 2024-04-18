@@ -36,7 +36,7 @@ The following sections describe the list of possible filters that a Beacon can s
 | Resource types | `rdf:type` | Alphanumeric | A single term or an array of terms among the ones listed | Not Available | `PatientRegistryDataset`, `BiobankDataset`, `Dataset`, `Guideline` |  
 | Country | `dct:spatial` | Alphanumeric | country | = | An ISO 3166-1 alpha-2 code (e.g., IT for Italy) |   
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#catalogs-endpoint)
 
 ### Filters Description for Version 1.0
 
@@ -62,7 +62,7 @@ Examples of body for each of the filters are
  * Resource types: `{ "id": "resourceTypes", "operator": "=", "value": ["BiobankDataset", "PatientRegistryDataset"] }`
  * Country: `{ "id": "country", "operator": "=", "value": ["IT", "DE"] }`
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#catalogs-endpoint)
 
 ### Resources schema for Version 1.0
 
@@ -73,7 +73,7 @@ Resource Metadata Schema but without semantic support.
 The schema id for this version is `ejprd-resource-v1.0.0`. The properties 
 are described in the [ejprd-resources-v1.0.0](../schemas/1.0.0/ejprd-resources-v1.0.0.json) file.
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#catalogs-endpoint)
 
 ### Example request and response for Version 1.0
 
@@ -193,7 +193,7 @@ Some of the points to notice in the meta part are:
 
 The response part contains a `resultSet` with the resources formatted using Version 1.0
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#catalogs-endpoint)
 
 ## Version 2.0
 
@@ -207,7 +207,7 @@ the response uses JSON-LD and is compliant with the model of the [Resource Metad
 The following sections describe the filtering terms and the model of the items in the
 response for this version
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#catalogs-endpoint)
 
 ### List of filters and permitted values for version 2.0
 
@@ -234,7 +234,7 @@ Examples of filter body for all of the filters are:
  * Resource types: `{ "id": "ejprd:Biobank"}`, `{ "id": ["ejprd:PatientRegistry", "ejprd:Guideline"] }`
  * Country: `{ "id": "dct:sptial", "operator": "=", "value": ["IT", "DE"] }`
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#catalogs-endpoint)
 
 ### Resources schema for version 2.0
 
@@ -251,7 +251,7 @@ the `json-ld-contexts/ejprd-context.json` file in this repository.
 The schema id for this version is `ejprd-resource-v2.0.0`. The properties 
 are described in the [ejprd-resources-v2.0.0](../schemas/2.0.0/ejprd-resources-v2.0.0.json) file.
 
-[ ^ Back to the top](#top)
+[ ^ Back to the top](#catalogs-endpoint)
 
 ### Example request and response for Version 2.0
 
@@ -367,7 +367,7 @@ Notice some differences with the version 1.0.0
 * `"returnedSchemas"`: Now the schemas specified by the beacon is the 2.0.0 (`ejprd-resources-v2.0.0.json`)
 * `response`: the items in the result are now formatted with the v2.0.0 schema
 
-[ ^ Back to the top](#)
+[ ^ Back to the top](#catalogs-endpoint)
 
 ## Unsupported filters
 
@@ -466,4 +466,4 @@ An example of info section in the response is:
 }
 ```
 
-[ ^ Back to the top](#)
+[ ^ Back to the top](#catalogs-endpoint)
