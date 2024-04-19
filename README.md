@@ -572,7 +572,7 @@ The following sections describe the list of possible filters that a Beacon can s
 | ---- | ----- | ----- | ----- | ----- | ------ |
 | Disease | `dcat:theme` | Custom | A single term or an array of Orphanet codes in e.g., `Orphanet_558` or `[Orphanet_558, Orphanet_773]` | Not Available | Any Orphanet code | 
 | Phenotype | `sio:SIO_010056` | Custom | A single term or an array of HPO terms in the format `hp_<code>` e.g. `HP_0001251` or `[HP_0001251, HP_0012250]` | Not Available | Any HPO code in the format  |
-| Resource types | `rdf:type` | Alphanumeric | A single term or an array of terms among the ones listed | Not Available | `PatientRegistryDataset`, `BiobankDataset`, `Dataset`, `Guideline` |  
+| Resource types | `rdf:type` | Alphanumeric | resourceTypes | = | `PatientRegistryDataset`, `BiobankDataset`, `Dataset`, `Guideline` |  
 | Country | `dct:spatial` | Alphanumeric | country | = | An ISO 3166-1 alpha-2 code (e.g., IT for Italy) |   
 
 [ ^ Back to the top](#top)
