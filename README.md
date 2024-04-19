@@ -1577,7 +1577,7 @@ Here is an example response for the filtering terms enpoints
         "version": "4.4",
         "namespacePrefix": "ordo",
         "iriPrefix": "http://www.orpha.net/ORDO/"
-      },  
+      },
       {
         "id": "dcat",
         "name": "DCAT 2 Vocabulary",
@@ -1591,15 +1591,13 @@ Here is an example response for the filtering terms enpoints
         "name": "NCIT",
         "url": "http://purl.obolibrary.org/obo/ncit.owl",
         "version": "2023-101-19",
-        "namespacePrefix": "ncit",
-        "iriPrefix": "http://purl.obolibrary.org/obo/NCIT_"
-
+        "namespacePrefix": "obo",
+        "iriPrefix": "http://purl.obolibrary.org/obo/"
       }
-
     ],
     "filteringTerms": [
       {
-        "id": "ordo:*",
+        "id": "ordo:Orphanet_589",
         "label": "Disease or disorder",
         "type": "ontology",
         "scopes": [
@@ -1631,11 +1629,11 @@ Here is an example response for the filtering terms enpoints
 ```
 
 This response notifies the clients that this beacon supports three filtering terms, as defined in the filteringTerms items:
- - ordo:* whatever term from the Orphanet (ORDO) ontology is accepted (e.g., ordo:Orphanet_730)
- - obo:NCIT_C156420: filters by age at diagnosis
+ - ordo:Orphanet_589 filter by this code
+ - ncit:C156420: filters by age at diagnosis
  - dct:spatial: filter by country
 
-Notice that each term may specify also a `"scopes"` attribute: this is used to specify for which type of enpoints the filter is supported. For example the `obo:NCIT_C156420` term can be used only for `/individuals` and `/biosamples` endpoint.
+Notice that each term may specify also a `"scopes"` attribute: this is used to specify for which type of enpoints the filter is supported. For example the `ncit:C156420` term can be used only for `/individuals` and `/biosamples` endpoint.
 
 The `"resource"` section of the endpoint is used the client how the CURIEs prefixes are interpreted by the beacon endpoint. 
 
@@ -1654,7 +1652,7 @@ For example the item:
 
 means that the `ordo` prefix is used for the orphanet codes and terms starting with `ordo` (`"namespacePrefix"` attribute) are expanded to `"http://www.orpha.net/ORDO/"` ("iriPrefix").
 
-The following table shows the preferred codes prefixes used by the Virtual Platform. Notice that implementers may use different prefixes but adoption of the following one is highly reccommended.
+The following table shows the recommended prefixes used by the Virtual Platform. 
 
 | Ontology | Prefix | IRI | Example |
 | -------- | ------ | --- | ------- |
@@ -1665,8 +1663,16 @@ The following table shows the preferred codes prefixes used by the Virtual Platf
 | Resource Description Framework | rdf | http://www.w3.org/1999/02/22-rdf-syntax-ns# | rdf:type |
 | EJP-RD Vocabulary | ejp-rd | https://w3id.org/ejp-rd/vocabulary# | ejp-rd:Biobank | 
 | Semanticscience Integrated Ontology (SIO) | sio | http://semanticscience.org/ontology/ | sio |
-| NCI Thesaurus | ncit | http://purl.obolibrary.org/obo/NCIT_ | obo:NCIT_C28421 |
 | Human Phenotype Ontology | hp | http://purl.obolibrary.org/obo/HP_ | hp:0001251 |
+| NCI Thesaurus (NCIT) | obo | http://purl.obolibrary.org/obo/ | obo:NCIT__C28421 |
+| Ontology for Biomedical Investigations (OBI) | obi | http://purl.obolibrary.org/obo/ | obo_OBI_0000655 |
+| Ontology for BIoBanking (OBIB) | obib | http://purl.obolibrary.org/obo/ | obo_OBIB_0000036 |
+| Uber-anatomy ontology | obo | http://purl.obolibrary.org/obo/ | obo:UBERON_0007795 |
+| Cell ontology | obo | http://purl.obolibrary.org/obo/ | obo:CL_2000001 | 
+
+[ ^ Back to the top](#top)
+
+<hr>
 
 <h3 id="-map-endpoint-">Map</h3>
 
