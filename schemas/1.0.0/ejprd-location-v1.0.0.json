@@ -1,0 +1,21 @@
+{
+  "$id": "ejprd-location-v1.0.0.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "A schema to describe a location, region or jurisdiction",
+  "title": "Location",
+  "required": [
+    "code",
+    "title"
+  ],
+  "properties": {
+    "code": { 
+      "description": "The locations' country code",
+      "type": "string",
+      "enum": ["IT", "FR", "NL", "..."]
+    },
+    "title": {
+      "description": "The country name",
+      "type": "string"
+    }
+  }
+}
