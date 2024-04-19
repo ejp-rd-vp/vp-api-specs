@@ -20,9 +20,16 @@ In this work, we present API specification for querying RD patient registries, b
       * [Filters description](#-biosamples-filters-description-)
       * [Example request & response](#-example-request-and-response-for-biosamples-)
     * [Catalogs endpoint](#-catalogs-endpoint-)
-      * [List of filters](#-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-)
-      * [Filters description](#-catalogs-filters-description-)
-      * [Example request & response](#-example-request-and-response-for-catalogs-)
+      * [Version 1.0](#-catalogs-version-10-)
+        * [List of filters](#-list-of-filters-and-permitted-values-for-catalogs-version-10-)
+        * [Filters description](#-catalogs-10-filters-description-)
+        * [Resources schema](#-catalogs-resources-schema-for-version-10-)
+        * [Example request & response](#-example-request-and-response-for-catalogs-version-10-)
+      * [Version 2.0](#-catalogs-version-20-)
+        * [List of filters](#-list-of-filters-and-permitted-values-for-catalogs-version-20-)
+        * [Resource schema](#-catalogs-resources-schema-for-version-20-)
+        * [Example request & response](#-example-request-and-response-for-catalogs-version-20-)
+      * [Unsupported filters](#-catalogs-unsupported-filters-note-)
 * [Authentication using Header(s)](#-authentication-using-header-)
 * [Understanding the query](#-understanding-the-query)
     * [Syntax & Usage of Beacon Query with Filters](#-syntax-and-usage)
@@ -536,225 +543,481 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 [ ^ Back to the top](#top)
 
 <hr>
+
 <h3 id="-catalogs-endpoint-"> Catalogs endpoint </h3>
 
 > Method: POST
 
-[/catalogs](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
+The [/catalogs](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/Query%20Endpoints/catalogs_request) endpoint is used to query a Catalog (as defined in [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema)) of resources. It returns a list of  **__metadata of RD resources__ (such as Dataset, Biobank, Patient Registry of Guidelined)** contained in the catalog.
 
-<h4 id="-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-"> List of filters and permitted values for the catalogs endpoint </h4>
+There are two possible versions for this endpoint, each one specifying a set of filters and a schema for the responses.
+
+ * **Version 1.0**: This is the legacy one which is derived by the Query Builder. It returns the resources as JSON with properties not having a specific semantic (i.e., they are not associated to an ontology term). Also the filters don't have specific semantic meaning.
+ * **Version 2.0**: This version is semantically compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). The response contains json-ld items and it adds semantic to the properties (i.e., they are associated using @context to a term from an ontology or controlled vocabulary). Also the filters for this version are semantically compatible with the Resource Metadata Schema as well.
+
+<hr>
+
+<h3 id="-catalogs-version-10-"> Version 1.0 </h3>
+
+This version is the first one used to query for catalogs. 
+The following sections describe the list of possible filters that a Beacon can support to query for catalogs and the schema of the responses
+
+<hr>
+
+<h4 id="-list-of-filters-and-permitted-values-for-catalogs-version-10-"> List of filters and permitted values for Version 1.0 </h4>
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
-<table>
-<thead>
-        <th>Metadata Schema Concept</th>
-        <th>Metadata Schema Term</th>
-        <th>Beacon Filter Type</th>
-        <th>ID</th>
-        <th>Operator</th>
-        <th>Permitted Values</th>
-</thead>
-<tbody>
-    <tr>
-        <td><b>Disease or Disorder</b></td>
-        <td>dcat:theme</td>
-        <td>Ontology</td>
-        <td>A single value or an array of orphanet terms in CURIE syntax prefixed with `ordo:`<b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
-        <td colspan="2">NA</td>
-    </tr>
-    <tr>
-        <td><b>Phenotype</b></td>
-        <td>sio:SIO_010056</td>
-        <td>Ontology</td>
-        <td>A single value or an array of HPO terms prefixed with `hp:` <b>e.g. hp:0001251 or [hp:0001251, hp:0012250]</b></td>
-        <td colspan="2">NA</td>
-    </tr>
-    <tr>
-        <td rowspan="5"><b>Resource Types</b></td>
-        <td rowspan="5">rdf:type</td>
-        <td rowspan="5">Alphanumerical</td>
-        <td rowspan="5">A single value or an array of values representing a resource type of the resource. It must be one of the types defined in EJP Resource Metadata Schema</td>
-        <td rowspan="5">=</td>
-        <td>ejprd:PatientRegistry</td>
-    </tr>
-    <tr><td>ejprd:Biobank</td></tr>
-    <tr><td>ejprd:Guideline</td></tr>
-    <tr><td>dcat:Dataset</td></tr>
-    <tr><td>An array of any of the above</td></tr>
-    <tr>
-        <td><b>ID</b></td> 
-        <td>NA</td>
-        <td>Alphanumerical</td>
-        <td>id</td>
-        <td>=</td>
-        <td>any String</td>
-    </tr>
-    <tr>
-        <td><b>Name </b></td>
-        <td>dct:title</td>
-        <td>Alphanumerical</td>
-        <td>The name of the resource</td>
-        <td>=</td>
-        <td>any String</td>
-    </tr>
-    <tr>
-        <td><b>Description </b> </td>
-        <td>dct:description</td>
-        <td>Alphanumerical</td>
-        <td>The description of the resource</td>
-        <td>=</td>
-        <td>any String</td>
-    </tr>
-</tbody>
-</table>
+| Metadata Schema Concept | Associated Metadata Schema Term | Filter Type | ID | Operator | Permitted Values |
+| ---- | ----- | ----- | ----- | ----- | ------ |
+| Disease | `dcat:theme` | Custom | A single term or an array of Orphanet codes in e.g., `Orphanet_558` or `[Orphanet_558, Orphanet_773]` | Not Available | Any Orphanet code | 
+| Phenotype | `sio:SIO_010056` | Custom | A single term or an array of HPO terms in the format `hp_<code>` e.g. `HP_0001251` or `[HP_0001251, HP_0012250]` | Not Available | Any HPO code in the format  |
+| Resource types | `rdf:type` | Alphanumeric | A single term or an array of terms among the ones listed | Not Available | `PatientRegistryDataset`, `BiobankDataset`, `Dataset`, `Guideline` |  
+| Country | `dct:spatial` | Alphanumeric | country | = | An ISO 3166-1 alpha-2 code (e.g., IT for Italy) |   
 
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h3 id="-catalogs-filters-description-"> Catalogs Filters Description </h3>
+<h4 id="-catalogs-10-filters-description-">Filters Description for Version 1.0 </h4>
 
-**Disease or Disorder**: All rare diseases that are associated **within a catalog**. It corresponds to the `dcat:theme` property of the Resource Metadata Schema. The values follow CURIE syntax and use the `ordo:` prefix.
+The definition for the filter is the following:
 
-**Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources. The values follow CURIE syntax and use the `hp:` prefix. 
+**Disease**: All rare diseases that are associated with the resource **within the catalog**. 
 
-**ID**: The resource identifier ID **within the catalog**. It corresponds to the identifier of the RDF resource
+**Phenotype**: HPO terms of all phenotypes observed **within the catalog** of rare disease resources.
 
-**Name**: The name of the resource in the **catalog**. It corresponds to the `dct:title` of the Resource Metadata Schema
+**Resource Types**: Types of resources **within the catalog**.
 
-**Description**: The description of the resource in the **catalog**. It corresponds to the `dct:description` property of the Resource Metadata Schema
+**Country**: The country of the resource. 
 
-**Organisation**: The organisation that owns the resouce. It corresponds to the dct:publisher property. 
+Notice that Disease and Phenotype are of type `Custom`: this is the Beacon type for 
+filters that are not Ontology or Alphanumeric. Indeed, the id of the filters are 
+Orpha codes and HPO terms, but they are not in a semantic format. This has been 
+changed in version 2.0 as we will see.
 
-**Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are the type of resources in the Resource Metadata Schema:  `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Datasest` or an array of any of these values.
+Examples of body for each of the filters are
+
+ * Disease: `{ "id": "Orphanet_589"}`, `{ "id": ["Orphanet_589", "Orphanet_730"]}`
+ * Phenotype: `{ "id": "HP_0001251"}`, `{ "id": ["HP_0001251", "HP_0012250"]}`
+ * Resource types: `{ "id": "resourceTypes", "operator": "=", "value": ["BiobankDataset", "PatientRegistryDataset"] }`
+ * Country: `{ "id": "country", "operator": "=", "value": ["IT", "DE"] }`
 
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h3 id="catalogs-response">Catalogs Response</h3>
+<h4 id="-catalogs-resources-schema-for-version-10-">Resources schema for Version 1.0 </h4>
 
-The response is a Beacon Collection response that corresponds to a Resource described by the Resource Metadata Schema. Depending on the resource type, the properties may slighlty differ: for example some resource types can have properties that others don't have. Notice that an important field in all resources is the `@context` that specifies the semantics of the properties returned. It must be the [link](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json) to the `json-ld-contexts/ejprd-context.json` file  in this repository. The schemas for each specific resource are in the `/schemas` directory.
-In the meta section of the response, the `returnedSchemas` object must specify the correct json schema for the resource. An example is:
+The response contains a list of json items with metadata of the 
+resources in the catalog. The attributes represents a minimal subset of attributes of the 
+Resource Metadata Schema but without semantic support.
 
-```JSON
-"returnedSchemas": [
-    {
-        "entityType": "resources",
-        "schema": "ejprd-biobank-registry-v1.0.0",
-        "name": "EJPRD schema for biobank and patient registry",
-        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/biobank-registry-schema.json",
-        "version": "v1.0.0"
-    }
-]
-```
+The schema id for this version is `ejprd-resource-v1.0.0`. The properties 
+are described in the [ejprd-resources-v1.0.0](../schemas/1.0.0/ejprd-resources-v1.0.0.json) file.
 
-<h3 id="-example-request-and-response-for-catalogs-"> Example request and response for catalogs </h3>
+[ ^ Back to the top](#top)
 
-**EXAMPLE /catalogs REQUEST**
+<h4 id="-example-request-and-response-for-catalogs-version-10-">Example request and response for Version 1.0</h4>
 
-```JSON
-{ 
- "meta":{
-      "apiVersion": "v2.0"
- },
- "query": {
-      "filters": [
-        {
-          "id": "ordo:Orphanet_730"
-        },
-        {
-          "id": "rdf:type",
-          "operator": "=",
-          "value": "ejprd:Biobank"
+The request, as for the other endpoints, is performed via a POST REST request with a `meta` part and a `query` part. 
 
-        }
-      ],
-      "requestedGranularity": "record"
-    }
+**REQUEST**
+
+```json
+{
+  "meta": {
+    "apiVersion": "2.0",
+    "requestedSchemas": ["ejprd-resources-v1.0.0"]
+  },
+  "query": {
+    "filters": [{
+        "id": "Orphanet_100"
+    }, {
+        "id": "resourceTypes",
+        "operator": "=",
+        "value": ["BiobankDataset"]
+    }, {
+      "id": "country",
+      "operator": "=",
+      "value": ["IT", "DE"]
+    }]
+  }
 }
 ```
 
-The following is an example response 
+Notice that in the meta section the client has specifically requested that the 
+resources in the response are formatted using the v1.0.0 schema (`"requestedSchemas": 
+["ejprd-resources-v1.0.0"]`). If not specified, the responses are returned using the 
+default schema of the Beacon. The default schema and the supported schemas are listed 
+using the `/entry_types` informational endpoint.
 
-**EXAMPLE /catalogs RESPONSE**
+The `query` part contains the list of filters.
+
+**RESPONSE**
+
+The following is an example response for the query below, returning one corresponding Biobank
+
 ```JSON
 {
-    "meta": {
-        "beaconId": "ejprd.beacon.directory.bbmri-eric.eu",
-        "apiVersion": "v2.0.0",
-        "returnedGranularity": "record",
-        "receivedRequestSummary": {
-            "apiVersion": "2.0",
-            "requestedSchemas": [],
-            "filters": [
-                {
-                    "id": "ordo:Orphanet_730"
-                },
-                {
-                "id": "rdf:type",
-                "operator": "=",
-                "value": "ejprd:Biobank"
+  "meta": {
+    "beaconId": "ejprd.beacon.directory.bbmri-eric.eu",
+    "apiVersion": "v2.0.0",
+    "returnedGranularity": "record",
+    "receivedRequestSummary": {
+      "apiVersion": "2.0",
+      "requestedSchemas": ["ejprd-resources-v2.0.0"],
+      "filters": [{
+          "id": "Orphanet_730"
+        }, {
+          "id": ["ejprd:Biobank"]
+        }, {
+          "id": "country",
+          "operator": "=",
+          "value": ["IT", "DE"]
+        }
+      ],
+      "requestParameters": {},
+      "includeResultsetResponses": "HIT",
+      "pagination": {
+        "skip": 0,
+        "limit": 50
+      },
+      "requestedGranularity": "record",
+      "testMode": false
+    },
+    "returnedSchemas": [
+      {
+        "entityType": "resources",
+        "schema": "ejprd-resources-v1.0.0",
+        "name": "EJPRD schema for resources",
+        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/1.0.0/ejprd-resources-v1.0.0.json",
+        "version": "v1.0.0"
+      }
+    ]
+  },
+  "responseSummary": {
+    "exists": true,
+    "numTotalResults": 1
+  },
+  "beaconHandovers": [],
+  "response": {
+    "resultSets": [
+      {
+        "resultsCount": 1,
+        "results": [
+          {
+            "id": "biobank-1:collection:collection-1",
+            "type": "BiobankDataset",
+            "title": "Rare Disease Biobank",
+            "description": "Rare disease biobank with data about muscular distrophy",
+            "homepage": "http://biobank.raredisease.org",
+            "publisher": {
+              "id": "biobank-1",
+              "name": "Organization hosting the collection of samples",
+              "location": {
+                "id": "IT",
+                "country": "Italy"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
-                }
-            ],
-            "requestParameters": {},
-            "includeResultsetResponses": "HIT",
-            "pagination": {
-                "skip": 0,
-                "limit": 50
-            },
-            "requestedGranularity": "record",
-            "testMode": false
-        },
-        "returnedSchemas": [
-            {
-                "entityType": "resources",
-                "schema": "ejprd-resources-v1.0.0",
-                "name": "EJPRD schema for resources",
-                "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/biobank-registry-schema.json",
-                "version": "v1.0.0"
-            }
-        ]
+Some of the points to notice in the meta part are:
+
+* `"returnedGranularity": "record"`: it means that the response contains the metadata of the resources
+* `"returnedSchemas"`: the beacon service specifies the schema of the items in the response 
+* `"responseSummary"`: summary about results. It tells whether some results are returned and the number of results.
+
+The response part contains a `resultSet` with the resources formatted using Version 1.0
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h3 id="-catalogs-version-20-">Version 2.0</h3>
+
+A problem with the version 1.0 is that both the filters and the schema of the results
+don't have a proper semantic support, meaning that they are not 
+associated to a term from an ontology or a controlled vocabulary.
+To overcome this problem a new version was designed.
+This version provides the same filters but uses terms from ontologies. The schema of 
+the response uses JSON-LD and is compliant with the model of the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema), adding semantic support to the returned resouces
+
+The following sections describe the filtering terms and the model of the items in the
+response for this version
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h4 id="-list-of-filters-and-permitted-values-for-catalogs-version-20-">List of filters and permitted values for version 2.0</h4>
+
+> **Note**: Elements within arrays in **value** fields are treated as **ORs**
+
+| Metadata Schema Concept | Associated Metadata Schema Term | Filter Type | ID | Operator | Permitted Values |
+| ---- | ----- | ----- | ----- | ----- | ------ |
+| Disease | `dcat:theme` | Ontology | A single term or an array of Orphanet terms in CURIE format prefixed with `ordo:` e.g. `ordo:Orphanet_558` or `[ordo:Orphanet_558, ordo:Orphanet_773]` | Not Available | Any Orphanet code in CURIE format | 
+| Phenotype | `sio:SIO_010056` | Ontology | A single term or an array of HPO terms in CURIE format prefixed with `hp:` e.g. `hp:0001251` or `[hp:0001251, hp:0012250]` | Not Available | Any HPO code in CURIE format |
+| Resource types | `rdf:type` | Ontology | A single term or an array of terms among the EJPRD supported resource's types | Not Available | `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Dataset` |  
+| Country | `dct:spatial` | Alphanumeric | Country using ISO 3166-1 alpha-2 format (e.g, IT for Italy) | = | An ISO 3166-1 alpha-2 code |   
+
+As can be noticed, the filters are the same as before but they are defined 
+differently. Disease and Phenotype are now of type `Ontology` and they adopt the same 
+codes but in CURIES syntax. Also the Resource Types has been changed to Ontology type 
+since it uses terms from the controlled vocabularies defined by EJPRD. Finally, 
+Country remains of type Alphanumeric but now the ID is dct:spatial, as defined by the 
+resource metadata schema.
+
+Examples of filter body for all of the filters are:
+
+ * Disease: `{ "id": "ordo:Orphanet_589"}`, `{ "id": ["ordo:Orphanet_589", "ordo:Orphanet_730"]}`
+ * Phenotype: `{ "id": "hp:0001251"}`, `{ "id": ["hp:0001251", "hp:0012250"]}`
+ * Resource types: `{ "id": "ejprd:Biobank"}`, `{ "id": ["ejprd:PatientRegistry", "ejprd:Guideline"] }`
+ * Country: `{ "id": "dct:sptial", "operator": "=", "value": ["IT", "DE"] }`
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h4 id="-catalogs-resources-schema-for-version-20-">Resources schema for version 2.0</h4>
+
+The response contains a list of JSON-LD items with metadata of the 
+resources in the catalog. The resources represent Biobanks, Patient 
+Registries, Guidelines or Datasets as defined by the Resource Metadata 
+schema. 
+
+Each item must contain the property `@context` used to specify the 
+JSON-LD context where the semantic of the properties is defined. 
+The value of this property must be the [url](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json) of 
+the `json-ld-contexts/ejprd-context.json` file in this repository.
+
+The schema id for this version is `ejprd-resource-v2.0.0`. The properties 
+are described in the [ejprd-resources-v2.0.0](../schemas/2.0.0/ejprd-resources-v2.0.0.json) file.
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h4 id="-example-request-and-response-for-catalogs-version-20-">Example request and response for Version 2.0</h4>
+
+What follows is an example of the same request as before, that uses version 2.0 filters and schema
+
+**REQUEST**
+
+```json
+{
+    "meta": {
+        "apiVersion": "2.0",
+        "requestedSchemas": ["ejprd-resources-v2.0.0"]
     },
-    "responseSummary": {
-        "exists": true,
-        "numTotalResults": 1
-    },
-    "beaconHandovers": [],
-    "response": {
-        "resultSets": [
-            {
-                "resultsCount": 1,
-                "results": [{
-                    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
-                    "@id": "biobank-1:collection:collection-1",
-                    "@type": "ejprd:Biobank",
-                    "title": "Rare Disease Biobank",
-                    "logo": "http://raredisease.biobank.eu/logo.png",
-                    "description": "Rare disease biobank with data about muscular distrophy",
-                    "populationCoverage": "European",
-                    "theme": "ordo:Orphanet_730",
-                    "vpConnection": "ejprd:VPContentDiscovery",
-                    "landingPage": ["http://biobank.raredisease.org"],
-                    "personalData": "true",
-                    "language": "EN",
-                    "publisher": {
-                        "@id": "biobank-1",
-                        "title": "Biobank hosting collection",
-                        "description": "The biobank that hosts the collection",
-                        "spatial": {
-                            "title": "Italy"
-                        }
-                    }
-                }]
-            }
-        ]
+    "query": {
+        "filters": [{
+            "id": "ordo:Orphanet_100"
+        }, {
+            "id": ["ejprd:Biobank"]
+        }, {
+          "id": "dct:spatial",
+          "operator": "=",
+          "value": ["IT", "DE"]
+        }]
     }
 }
 ```
-[Notes](#-notes-) about the unsupported filters for the `/individuals` endpoint apply also for `catalogs`
+
+**RESPONSE**
+
+The following is an example of the response with the 2.0.0 schema
+
+```JSON
+{
+  "meta": {
+    "beaconId": "ejprd.beacon.directory.bbmri-eric.eu",
+    "apiVersion": "v2.0.0",
+    "returnedGranularity": "record",
+    "receivedRequestSummary": {
+      "apiVersion": "2.0",
+      "requestedSchemas": ["ejprd-resources-v2.0.0"],
+      "filters": [{
+          "id": "ordo:Orphanet_730"
+        }, {
+          "id": ["ejprd:Biobank"]
+        }, {
+          "id": "dct:spatial",
+          "operator": "=",
+          "value": ["IT", "DE"]
+        }
+      ],
+      "requestParameters": {},
+      "includeResultsetResponses": "HIT",
+      "pagination": {
+        "skip": 0,
+        "limit": 50
+      },
+      "requestedGranularity": "record",
+      "testMode": false
+    },
+    "returnedSchemas": [
+      {
+        "entityType": "resources",
+        "schema": "ejprd-resources-v2.0.0",
+        "name": "EJPRD schema for resources",
+        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/2.0.0/ejprd-resources-v2.0.0.json",
+        "version": "v2.0.0"
+      }
+    ]
+  },
+  "responseSummary": {
+    "exists": true,
+    "numTotalResults": 1
+  },
+  "beaconHandovers": [],
+  "response": {
+    "resultSets": [
+      {
+        "resultsCount": 1,
+        "results": [
+          {
+            "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
+            "@id": "biobank-1:collection:collection-1",
+            "@type": "ejprd:Biobank",
+            "title": "Rare Disease Biobank",
+            "logo": "http://raredisease.biobank.eu/logo.png",
+            "description": "Rare disease biobank with data about muscular distrophy",
+            "populationCoverage": "European",
+            "theme": "ordo:Orphanet_730",
+            "vpConnection": "ejprd:VPContentDiscovery",
+            "landingPage": [
+              "http://biobank.raredisease.org"
+            ],
+            "personalData": "true",
+            "language": "IT",
+            "publisher": {
+              "@id": "biobank-1",
+              "title": "Organization hosting the collection of samples",
+              "description": "The biobank that hosts the collection",
+              "spatial": {
+                "title": "IT"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Notice some differences with the version 1.0.0
+
+* `"returnedSchemas"`: Now the schemas specified by the beacon is the 2.0.0 (`ejprd-resources-v2.0.0.json`)
+* `response`: the items in the result are now formatted with the v2.0.0 schema
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h3 id="-catalogs-unsupported-filters-note-">Unsupported filters</h3>
+
+Similarly to what happens with the `/individuals` and `/biosamples` 
+endpoints, filter **SHOULD** be one of the terms from the allowed ones. 
+Not all resources will support all of the filters. In such cases 
+the response **MUST** include a **warning message in the 'info' 
+part** indicating which requested filters are unsupported and these 
+were ignored.
+
+An example of info section in the response is: 
+
+```JSON
+{
+  "meta": {
+    "beaconId": "ejprd.beacon.directory.bbmri-eric.eu",
+    "apiVersion": "v2.0.0",
+    "returnedGranularity": "record",
+    "receivedRequestSummary": {
+      "apiVersion": "2.0",
+      "requestedSchemas": ["ejprd-resources-v2.0.0"],
+      "filters": [{
+          "id": "ordo:Orphanet_730"
+        }, {
+          "id": ["ejprd:Biobank", "ejprd:PatientRegistry"]
+        }, {
+          "id": "dct:spatial",
+          "operator": "=",
+          "value": ["IT", "DE"]
+        }
+      ],
+      "requestParameters": {},
+      "includeResultsetResponses": "HIT",
+      "pagination": {
+        "skip": 0,
+        "limit": 50
+      },
+      "requestedGranularity": "record",
+      "testMode": false
+    },
+    "returnedSchemas": [
+      {
+        "entityType": "resources",
+        "schema": "ejprd-resources-v2.0.0",
+        "name": "EJPRD schema for resources",
+        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/2.0.0/ejprd-resources-v2.0.0.json",
+        "version": "v2.0.0"
+      }
+    ]
+  },
+  "responseSummary": {
+    "exists": true,
+    "numTotalResults": 1
+  },
+  "info": {
+    "warnings": {
+      "unsupportedFilters": [
+        "ejprd:PatientRegistry"  
+      ]
+    }
+  },
+  "beaconHandovers": [],
+  "response": {
+    "resultSets": [
+      {
+        "resultsCount": 0,
+        "results": [
+          {
+            "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
+            "@id": "biobank-1:collection:collection-1",
+            "@type": "ejprd:Biobank",
+            "title": "Rare Disease Biobank",
+            "logo": "http://raredisease.biobank.eu/logo.png",
+            "description": "Rare disease biobank with data about muscular distrophy",
+            "populationCoverage": "European",
+            "theme": "ordo:Orphanet_730",
+            "vpConnection": "ejprd:VPContentDiscovery",
+            "landingPage": [
+              "http://biobank.raredisease.org"
+            ],
+            "personalData": "true",
+            "language": "IT",
+            "publisher": {
+              "@id": "biobank-1",
+              "title": "Organization hosting the collection of samples",
+              "description": "The biobank that hosts the collection",
+              "spatial": {
+                "title": "IT"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 [ ^ Back to the top](#top)
 
