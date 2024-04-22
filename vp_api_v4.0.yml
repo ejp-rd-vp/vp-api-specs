@@ -1091,7 +1091,7 @@ components:
           description: an array with the orphacodes specifying the disease theme of the resource
           items:
             type: string
-        personaledam:data_
+        personalData:
           type: string
           description: a boolean represente as a string (true or false) specifying whether the resource manage personal data or not
           enum:
