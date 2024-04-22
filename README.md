@@ -1550,7 +1550,7 @@ This specification defines GET endpoints to request information about resources.
     }
 }
 ```
-<h3 id="-filtering-terms-endpoint-">Filtering_terms</h3>
+<h3 id="-filtering-terms-endpoint-">Filtering terms</h3>
 
 > **HTTP Request Method : GET**
 
@@ -1659,14 +1659,13 @@ The following table shows the recommended prefixes used by the Virtual Platform.
 | Orphanet | ordo   | http://www.orpha.net/ORDO/ | ordo:Orphanet_730 | 
 | DCAT | dcat | http://www.w3.org/ns/dcat# | dcat:Dataset |
 | DCMI Terms | dct | http://purl.org/dc/terms/ | dct:spatial |
-| Dublin Core Vocabulary | dct | http://purl.org/dc/terms/ | dct:spatial |
 | Resource Description Framework | rdf | http://www.w3.org/1999/02/22-rdf-syntax-ns# | rdf:type |
 | EJP-RD Vocabulary | ejp-rd | https://w3id.org/ejp-rd/vocabulary# | ejp-rd:Biobank | 
 | Semanticscience Integrated Ontology (SIO) | sio | http://semanticscience.org/ontology/ | sio |
 | Human Phenotype Ontology | hp | http://purl.obolibrary.org/obo/HP_ | hp:0001251 |
 | NCI Thesaurus (NCIT) | obo | http://purl.obolibrary.org/obo/ | obo:NCIT__C28421 |
-| Ontology for Biomedical Investigations (OBI) | obi | http://purl.obolibrary.org/obo/ | obo_OBI_0000655 |
-| Ontology for BIoBanking (OBIB) | obib | http://purl.obolibrary.org/obo/ | obo_OBIB_0000036 |
+| Ontology for Biomedical Investigations (OBI) | obi | http://purl.obolibrary.org/obo/ | obo:OBI_0000655 |
+| Ontology for BIoBanking (OBIB) | obib | http://purl.obolibrary.org/obo/ | obo:OBIB_0000036 |
 | Uber-anatomy ontology | obo | http://purl.obolibrary.org/obo/ | obo:UBERON_0007795 |
 | Cell ontology | obo | http://purl.obolibrary.org/obo/ | obo:CL_2000001 | 
 
