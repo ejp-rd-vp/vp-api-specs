@@ -19,7 +19,7 @@ paths:
       tags:
         - Informational Endpoints
       responses:
-        200:
+        "200":
           $ref: "#/components/schemas/InfoResponse"
   /filtering_terms:
     get:
@@ -27,7 +27,7 @@ paths:
       tags:
         - Informational Endpoints
       responses:
-        200:
+        "200":
           $ref: "#/components/schemas/FilteringTermsResponse"
   /map:
     get:
@@ -35,7 +35,7 @@ paths:
       tags:
         - Informational Endpoints
       responses:
-        200:
+        "200":
           $ref: "#/components/schemas/MapResponse"
   /service-info:
     get:
@@ -43,7 +43,7 @@ paths:
       tags:
         - Informational Endpoints
       responses:
-        200:
+        "200":
           $ref: "#/components/schemas/ServiceInfoResponse"
   /configuration:
     get:
@@ -51,7 +51,7 @@ paths:
       tags:
         - Informational Endpoints
       responses:
-        200:
+        "200":
           $ref: "#/components/schemas/ConfigurationResponse"
   /entry_types:
     get:
@@ -59,7 +59,7 @@ paths:
       tags:
         - Informational Endpoints
       responses:
-        200:
+        "200":
           $ref: "#/components/schemas/EntryTypesResponse"
   /individuals:
     post:
@@ -74,12 +74,12 @@ paths:
               $ref: "#/components/schemas/IndividualRequest"
         required: true
       responses:
-        200:
+        "200":
           $ref: "#/components/schemas/IndividualResponse"
-        400:
+        "400":
           description: "Input data malformed"
           content: {}
-        403:
+        "403":
           description: "The data source does not allow this API call"
           content: {}
       security:
@@ -97,12 +97,12 @@ paths:
               $ref: "#/components/schemas/BiosampleRequest"
         required: true
       responses:
-        200:
+        "200":
           $ref: "#/components/schemas/IndividualResponse"
-        400:
+        "400":
           description: "Input data malformed"
           content: {}
-        403:
+        "403":
           description: "The data source does not allow this API call"
           content: {}
       security:
@@ -120,12 +120,12 @@ paths:
               $ref: "#/components/schemas/CatalogRequest"
         required: true
       responses:
-        200:
+        "200":
           $ref: "#/components/schemas/CatalogResponse"
-        400:
+        "400":
           description: "Input data malformed"
           content: {}
-        403:
+        "403":
           description: "The data source does not allow this API call"
           content: {}
       security:
@@ -390,7 +390,7 @@ components:
             * obi:0000655 (blood specimen)
             * obi:0002512 (bone marrow)
             * OBIB:0000036 (buffy coat)
-            * cl:2000001 (peripheral blood mononuclear cell)
+            * cl:"200"0001 (peripheral blood mononuclear cell)
             * obi:0100016 (blood plasma specime)
             * obi:0100017 (blood serum)
             * uberon:0007795 (ascites fluid)
@@ -399,8 +399,8 @@ components:
             * obi:0002503 (feces)
             * obi:0000651 (urine)
             * obi:0002599 (swab)
-            * obi:2000009 (bodily fluid specimen)
-            * obi:1200000 (FFPE specimen)
+            * obi:"200"0009 (bodily fluid specimen)
+            * obi:1"200"000 (FFPE specimen)
             * obi:0000922 (frozen specimen)
             * obi:0001472 (specimen with known storage state)
             * obi:0001051 (DNA extract)
