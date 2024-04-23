@@ -718,7 +718,7 @@ components:
             type: string
     ConfigurationEntryTypesResponse:
       type: object
-      description: List of filtering terms for querying this Beacon.
+      description: Returning the Beacon Entry Types.
       required:
         - id
         - name
@@ -735,25 +735,25 @@ components:
         description:
           type: string
         ontologyTermForThisType:
-          type: array
-          items: 
-            type: object
-            properties:
-              id:
-                type: string
-              label:
-                type: string
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              description: "Unique identifier for the ontology term, preferably an OBO Foundry compliant ID."
+            label:
+              type: string
+              description: "Human-readable label for the ontology term."
         partOfSpecification:
           type: string
         defaultSchema:
-          type: array
-          items:
-            type: object
-            required:
+          type: object
+          required:
               - referenceToSchemaDefinition
               - id
               - name
-            properties:
+          properties:
               referenceToSchemaDefinition:
                 type: string
               schemaVersion:
@@ -763,7 +763,7 @@ components:
               name:
                 type: string
               description:
-                type: string
+                type: string  
         additionallySupportedSchemas:
           type: array
           items:
