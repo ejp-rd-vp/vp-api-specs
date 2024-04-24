@@ -4,18 +4,13 @@
   "description": "A schema to describe a location, region or jurisdiction",
   "title": "Location",
   "required": [
-    "code",
-    "title"
+    "country"
   ],
   "properties": {
-    "code": { 
+    "country": { 
       "description": "The locations' country code",
       "type": "string",
-      "enum": ["IT", "FR", "NL", "..."]
-    },
-    "title": {
-      "description": "The country name",
-      "type": "string"
+      "enum": ["IT", "FR", "NL"]
     }
   }
 }

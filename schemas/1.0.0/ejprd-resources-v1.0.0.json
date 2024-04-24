@@ -32,9 +32,9 @@
       "type": "string",
       "description": "The description of the resource (optional)"
     },
-    "publisher": {
-      "type": "object",
-      "$ref": "./ejprd-organization-v1.0.0.json"
+    "location": {
+      "description": "Information about the location associated with the organisation",
+      "$ref": "./ejprd-location-v1.0.0.json"
     },
     "homepage": {
       "type": "array",
