@@ -790,7 +790,7 @@ components:
         nonFilteredQueriesAllowed:
           type: boolean
     DefaultSchema:
-      type : array
+      type : object
       required:
         - referenceToSchemaDefinition
         - id 
@@ -1375,6 +1375,7 @@ components:
               - contactPoint
               - contactEmail
               - contactURL
+              - countType
             type: object
             properties:
               resultCountDescription:
@@ -1393,6 +1394,9 @@ components:
                     type: integer
                     description: |
                       Value of maximum range employed.
+              countType:
+                type: string
+                example : "VCF file"
               contactPoint:
                 type: string
                 description: |

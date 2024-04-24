@@ -218,7 +218,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
               },
               {
                 "id": "edam:data_2295",
-                "value": "LAMP2",
+                "value": "ACTN4",
                 "operator": "="
               },
               {
@@ -313,7 +313,7 @@ The "includeDescendantTerms" is used to query for entities associated with the s
                     {
                         "id": "edam:data_2295",
                         "operator": "=",
-                        "value": "100"
+                        "value": "ACTN4"
                     },
                     {
                         "id": "ncit:C83164",
@@ -1113,7 +1113,7 @@ As shown above, different types of filters can be sent in a single query. These 
         {
           "id": "edam:data_2295",
           "operator": "=",
-          "value": "LAMP2"
+          "value": "ACTN4"
         }
       ]
     }
@@ -1223,7 +1223,7 @@ The warning messages will be provided within the [`info`](#partial-query-matches
         },
         {
           "id": "edam:data_2295",
-          "value": "LAMP2",
+          "value": "ACTN4",
           "operator": "="
         },
         {
@@ -1303,6 +1303,7 @@ To provide flexibility for implementers between using a range, the `info` sectio
       "minRange": N,
       "maxRange": N
    },
+   "countType": "VCF file",
    "contactPoint": "Person/point of contact",
    "contactEmail": "Email for contact regarding this dataset/resource", 
    "contactURL": "URL of the implementer"
@@ -1434,7 +1435,7 @@ This specification defines GET endpoints to request information about resources.
 
 > **HTTP Request Method : GET**
 
-[/configuration](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
+[/configuration](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon. Aimed to Beacon clients like web pages or Beacon networks.
 
 <h3 id="-example-request-and-response-for-configuration"> Example response for service-info </h3>
 
@@ -1498,7 +1499,7 @@ This specification defines GET endpoints to request information about resources.
 
 > **HTTP Request Method : GET**
 
-[/entry-types](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
+[/entry-types](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the list of Entry types definitions.
 
 <h3 id="example-request-and-response-for-entry-types"> Example response for entry-types </h3>
 
