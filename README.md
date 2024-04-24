@@ -712,13 +712,8 @@ The following is an example response for the query below, returning one correspo
             "title": "Rare Disease Biobank",
             "description": "Rare disease biobank with data about muscular distrophy",
             "homepage": "http://biobank.raredisease.org",
-            "publisher": {
-              "id": "biobank-1",
-              "name": "Organization hosting the collection of samples",
-              "location": {
-                "id": "IT",
-                "country": "Italy"
-              }
+            "location": {
+              "country": "IT",
             }
           }
         ]
