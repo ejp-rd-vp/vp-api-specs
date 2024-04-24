@@ -503,39 +503,59 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 
 ```JSON
 {
-    "meta": {
-        "beaconId": "biobank beacon",
-        "apiVersion": "v2.0.0",
-        "returnedGranularity": "count",
-        "receivedRequestSummary": {
-            "apiVersion": "2.0",
-            "filters": [
-                {
-                    "id": "ordo:Orphanet_34587"
-                },
-                {
-                    "id": "ncit:C70713",
-                    "operator": "=",
-                    "value": "obi:0000655"
-                }
-            ],
-            "requestedGranularity": "count",
-            "testMode": false
-        },
-        "returnedSchemas": [
-            {
-                "entityType": "biosample",
-                "schema": "beacon-biosample-v2.0.0",
-                "name": "Default schema for a biological sample",
-                "url": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2-Models/main/BEACON-V2-Model/biosamples/defaultSchema.json",
-                "version": "v2.0.0"
-            }
-        ]
-    },
-    "responseSummary": {
+  "meta": {
+      "beaconId": "biobank beacon",
+      "apiVersion": "v2.0.0",
+      "returnedGranularity": "count",
+      "receivedRequestSummary": {
+          "apiVersion": "2.0",
+          "filters": [
+              {
+                  "id": "ordo:Orphanet_34587"
+              },
+              {
+                  "id": "ncit:C70713",
+                  "operator": "=",
+                  "value": "obi:0000655"
+              }
+          ],
+          "requestedGranularity": "count",
+          "testMode": false
+      },
+      "returnedSchemas": [
+          {
+              "entityType": "biosample",
+              "schema": "beacon-biosample-v2.0.0",
+              "name": "Default schema for a biological sample",
+              "url": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2-Models/main/BEACON-V2-Model/biosamples/defaultSchema.json",
+              "version": "v2.0.0"
+          }
+      ]
+  },
+  "responseSummary": {
+      "exists": true,
+      "numTotalResults": 100
+  },
+  "response": {
+    "resultSets": [
+      {
+        "id": "Vivify",
+        "type": "biosamples", 
         "exists": true,
-        "numTotalResults": 100
-    },
+        "resultCount": 100,
+        "info": {
+          "resultCountDescription": {
+              "minRange": 91,
+              "maxRange": 100  
+          },
+          "countType": "VCF file",
+          "contactPoint": "admin",
+          "contactEmail": "admin@cafevariome.org", 
+          "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+        }      
+      }
+    ]
+  }    
 }
 ```
 [Notes](#-notes-) about the `resultCount` and unsupported filters for the `/individuals` endpoint apply also for `biospecimens`
