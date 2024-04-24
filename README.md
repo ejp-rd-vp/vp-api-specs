@@ -981,7 +981,7 @@ An example of info section in the response is:
   "response": {
     "resultSets": [
       {
-        "resultsCount": 0,
+        "resultsCount": 1,
         "results": [
           {
             "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
