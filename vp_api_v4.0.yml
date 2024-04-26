@@ -10,12 +10,17 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: v4.0
 servers:
-  - url: https://rdnexusdev.molgeniscloud.org/cv2/BeaconAPI/
+  - url: https://rdnexusdev.molgeniscloud.org/cv2/BeaconAPI
     description: Development server
+security: 
+  - oidcToken: []
+  - apiAuth: []
 paths:
   /info:
     get:
       summary: "Get information regarding this beacon."
+      operationId: info_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
@@ -28,6 +33,8 @@ paths:
   /filtering_terms:
     get:
       summary: "Get the valid filtering terms to be used in querying/handled by this beacon."
+      operationId: filtering_terms_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
@@ -40,6 +47,8 @@ paths:
   /map:
     get:
       summary: "Information about the response that could be relevant for the Beacon client in order to interpret the results"
+      operationId: map_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
@@ -52,6 +61,8 @@ paths:
   /service-info:
     get:
       summary: "Get information about the beacon using GA4GH ServiceInfo format."
+      operationId: service-info_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
@@ -64,6 +75,8 @@ paths:
   /configuration:
     get:
       summary: "Get the configuration of this beacon."
+      operationId: congifuration_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
@@ -76,6 +89,8 @@ paths:
   /entry_types:
     get:
       summary: "Get the list of beacon entry types."
+      operationId: entry_types_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
@@ -107,11 +122,21 @@ paths:
         "400":
           description: "Input data malformed"
           content: {}
+        "401":
+          description: "Token unacceptable"
+          headers:
+            WWW-Authenticate:
+              schema:
+                type: string
+                example: "Bearer realm"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
         "403":
-          description: "The data source does not allow this API call"
+          description: "Token rejected"
           content: {}
-      security:
-        - apiAuth: []
   /biosamples:
     post:
       summary: "Request to retrive count of biosamples from a data source."
@@ -134,11 +159,21 @@ paths:
         "400":
           description: "Input data malformed"
           content: {}
+        "401":
+          description: "Token unacceptable"
+          headers:
+            WWW-Authenticate:
+              schema:
+                type: string
+                example: "Bearer realm"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
         "403":
-          description: "The data source does not allow this API call"
+          description: "Token rejected"
           content: {}
-      security:
-        - apiAuth: []
   /catalogs:
     post:
       summary: "Request to retrive record(s) of resource(s) within a catalog/biobank/registry."
@@ -161,11 +196,21 @@ paths:
         "400":
           description: "Input data malformed"
           content: {}
+        "401":
+          description: "Token unacceptable"
+          headers:
+            WWW-Authenticate:
+              schema:
+                type: string
+                example: "Bearer realm"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
         "403":
-          description: "The data source does not allow this API call"
+          description: "Token rejected"
           content: {}
-      security:
-        - apiAuth: []
 components:
   schemas:
     IndividualRequest:
@@ -1516,3 +1561,7 @@ components:
       type: apiKey
       in: header
       name: auth-key
+    oidcToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

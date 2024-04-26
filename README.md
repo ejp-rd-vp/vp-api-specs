@@ -1050,10 +1050,11 @@ Since the specification allows for record level queries of individuals, addition
 </thead>
 <tbody>
 <tr><td>auth-key</td><td>Token provided by resource</td><td>Indicates requester is authorised (required)</td></tr>
-<tr><td>auth-token</td><td>Bearer token, True, False</td><td>Indicates requesting user's logged in status (optional)</td></tr>
-<tr><td>authentication-url</td><td>Bearer token authentication provider</td><td>Enables validation of bearer token (optional)</td></tr>
+<tr><td>Authorization</td><td>Bearer Token</td><td>The access token issued by LS AAI</td></tr>
 </tbody>
 </table>
+
+For now, the auth key is still used on some resources, but it will soon be deprecated, and switch to the Bearer token. The token is issued by LS AAI with OIDC protocol. The absence of the token indicate that it's a user who did not log in.
 
 > **Note:** Presence of a bearer token is equivalent to auth-token:True
 
