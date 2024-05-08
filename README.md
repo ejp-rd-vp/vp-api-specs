@@ -46,7 +46,7 @@ In this work, we present API specification for querying RD patient registries, b
  
 <h2 id="#-try-out-the-api-"> Try out the API </h2>
 
-Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v4.0
+Latest version (v4.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v4.0
 
 <hr>
 
