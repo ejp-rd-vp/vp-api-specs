@@ -1484,11 +1484,11 @@ The following table shows the recommended prefixes used by the Virtual Platform.
 | EJP-RD Vocabulary | ejp-rd | https://w3id.org/ejp-rd/vocabulary# | ejp-rd:Biobank | 
 | Semanticscience Integrated Ontology (SIO) | sio | http://semanticscience.org/ontology/ | sio |
 | Human Phenotype Ontology | hp | http://purl.obolibrary.org/obo/HP_ | hp:0001251 |
-| NCI Thesaurus (NCIT) | obo | http://purl.obolibrary.org/obo/ | obo:NCIT__C28421 |
-| Ontology for Biomedical Investigations (OBI) | obi | http://purl.obolibrary.org/obo/ | obo:OBI_0000655 |
-| Ontology for BIoBanking (OBIB) | obib | http://purl.obolibrary.org/obo/ | obo:OBIB_0000036 |
-| Uber-anatomy ontology | obo | http://purl.obolibrary.org/obo/ | obo:UBERON_0007795 |
-| Cell ontology | obo | http://purl.obolibrary.org/obo/ | obo:CL_2000001 | 
+| NCI Thesaurus (NCIT) | ncit | http://purl.obolibrary.org/obo/ | ncit:C28421 |
+| Ontology for Biomedical Investigations (OBI) | obi | http://purl.obolibrary.org/obo/ | obi:0000655 |
+| Ontology for BIoBanking (OBIB) | obib | http://purl.obolibrary.org/obo/ | obib:0000036 |
+| Uber-anatomy ontology | uberon | http://purl.obolibrary.org/obo/ | uberon:0007795 |
+| Cell ontology | cl | http://purl.obolibrary.org/obo/ | cl:2000001 | 
 
 [ ^ Back to the top](#top)
 
