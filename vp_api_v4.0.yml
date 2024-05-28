@@ -223,7 +223,7 @@ components:
           $ref: "#/components/schemas/MetaContent"
         query:
           $ref: "#/components/schemas/IndividualRequestQuery"
-      description: "Request to return individuals count for given CDEs as filters"
+      description: "Request to return individuals count for given filters"
     BiosampleRequest:
       required:
         - meta
@@ -234,7 +234,7 @@ components:
           $ref: "#/components/schemas/MetaContent"
         query:
           $ref: "#/components/schemas/BiosampleRequestQuery"
-      description: "Request to return individuals count for given CDEs as filters"
+      description: "Request to return individuals count for given  filters"
     CatalogRequest:
       required:
         - meta
@@ -245,7 +245,7 @@ components:
           $ref: "#/components/schemas/MetaContent"
         query:
           $ref: "#/components/schemas/CatalogRequestQuery"
-      description: "Request to return resources for given CDEs as filters"
+      description: "Request to return resources for given  filters"
     IndividualRequestQuery:
       type: object
       properties:
@@ -268,7 +268,7 @@ components:
         id:
           type: string
           description: >
-            Concept ID of CDEs. 
+            Concept ID. 
               Allowed terms:
                * `ncit:C28421` - Sex
                * `edam:data_2295` - Causative Gene(s)
@@ -287,12 +287,12 @@ components:
           anyOf:
             - $ref: "#/components/schemas/IndividualStringValue"
             - $ref: "#/components/schemas/IndividualArrayValues"
-      description: "Query parameters to filter individuals based on CDEs."
+      description: "Query parameters to filter individuals "
     IndividualStringValue:
       type: string
       example: '"ncit:C17998"'
       description: |
-        The actual value of the CDE in string format. Allowed values:
+        The actual value in string format. Allowed values:
           * For `ncit:C28421`(Sex): 
             * `ncit:C16576`, (Female)
             * `ncit:C20197`, (Male)
@@ -317,7 +317,7 @@ components:
         type: string
       example: '["ncit:C16576","ncit:C20197"]'
       description: |
-        An array of allowed CDE value(s) in string format.
+        An array value(s) in string format.
     IndividualOntologyRequestArrayFilter:
       required:
         - id
@@ -332,7 +332,7 @@ components:
               description: "Array of string orpha ids."
           example: '"ordo:Orphanet_558" or ["ordo:Orphanet_558","ordo:Orphanet_773","ordo:Orphanet_12345"]'
           description: |
-            Concept ID of CDEs using Orpha ontology format. 
+            Concept ID  using Orpha ontology format. 
               Allowed values:
               * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"ordo:Orphanet_558\" or [\"ordo:Orphanet_558\", \"ordo:Orphanet_773\"]
     CatalogRequestQuery:
@@ -373,7 +373,7 @@ components:
           anyOf:
             - $ref: "#/components/schemas/CatalogStringValue"
             - $ref: "#/components/schemas/CatalogArrayValues"
-          description: "Query parameters to filter individuals based on CDEs."
+          description: "Query parameters to filter individuals."
     CatalogStringValue:
       type: string
       example: "ejprd:PatientRegistry"
@@ -450,11 +450,11 @@ components:
           anyOf:
             - $ref: "#/components/schemas/BiosampleStringValue"
             - $ref: "#/components/schemas/BiosampleArrayValues"
-          description: "Query parameters to filter individuals based on CDEs."
+          description: "Query parameters to filter individuals"
     BiosampleStringValue:
       type: string
       description: |
-        The actual value of the CDE in string format. Allowed values:
+        The actual value in string format. Allowed values:
           * For `ncit:C28421`(Sex): 
             * `ncit:C16576`, (Female)
             * `ncit:C20197`, (Male)
@@ -533,8 +533,6 @@ components:
         response:
           $ref: "#/components/schemas/FilterTermsResponseContent"
     FilterTermsResponseContent:
-      required:
-        - filteringTerms
       properties:
         filteringTerms:
           $ref: "#/components/schemas/FilterTermsResponse"
@@ -1321,7 +1319,7 @@ components:
           type: boolean
           description: |
             Indicator of whether any individual was observed in the
-            data source for the given query with CDEs parameter. This should be non-null, unless there was an error, in which case `error` has to be non-null.
+            data source for the given query parameter. This should be non-null, unless there was an error, in which case `error` has to be non-null.
         numTotalResults:
           type: integer
           description: |
@@ -1336,7 +1334,7 @@ components:
           type: boolean
           description: |
             Indicator of whether any catalog was observed in the
-            data source for the given query with CDEs filters. This should be non-null, unless there was an error, in which case `error` has to be non-null.
+            data source for the given query filters. This should be non-null, unless there was an error, in which case `error` has to be non-null.
         numTotalResults:
           type: integer
       description: |
@@ -1370,7 +1368,7 @@ components:
           type: boolean
           description: |
             Indicator of whether any catalog was observed in the
-            data source for the given query with CDEs filters. This should be non-null, unless there was an error, in which case `error` has to be non-null.
+            data source for the given query filters. This should be non-null, unless there was an error, in which case `error` has to be non-null.
         resultsCount:
           type: integer
           description: |

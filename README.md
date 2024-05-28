@@ -2,8 +2,7 @@
 
 > This API specification is defined in the context of the EJPRD project, complying with the latest [Beacon v2 Specification](https://github.com/ga4gh-beacon/beacon-v2).
 
-In this work, we present API specification for querying RD patient registries, biobanks and similar resources at the safe record level (i.e, resources whose available assets are described by RD patient data). Resources that implement this specification would ideally collect data based on the set of common data elements for rare diseases registration, as recommended by the European commission Joint Research Centre. In this specification, where possible, we also make use of ontological terms recommended by the CDE semantic data model group.
-
+In this work, we present API specification for querying RD patient registries, biobanks and similar resources at the safe record level (i.e, resources whose available assets are described by RD patient data). Resources that implement this specification would ideally collect data based on the set of common data elements for rare diseases registration, as recommended by the European commission Joint Research Centre.
 <hr>
 
 <h2 id="top"> Contents </h2>
@@ -78,8 +77,8 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 
 <table>
 <thead>
-        <th>CDE Concept</th>
-        <th>CDE Term</th>
+        <th>Concept</th>
+        <th>Ontological Term</th>
         <th>Beacon Filter Type</th>
         <th>ID</th>
         <th>Operator</th>
