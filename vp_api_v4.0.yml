@@ -533,6 +533,9 @@ components:
         response:
           $ref: "#/components/schemas/FilterTermsResponseContent"
     FilterTermsResponseContent:
+      required:
+        - filteringTerms
+        - resources
       properties:
         filteringTerms:
           $ref: "#/components/schemas/FilterTermsResponse"
