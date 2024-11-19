@@ -6,8 +6,7 @@ This is Version 2 specifications and will soon be deprecated. We strongly recomm
 
 > This API specification is defined in the context of the EJPRD project, complying with the latest [Beacon v2 Specification](https://github.com/ga4gh-beacon/beacon-v2).
 
-In this work, we present API specification for querying RD patient registries, biobanks and similar resources at the safe record level (i.e, resources whose available assets are described by RD patient data). Resources that implement this specification would ideally collect data based on the set of common data elements for rare diseases registration, as recommended by the European commission Joint Research Centre. In this specification, where possible, we also make use of ontological terms recommended by the CDE semantic data model group.
-
+In this work, we present API specification for querying RD patient registries, biobanks and similar resources at the safe record level (i.e, resources whose available assets are described by RD patient data). Resources that implement this specification would ideally collect data based on the set of common data elements for rare diseases registration, as recommended by the European commission Joint Research Centre.
 <hr>
 
 <h2 id="top"> Contents </h2>
@@ -24,9 +23,11 @@ In this work, we present API specification for querying RD patient registries, b
       * [Filters description](#-biosamples-filters-description-)
       * [Example request & response](#-example-request-and-response-for-biosamples-)
     * [Catalogs endpoint](#-catalogs-endpoint-)
-      * [List of filters](#-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-)
+      * [List of filters](#-list-of-filters-and-permitted-values-for-catalogs-)
       * [Filters description](#-catalogs-filters-description-)
+      * [Resource schema](#-catalogs-resources-schema-)
       * [Example request & response](#-example-request-and-response-for-catalogs-)
+      * [Unsupported filters](#-catalogs-unsupported-filters-note-)
 * [Authentication using Header(s)](#-authentication-using-header-)
 * [Understanding the query](#-understanding-the-query)
     * [Syntax & Usage of Beacon Query with Filters](#-syntax-and-usage)
@@ -36,13 +37,19 @@ In this work, we present API specification for querying RD patient registries, b
     * [Partial query matches with warning messages](#partial-query-matches-with-warning-messages)
 * [Understanding the response with ranges (for /individuals and /biospecimens)](#-understanding-the-response-with-ranges-for-individuals-and-biospecimens)
 * [Informational Endpoints](#-informational-endpoints-)
+    * [Info endpoint](#-info-endpoint-)
+    * [Service Info endpoint](#-service-info-endpoint-)
+    * [Configuration endpoint](#-configuration-endpoint-)
+    * [Entry Types endpoint](#-entry-types-endpoint-)
+    * [Filtering terms endpoint](#-filtering-terms-endpoint-)
+    * [Map endpoint](#-map-endpoint-)
 
 
 <hr>
  
 <h2 id="#-try-out-the-api-"> Try out the API </h2>
 
-Latest version (v2.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/ 
+Latest version (v4.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v4.0
 
 <hr>
 
@@ -74,8 +81,8 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 
 <table>
 <thead>
-        <th>CDE Concept</th>
-        <th>CDE Term</th>
+        <th>Concept</th>
+        <th>Ontological Term</th>
         <th>Beacon Filter Type</th>
         <th>ID</th>
         <th>Operator</th>
@@ -87,34 +94,34 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
             <b>Sex</b>
         </td>
         <td rowspan="5">
-            obo:NCIT_C28421
+            ncit:C28421
         </td>
         <td rowspan="5">
             Alphanumerical
         </td>
         <td rowspan="5">
-            NCIT_C28421
+            ncit:C28421
         </td>
         <td rowspan="5">
             =
         </td>
         <td>
-            NCIT_C16576
+            ncit:C16576
         </td>
     </tr>
     <tr>
         <td>
-            NCIT_C20197
+            ncit:C20197
         </td>
     </tr>
     <tr>
         <td>
-            NCIT_C124294
+            ncit:C124294
         </td>
     </tr>
     <tr>
         <td>
-            NCIT_C17998
+            ncit:C17998
         </td>
     </tr>
     <tr>
@@ -124,7 +131,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
     </tr>
     <tr>
         <td><b>Disease or Disorder</b>
-        </td><td>obo:NCIT_C2991</td>
+        </td><td>ncit:C2991</td>
         <td>Ontology</td>
         <td>A single value or an array of orphanet terms. <b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td colspan="2">NA</td>
@@ -133,35 +140,35 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td><b>Phenotype</b></td>
         <td>sio:SIO_010056</td>
         <td>Ontology</td>
-        <td>A single value or an array of HPO terms. <b>e.g. HP:0001251 or [HP:0001251, HP:0012250]</b></td>
+        <td>A single value or an array of HPO terms. <b>e.g. hp:0001251 or [hp:0001251, hp:0012250]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
         <td><b>Causative Genes</b></td>
         <td>edam:data_2295</td>
         <td>Alphanumerical</td>
-        <td>data_2295 </td>
+        <td>edam:data_2295 </td>
         <td>=</td>
         <td>any HGNC gene symbol or array of HGNC symbols</td>
     </tr>
     <tr>
-      <td><b>Age this year</b></td><td>obo:NCIT_C83164</td>
+      <td><b>Age this year</b></td><td>ncit:C83164</td>
         <td>Numerical</td>
-        <td>NCIT_C83164 </td>
+        <td>ncit:C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
     <tr>
-      <td><b>Symptom Onset</b></td><td>obo:NCIT_C124353</td>
+      <td><b>Symptom Onset</b></td><td>ncit:C124353</td>
         <td>Numerical</td>
-        <td>NCIT_C124353</td>
+        <td>ncit:C124353</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
     <tr>
-      <td><b>Age at diagnosis</b></td><td>obo:NCIT_C156420</td>
+      <td><b>Age at diagnosis</b></td><td>ncit:C156420</td>
         <td>Numerical</td>
-        <td>NCIT_C156420</td>
+        <td>ncit:C156420</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
@@ -208,14 +215,14 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
                 "includeDescendantTerms": true
               },
               {
-                "id": "data_2295",
-                "value": "LAMP2",
+                "id": "edam:data_2295",
+                "value": "ACTN4",
                 "operator": "="
               },
               {
-                "id": "NCIT_C28421",
+                "id": "ncit:C28421",
                 "operator": "=",
-                "value": "NCIT_C16576"
+                "value": "ncit:C16576"
               }
         ],
         "requestedGranularity": "boolean"
@@ -243,8 +250,9 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
          "info": {
             "resultCountDescription": {
                "minRange": 71,
-               "maxRange": 80
+               "maxRange": 80  
             },
+            "countType": "VCF file",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org", 
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
@@ -263,6 +271,8 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 The "resultCount" attribute in the above response is the **maximum value of whatever range that result** is within, rather than giving out the actual count of individuals. More information on responding using ranges can be found [here](#-understanding-the-response-with-ranges-for-individuals-and-biospecimens) 
 
 The filter **SHOULD** be one of the terms from the [filters and permitted values table](#-list-of-filters-and-permitted-values-for-the-individuals-endpoint-). Please note that not all resources will support all of the filters. In such cases the response **MUST** include a [warning message in the 'info' part](#warning-response-example) indicating which requested filters are unsupported and these were not included in the query.
+
+The count **MUST** be accompanied by an unrestricted free text term stating what type of entity the count refers to (e.g., biobanks, trial sites, RD cases, biosamples, cell lines, VCF files, etc) 
 
 The "includeDescendantTerms" is used to query for entities associated with the submitted bio-ontology term(s). The default and assumed value of includeDescendantTerms is **false** . If the parameter is set to true, then the request implies that a hierarchical ontology search is requested.
 
@@ -294,27 +304,27 @@ The "includeDescendantTerms" is used to query for entities associated with the s
                         ]
                     },
                     {
-                        "id": "NCIT_C28421",
+                        "id": "ncit:C28421",
                         "operator": "=",
-                        "value": "NCIT_C20197"
+                        "value": "ncit:C20197"
                     },
                     {
-                        "id": "data_2295",
+                        "id": "edam:data_2295",
                         "operator": "=",
-                        "value": "100"
+                        "value": "ACTN4"
                     },
                     {
-                        "id": "NCIT_C83164",
+                        "id": "ncit:C83164",
                         "operator": ">=",
                         "value": "0"
                     },
                     {
-                        "id": "NCIT_C124353",
+                        "id": "ncit:C124353",
                         "operator": ">=",
                         "value": "0"
                     },
                     {
-                        "id": "NCIT_C156420",
+                        "id": "ncit:C156420",
                         "operator": ">=",
                         "value": "0"
                     }
@@ -335,9 +345,9 @@ The "includeDescendantTerms" is used to query for entities associated with the s
     "info": {
         "warnings": {
             "unsupportedFilters": [
-                "NCIT_C83164",
-                "NCIT_C124353",
-                "NCIT_C156420"
+                "ncit:C83164",
+                "ncit:C124353",
+                "ncit:C156420"
             ]
         }
     },
@@ -378,65 +388,65 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 <tbody>
     <tr>
         <td rowspan="5"><b>Sex</b></td>
-        <td rowspan="5">obo:NCIT_C28421</td>
+        <td rowspan="5">ncit:C28421</td>
         <td rowspan="5">Alphanumerical</td>
-        <td rowspan="5">NCIT_C28421</td>
+        <td rowspan="5">ncit:C28421</td>
         <td rowspan="5">=</td>
-        <td>NCIT_C16576</td>
+        <td>ncit:C16576</td>
     </tr>
-    <tr><td>NCIT_C20197</td></tr>
-    <tr><td>NCIT_C124294</td></tr>
-    <tr><td>NCIT_C17998</td></tr>
+    <tr><td>ncit:C20197</td></tr>
+    <tr><td>ncit:C124294</td></tr>
+    <tr><td>ncit:C17998</td></tr>
     <tr><td>An array of any of the above</td></tr>
     <tr>
         <td><b>Disease or Disorder</b></td>
-        <td>obo:NCIT_C2991</td>
+        <td>ncit:C2991</td>
         <td>Ontology</td>
         <td>A single value or an array of orphanet terms. <b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td colspan="2">NA</td>
     </tr>
     <tr>
         <td><b>Year of birth</b></td>
-        <td>obo:NCIT_C83164</td>
+        <td>ncit:C83164</td>
         <td>Numerical</td>
-        <td>NCIT_C83164 </td>
+        <td>ncit:C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
     <tr>
         <td><b>Age at diagnosis</b></td>
-        <td>obo:NCIT_C156420</td>
+        <td>ncit:C156420</td>
         <td>Numerical</td>
-        <td>NCIT_C156420</td>
+        <td>ncit:C156420</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
     <tr>
         <td rowspan="20"><b>Biospecimen Type</b></td>
-        <td rowspan="20">obo:NCIT_C70713</td>
+        <td rowspan="20">ncit:C70713</td>
         <td rowspan="20">Alphanumerical</td>
-        <td rowspan="20">NCIT_C70713</td>
+        <td rowspan="20">ncit:C70713</td>
         <td rowspan="20">=</td>
-        <td>OBI_0000655 (blood specimen)</td>
+        <td>obi:0000655 (blood specimen)</td>
     </tr>
-    <tr><td>OBI_0002512 (bone marrow)</td></tr>
-    <tr><td>OBIB_0000036 (buffy coat)</td></tr>
-    <tr><td>CL_2000001 (peripheral blood mononuclear cell)</td></tr>
-    <tr><td>OBI_0100016 (blood plasma specime)</td></tr>
-    <tr><td>OBI_0100017 (blood serum)</td></tr>
-    <tr><td>UBERON_0007795 (ascites fluid)</td></tr>
-    <tr><td>OBI_0002502 (cerebrospinal fluid)</td></tr>
-    <tr><td>OBI_0002507 (saliva)</td></tr>
-    <tr><td>OBI_0002503 (feces)</td></tr>
-    <tr><td>OBI_0000651 (urine)</td></tr>
-    <tr><td>OBI_0002599 (swab)</td></tr>
-    <tr><td>OBI_2000009 (bodily fluid specimen)</td></tr>
-    <tr><td>OBI_1200000 (FFPE specimen)</td></tr>
-    <tr><td>OBI_0000922 (frozen specimen)</td></tr>
-    <tr><td>OBI_0001472 (specimen with known storage state)</td></tr>
-    <tr><td>OBI_0001051 (DNA extract)</td></tr>
-    <tr><td>OBI_0000880 (RNA extract)</td></tr>
-    <tr><td>OBI_0001479 (specimen from organism)</td></tr>
+    <tr><td>obi:0002512 (bone marrow)</td></tr>
+    <tr><td>obi:0000036 (buffy coat)</td></tr>
+    <tr><td>cl_2000001 (peripheral blood mononuclear cell)</td></tr>
+    <tr><td>obi:0100016 (blood plasma specime)</td></tr>
+    <tr><td>obi:0100017 (blood serum)</td></tr>
+    <tr><td>uberon_0007795 (ascites fluid)</td></tr>
+    <tr><td>obi:0002502 (cerebrospinal fluid)</td></tr>
+    <tr><td>obi:0002507 (saliva)</td></tr>
+    <tr><td>obi:0002503 (feces)</td></tr>
+    <tr><td>obi:0000651 (urine)</td></tr>
+    <tr><td>obi:0002599 (swab)</td></tr>
+    <tr><td>obi:2000009 (bodily fluid specimen)</td></tr>
+    <tr><td>obi:1200000 (FFPE specimen)</td></tr>
+    <tr><td>obi:0000922 (frozen specimen)</td></tr>
+    <tr><td>obi:0001472 (specimen with known storage state)</td></tr>
+    <tr><td>obi:0001051 (DNA extract)</td></tr>
+    <tr><td>obi:0000880 (RNA extract)</td></tr>
+    <tr><td>obi:0001479 (specimen from organism)</td></tr>
     <tr><td>An array of any of the above</td></tr>    
 </tbody>
 </table>
@@ -476,9 +486,9 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
                 "id": "ordo:Orphanet_34587"
               },
               {
-                "id": "obo:NCIT_C70713",
+                "id": "ncit:C70713",
                 "operator": "=",
-                "value": "OBI_0000655"
+                "value": "obi:0000655"
               }
         ],
         "requestedGranularity": "count"
@@ -491,39 +501,59 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 
 ```JSON
 {
-    "meta": {
-        "beaconId": "biobank beacon",
-        "apiVersion": "v2.0.0",
-        "returnedGranularity": "count",
-        "receivedRequestSummary": {
-            "apiVersion": "2.0",
-            "filters": [
-                {
-                    "id": "ordo:Orphanet_34587"
-                },
-                {
-                    "id": "obo:NCIT_C70713",
-                    "operator": "=",
-                    "value": "OBI_0000655"
-                }
-            ],
-            "requestedGranularity": "count",
-            "testMode": false
-        },
-        "returnedSchemas": [
-            {
-                "entityType": "biosample",
-                "schema": "beacon-biosample-v2.0.0",
-                "name": "Default schema for a biological sample",
-                "url": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2-Models/main/BEACON-V2-Model/biosamples/defaultSchema.json",
-                "version": "v2.0.0"
-            }
-        ]
-    },
-    "responseSummary": {
+  "meta": {
+      "beaconId": "biobank beacon",
+      "apiVersion": "v2.0.0",
+      "returnedGranularity": "count",
+      "receivedRequestSummary": {
+          "apiVersion": "2.0",
+          "filters": [
+              {
+                  "id": "ordo:Orphanet_34587"
+              },
+              {
+                  "id": "ncit:C70713",
+                  "operator": "=",
+                  "value": "obi:0000655"
+              }
+          ],
+          "requestedGranularity": "count",
+          "testMode": false
+      },
+      "returnedSchemas": [
+          {
+              "entityType": "biosample",
+              "schema": "beacon-biosample-v2.0.0",
+              "name": "Default schema for a biological sample",
+              "url": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2-Models/main/BEACON-V2-Model/biosamples/defaultSchema.json",
+              "version": "v2.0.0"
+          }
+      ]
+  },
+  "responseSummary": {
+      "exists": true,
+      "numTotalResults": 100
+  },
+  "response": {
+    "resultSets": [
+      {
+        "id": "Vivify",
+        "type": "biosamples", 
         "exists": true,
-        "numTotalResults": 100
-    },
+        "resultCount": 100,
+        "info": {
+          "resultCountDescription": {
+              "minRange": 91,
+              "maxRange": 100  
+          },
+          "countType": "VCF file",
+          "contactPoint": "admin",
+          "contactEmail": "admin@cafevariome.org", 
+          "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
+        }      
+      }
+    ]
+  }    
 }
 ```
 [Notes](#-notes-) about the `resultCount` and unsupported filters for the `/individuals` endpoint apply also for `biospecimens`
@@ -531,225 +561,281 @@ Please **do not use HTTP GET method** to query the biosamples endpoint, as it is
 [ ^ Back to the top](#top)
 
 <hr>
-<h3 id="-catalogs-endpoint-"> Catalogs endpoint </h3>
+
+<h3 id="-catalogs-endpoint-">Catalogs endpoint </h3>
 
 > Method: POST
 
-[/catalogs](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/Query%20Endpoints/catalogs_request) endpoint returns the **__metadata of RD resources__**, using as response, a model compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). Filters are provided as a part of the body while using a POST request to query resources. Available filters correspond also to dcat properties from the Resource Metadata Schema
+The [/catalogs](https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v2.0#/Query%20Endpoints/catalogs_request) endpoint is used to query a Catalog (as defined in [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema)) of resources. It returns a list of  **__metadata of RD resources__ (such as Dataset, Biobank, Patient Registry of Guidelined)** contained in the catalog.
 
-<h4 id="-list-of-filters-and-permitted-values-for-the-catalogs-endpoint-"> List of filters and permitted values for the catalogs endpoint </h4>
+This response schema and the filters are semantically compatible with the [Resource Metadata Schema](https://github.com/ejp-rd-vp/resource-metadata-schema). The response contains json-ld items and it specifies the semantic of the properties (i.e., they are associated using @context to a term from an ontology or controlled vocabulary). Also the filters for this version are semantically compatible with the Resource Metadata Schema as well.
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h4 id="-list-of-filters-and-permitted-values-for-catalogs-">List of filters and permitted values</h4>
 
 > **Note**: Elements within arrays in **value** fields are treated as **ORs**
 
-<table>
-<thead>
-        <th>Metadata Schema Concept</th>
-        <th>Metadata Schema Term</th>
-        <th>Beacon Filter Type</th>
-        <th>ID</th>
-        <th>Operator</th>
-        <th>Permitted Values</th>
-</thead>
-<tbody>
-    <tr>
-        <td><b>Disease or Disorder</b></td>
-        <td>dcat:theme</td>
-        <td>Ontology</td>
-        <td>A single value or an array of orphanet terms in CURIE syntax prefixed with `ordo:`<b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
-        <td colspan="2">NA</td>
-    </tr>
-    <tr>
-        <td><b>Phenotype</b></td>
-        <td>sio:SIO_010056</td>
-        <td>Ontology</td>
-        <td>A single value or an array of HPO terms prefixed with `HP:` <b>e.g. HP:0001251 or [HP:0001251, HP:0012250]</b></td>
-        <td colspan="2">NA</td>
-    </tr>
-    <tr>
-        <td rowspan="5"><b>Resource Types</b></td>
-        <td rowspan="5">rdf:type</td>
-        <td rowspan="5">Alphanumerical</td>
-        <td rowspan="5">A single value or an array of values representing a resource type of the resource. It must be one of the types defined in EJP Resource Metadata Schema</td>
-        <td rowspan="5">=</td>
-        <td>ejprd:PatientRegistry</td>
-    </tr>
-    <tr><td>ejprd:Biobank</td></tr>
-    <tr><td>ejprd:Guideline</td></tr>
-    <tr><td>dcat:Dataset</td></tr>
-    <tr><td>An array of any of the above</td></tr>
-    <tr>
-        <td><b>ID</b></td> 
-        <td>NA</td>
-        <td>Alphanumerical</td>
-        <td>id</td>
-        <td>=</td>
-        <td>any String</td>
-    </tr>
-    <tr>
-        <td><b>Name </b></td>
-        <td>dct:title</td>
-        <td>Alphanumerical</td>
-        <td>The name of the resource</td>
-        <td>=</td>
-        <td>any String</td>
-    </tr>
-    <tr>
-        <td><b>Description </b> </td>
-        <td>dct:description</td>
-        <td>Alphanumerical</td>
-        <td>The description of the resource</td>
-        <td>=</td>
-        <td>any String</td>
-    </tr>
-</tbody>
-</table>
+| Metadata Schema Concept | Associated Metadata Schema Term | Filter Type | ID | Operator | Permitted Values |
+| ---- | ----- | ----- | ----- | ----- | ------ |
+| Disease | `dcat:theme` | Ontology | A single term or an array of Orphanet terms in CURIE format prefixed with `ordo:` e.g. `ordo:Orphanet_558` or `[ordo:Orphanet_558, ordo:Orphanet_773]` | Not Available | Any Orphanet code in CURIE format | 
+| Phenotype | `sio:SIO_010056` | Ontology | A single term or an array of HPO terms in CURIE format prefixed with `hp:` e.g. `hp:0001251` or `[hp:0001251, hp:0012250]` | Not Available | Any HPO code in CURIE format |
+| Resource types | `rdf:type` | Ontology | A single term or an array of terms among the EJPRD supported resource's types | Not Available | `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Dataset` |  
+| Country | `dct:spatial` | Alphanumeric | Country using ISO 3166-1 alpha-2 format (e.g, IT for Italy) | = | An ISO 3166-1 alpha-2 code |   
 
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h3 id="-catalogs-filters-description-"> Catalogs Filters Description </h3>
+<h4 id="-catalogs-filters-description-">Filters Description</h4>
 
-**Disease or Disorder**: All rare diseases that are associated **within a catalog**. It corresponds to the `dcat:theme` property of the Resource Metadata Schema. The values follow CURIE syntax and use the `ordo:` prefix.
+The definition for the filter is the following:
 
-**Phenotype**: HPO terms of all phenotypes observed **within a catalog** of rare disease resources. The values follow CURIE syntax and use the `HP:` prefix. 
+**Disease**: Codes of rare diseases that are associated with the resource **within the catalog**.
 
-**ID**: The resource identifier ID **within the catalog**. It corresponds to the identifier of the RDF resource
+**Phenotype**: HPO terms of all phenotypes observed **within the catalog** of rare disease resources.
 
-**Name**: The name of the resource in the **catalog**. It corresponds to the `dct:title` of the Resource Metadata Schema
+**Resource Types**: Types of resources **within the catalog**. It is the set of ontology terms representing the type of resources defined by the resource metadata schema.
 
-**Description**: The description of the resource in the **catalog**. It corresponds to the `dct:description` property of the Resource Metadata Schema
+**Country**: The country of the resource. 
 
-**Organisation**: The organisation that owns the resouce. It corresponds to the dct:publisher property. 
+Examples of filter body for all of the filters are:
 
-**Resource Types**: Types of resources **within the catalog**. Permitted values for this filter are the type of resources in the Resource Metadata Schema:  `ejprd:PatientRegistry`, `ejprd:Biobank`, `ejprd:Guideline`, `dcat:Datasest` or an array of any of these values.
+ * Disease: `{ "id": "ordo:Orphanet_589"}`, `{ "id": ["ordo:Orphanet_589", "ordo:Orphanet_730"]}`
+ * Phenotype: `{ "id": "hp:0001251"}`, `{ "id": ["hp:0001251", "hp:0012250"]}`
+ * Resource types: `{ "id": "ejprd:Biobank"}`, `{ "id": ["ejprd:PatientRegistry", "ejprd:Guideline"] }`
+ * Country: `{ "id": "dct:spatial", "operator": "=", "value": ["IT", "DE"] }`
 
 [ ^ Back to the top](#top)
 
 <hr>
 
-<h3 id="catalogs-response">Catalogs Response</h3>
+<h4 id="-catalogs-resources-schema-">Resources schema</h4>
 
-The response is a Beacon Collection response that corresponds to a Resource described by the Resource Metadata Schema. Depending on the resource type, the properties may slighlty differ: for example some resource types can have properties that others don't have. Notice that an important field in all resources is the `@context` that specifies the semantics of the properties returned. It must be the [link](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json) to the `json-ld-contexts/ejprd-context.json` file  in this repository. The schemas for each specific resource are in the `/schemas` directory.
-In the meta section of the response, the `returnedSchemas` object must specify the correct json schema for the resource. An example is:
+The response contains a list of JSON-LD items with metadata of the 
+resources in the catalog. The resources represent Biobanks, Patient 
+Registries, Guidelines or Datasets as defined by the Resource Metadata 
+schema. 
 
-```JSON
-"returnedSchemas": [
-    {
-        "entityType": "resources",
-        "schema": "ejprd-biobank-registry-v1.0.0",
-        "name": "EJPRD schema for biobank and patient registry",
-        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/biobank-registry-schema.json",
-        "version": "v1.0.0"
-    }
-]
-```
+Each item must contain the property `@context` used to specify the 
+JSON-LD context where the semantic of the properties is defined. 
+The value of this property must be the [url](https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json) of 
+the `json-ld-contexts/ejprd-context.json` file in this repository.
 
-<h3 id="-example-request-and-response-for-catalogs-"> Example request and response for catalogs </h3>
+The schema id is `ejprd-resource-v4.0.0`. The properties 
+are described in the [ejprd-resources-v4.0.0](../schemas/4.0.0/ejprd-resources-v4.0.0.json) file.
 
-**EXAMPLE /catalogs REQUEST**
+[ ^ Back to the top](#top)
 
-```JSON
-{ 
- "meta":{
-      "apiVersion": "v2.0"
- },
- "query": {
-      "filters": [
-        {
-          "id": "ordo:Orphanet_730"
-        },
-        {
-          "id": "rdf:type",
-          "operator": "=",
-          "value": "ejprd:Biobank"
+<hr>
 
-        }
-      ],
-      "requestedGranularity": "record"
-    }
-}
-```
+<h4 id="-example-request-and-response-for-catalogs-">Example request and response</h4>
 
-The following is an example response 
+**REQUEST**
 
-**EXAMPLE /catalogs RESPONSE**
-```JSON
+```json
 {
     "meta": {
-        "beaconId": "ejprd.beacon.directory.bbmri-eric.eu",
-        "apiVersion": "v2.0.0",
-        "returnedGranularity": "record",
-        "receivedRequestSummary": {
-            "apiVersion": "2.0",
-            "requestedSchemas": [],
-            "filters": [
-                {
-                    "id": "ordo:Orphanet_730"
-                },
-                {
-                "id": "rdf:type",
-                "operator": "=",
-                "value": "ejprd:Biobank"
-
-                }
-            ],
-            "requestParameters": {},
-            "includeResultsetResponses": "HIT",
-            "pagination": {
-                "skip": 0,
-                "limit": 50
-            },
-            "requestedGranularity": "record",
-            "testMode": false
-        },
-        "returnedSchemas": [
-            {
-                "entityType": "resources",
-                "schema": "ejprd-resources-v1.0.0",
-                "name": "EJPRD schema for resources",
-                "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/biobank-registry-schema.json",
-                "version": "v1.0.0"
-            }
-        ]
+        "apiVersion": "2.0",
+        "requestedSchemas": ["ejprd-resources-v4.0.0"] 
     },
-    "responseSummary": {
-        "exists": true,
-        "numTotalResults": 1
-    },
-    "beaconHandovers": [],
-    "response": {
-        "resultSets": [
-            {
-                "resultsCount": 1,
-                "results": [{
-                    "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
-                    "@id": "biobank-1:collection:collection-1",
-                    "@type": "ejprd:Biobank",
-                    "title": "Rare Disease Biobank",
-                    "logo": "http://raredisease.biobank.eu/logo.png",
-                    "description": "Rare disease biobank with data about muscular distrophy",
-                    "populationCoverage": "European",
-                    "theme": "ordo:Orphanet_730",
-                    "vpConnection": "ejprd:VPContentDiscovery",
-                    "landingPage": ["http://biobank.raredisease.org"],
-                    "personalData": "true",
-                    "language": "EN",
-                    "publisher": {
-                        "@id": "biobank-1",
-                        "title": "Biobank hosting collection",
-                        "description": "The biobank that hosts the collection",
-                        "spatial": {
-                            "title": "Italy"
-                        }
-                    }
-                }]
-            }
-        ]
+    "query": {
+        "filters": [{
+            "id": "ordo:Orphanet_100"
+        }, {
+            "id": ["ejprd:Biobank"]
+        }, {
+          "id": "dct:spatial",
+          "operator": "=",
+          "value": ["IT", "DE"]
+        }]
     }
 }
 ```
-[Notes](#-notes-) about the unsupported filters for the `/individuals` endpoint apply also for `catalogs`
+
+**RESPONSE**
+
+```JSON
+{
+  "meta": {
+    "beaconId": "ejprd.beacon.directory.bbmri-eric.eu",
+    "apiVersion": "v2.0.0",
+    "returnedGranularity": "record",
+    "receivedRequestSummary": {
+      "apiVersion": "2.0",
+      "requestedSchemas": ["ejprd-resources-v4.0.0"],
+      "filters": [{
+          "id": "ordo:Orphanet_730"
+        }, {
+          "id": ["ejprd:Biobank"]
+        }, {
+          "id": "dct:spatial",
+          "operator": "=",
+          "value": ["IT", "DE"]
+        }
+      ],
+      "requestParameters": {},
+      "includeResultsetResponses": "HIT",
+      "pagination": {
+        "skip": 0,
+        "limit": 50
+      },
+      "requestedGranularity": "record",
+      "testMode": false
+    },
+    "returnedSchemas": [
+      {
+        "entityType": "resources",
+        "schema": "ejprd-resources-v4.0.0",
+        "name": "EJPRD schema for resources",
+        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/4.0/ejprd-resources-v4.0.0.json",
+        "version": "v4.0.0"
+      }
+    ]
+  },
+  "responseSummary": {
+    "exists": true,
+    "numTotalResults": 1
+  },
+  "beaconHandovers": [],
+  "response": {
+    "resultSets": [
+      {
+        "resultsCount": 1,
+        "results": [
+          {
+            "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
+            "@id": "biobank-1:collection:collection-1",
+            "@type": "ejprd:Biobank",
+            "title": "Rare Disease Biobank",
+            "logo": "http://raredisease.biobank.eu/logo.png",
+            "description": "Rare disease biobank with data about muscular distrophy",
+            "populationCoverage": "European",
+            "theme": "ordo:Orphanet_730",
+            "vpConnection": "ejprd:VPContentDiscovery",
+            "landingPage": [
+              "http://biobank.raredisease.org"
+            ],
+            "personalData": "true",
+            "language": "IT",
+            "publisher": {
+              "@id": "biobank-1",
+              "title": "Organization hosting the collection of samples",
+              "description": "The biobank that hosts the collection",
+              "spatial": {
+                "title": "IT"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h3 id="-catalogs-unsupported-filters-note-">Unsupported filters</h3>
+
+Similarly to what happens with the `/individuals` and `/biosamples` 
+endpoints, filter **SHOULD** be one of the terms from the allowed ones. 
+Not all resources will support all of the filters. In such cases 
+the response **MUST** include a **warning message in the 'info' 
+part** indicating which requested filters are unsupported and these 
+were ignored.
+
+An example of info section in the response is: 
+
+```JSON
+{
+  "meta": {
+    "beaconId": "ejprd.beacon.directory.bbmri-eric.eu",
+    "apiVersion": "v2.0.0",
+    "returnedGranularity": "record",
+    "receivedRequestSummary": {
+      "apiVersion": "2.0",
+      "requestedSchemas": ["ejprd-resources-v4.0.0"],
+      "filters": [{
+          "id": "ordo:Orphanet_730"
+        }, {
+          "id": ["ejprd:Biobank", "ejprd:PatientRegistry"]
+        }, {
+          "id": "dct:spatial",
+          "operator": "=",
+          "value": ["IT", "DE"]
+        }
+      ],
+      "requestParameters": {},
+      "includeResultsetResponses": "HIT",
+      "pagination": {
+        "skip": 0,
+        "limit": 50
+      },
+      "requestedGranularity": "record",
+      "testMode": false
+    },
+    "returnedSchemas": [
+      {
+        "entityType": "resources",
+        "schema": "ejprd-resources-v4.0.0",
+        "name": "EJPRD schema for resources",
+        "url": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/schemas/4.0/ejprd-resources-v4.0.0.json",
+        "version": "v4.0.0"
+      }
+    ]
+  },
+  "responseSummary": {
+    "exists": true,
+    "numTotalResults": 1
+  },
+  "info": {
+    "warnings": {
+      "unsupportedFilters": [
+        "ejprd:PatientRegistry"  
+      ]
+    }
+  },
+  "beaconHandovers": [],
+  "response": {
+    "resultSets": [
+      {
+        "resultsCount": 1,
+        "results": [
+          {
+            "@context": "https://raw.githubusercontent.com/ejp-rd-vp/vp-api-specs/main/json-ld-contexts/ejprd-context.json",
+            "@id": "biobank-1:collection:collection-1",
+            "@type": "ejprd:Biobank",
+            "title": "Rare Disease Biobank",
+            "logo": "http://raredisease.biobank.eu/logo.png",
+            "description": "Rare disease biobank with data about muscular distrophy",
+            "populationCoverage": "European",
+            "theme": "ordo:Orphanet_730",
+            "vpConnection": "ejprd:VPContentDiscovery",
+            "landingPage": [
+              "http://biobank.raredisease.org"
+            ],
+            "personalData": "true",
+            "language": "IT",
+            "publisher": {
+              "@id": "biobank-1",
+              "title": "Organization hosting the collection of samples",
+              "description": "The biobank that hosts the collection",
+              "spatial": {
+                "title": "IT"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 [ ^ Back to the top](#top)
 
@@ -767,10 +853,16 @@ Since the specification allows for record level queries of individuals, addition
 </thead>
 <tbody>
 <tr><td>auth-key</td><td>Token provided by resource</td><td>Indicates requester is authorised (required)</td></tr>
-<tr><td>auth-token</td><td>Bearer token, True, False</td><td>Indicates requesting user's logged in status (optional)</td></tr>
-<tr><td>authentication-url</td><td>Bearer token authentication provider</td><td>Enables validation of bearer token (optional)</td></tr>
+<tr><td>Authorization</td><td>Bearer Token</td><td>The access token issued by LS AAI</td></tr>
 </tbody>
 </table>
+
+For now, the auth key is still used for some resources, but it will soon be deprecated and replaced by Bearer tokens. The absence of a token indicates that a user has not logged in. The tokens are issued by LS AAI using the OIDC protocol. Resources should register themselves with LS AAI. To validate the token, both the VP Portal and the resources need to know each other's client IDs.
+
+Configuration URL: https://login.aai.lifescience-ri.eu/oidc/.well-known/openid-configuration
+VP Portal Client ID: 5c13620c-da38-4c9b-bb79-c4c278c2f64c
+OIDC realm: https://login.aai.lifescience-ri.eu/oidc/
+
 
 > **Note:** Presence of a bearer token is equivalent to auth-token:True
 
@@ -808,15 +900,15 @@ These usage rules are illustrated using a general syntax as below:
   "query": {
     "filters": [
       {
-        "id": "AlphanumericFilter_id",
+        "id": "AlphanumericFilter:id",
         "operator": "=",
-        "value":"AlphanumericFilter_value"
+        "value":"AlphanumericFilter:value"
         
       },
       {
-        "id": "AlphanumericFilter_id",
+        "id": "AlphanumericFilter:id",
         "operator": "=",
-        "value":"AlphanumericFilter_value"
+        "value":"AlphanumericFilter:value"
       },
       { 
         "id": "OntologyFilter:value"
@@ -843,9 +935,9 @@ As shown above, different types of filters can be sent in a single query. These 
           "id": "ordo:Orphanet_34587" 
         },
         {
-          "id": "data_2295",
+          "id": "edam:data_2295",
           "operator": "=",
-          "value": "LAMP2"
+          "value": "ACTN4"
         }
       ]
     }
@@ -954,14 +1046,14 @@ The warning messages will be provided within the [`info`](#partial-query-matches
           "id": "ordo:Orphanet_34587"
         },
         {
-          "id": "data_2295",
-          "value": "LAMP2",
+          "id": "edam:data_2295",
+          "value": "ACTN4",
           "operator": "="
         },
         {
-          "id": "NCIT_C28421",
+          "id": "ncit:C28421",
           "operator": "=",
-          "value": "NCIT_C16576"
+          "value": "ncit:C16576"
         }
     ],
      "requestedGranularity": "boolean"
@@ -994,6 +1086,7 @@ This request is sent to a resource which does not hold information about causati
                "minRange": 11,
                "maxRange": 20
             },
+            "countType": "VCF file",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org",
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
@@ -1008,7 +1101,7 @@ This request is sent to a resource which does not hold information about causati
   "info": { 
     "warnings":{
       "unsupportedFilters": [
-        "data_2295"
+        "edam:data_2295"
       ]
     }
   }
@@ -1034,6 +1127,7 @@ To provide flexibility for implementers between using a range, the `info` sectio
       "minRange": N,
       "maxRange": N
    },
+   "countType": "VCF file",
    "contactPoint": "Person/point of contact",
    "contactEmail": "Email for contact regarding this dataset/resource", 
    "contactURL": "URL of the implementer"
@@ -1063,6 +1157,7 @@ To provide flexibility for implementers between using a range, the `info` sectio
                "minRange": 71,
                "maxRange": 80
             },
+            "countType": "VCF file.",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org", 
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
@@ -1090,17 +1185,13 @@ In this example, the result could be a count of individuals between 71 to 80 (th
 
 This specification defines GET endpoints to request information about resources.
 
-<h3 id="-info-endpoint"> Info endpoint</h3>
+<h3 id="-info-endpoint-"> Info endpoint</h3>
 
 > **HTTP Request Method : GET**
 
 [/info](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
 
 <h3 id="-example-request-and-response-for-info-"> Example response for info </h3>
-
-
-
-
 
 ```JSON
 {
@@ -1134,16 +1225,13 @@ This specification defines GET endpoints to request information about resources.
     }
 }
 ```
-<h3 id="service-info-endpoint"> Service-info endpoint</h3>
+<h3 id="-service-info-endpoint-"> Service-info endpoint</h3>
 
 > **HTTP Request Method : GET**
 
 [/service-info](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the basic metadata concerning its service, based on the [reference specification](https://github.com/ga4gh-discovery/ga4gh-service-info/).
 
 <h3 id="-example-request-and-response-for-service-info"> Example response for service-info </h3>
-
-
-
 
 ```JSON
 {
@@ -1167,15 +1255,13 @@ This specification defines GET endpoints to request information about resources.
     "version": "v2.0"
 }
 ```
-<h3 id="configuration-endpoint">Configuration</h3>
+<h3 id="-configuration-endpoint-">Configuration</h3>
 
 > **HTTP Request Method : GET**
 
-[/configuration](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
+[/configuration](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon. Aimed to Beacon clients like web pages or Beacon networks.
 
 <h3 id="-example-request-and-response-for-configuration"> Example response for service-info </h3>
-
-
 
 ```JSON
 {
@@ -1200,7 +1286,7 @@ This specification defines GET endpoints to request information about resources.
                 "id": "Individuals",
                 "name": "Individuals",
                 "ontologyTermForThisType": {
-                    "id": "NCIT:C25190"
+                    "id": "ncit:C25190"
                 },
                 "partOfSpecification": "v2.0",
                 "defaultSchema": {
@@ -1213,7 +1299,7 @@ This specification defines GET endpoints to request information about resources.
                 "id": "Biosamples",
                 "name": "Biosamples",
                 "ontologyTermForThisType": {
-                    "id": "NCIT:C43412"
+                    "id": "ncit:C43412"
                 },
                 "partOfSpecification": "v2.0",
                 "defaultSchema": {
@@ -1232,17 +1318,14 @@ This specification defines GET endpoints to request information about resources.
     }
 }
 ```
-<h3 id="entry-types-endpoint">Entry-types</h3>
+
+<h3 id="-entry-types-endpoint-">Entry-types</h3>
 
 > **HTTP Request Method : GET**
 
-[/entry-types](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
+[/entry-types](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the list of Entry types definitions.
 
 <h3 id="example-request-and-response-for-entry-types"> Example response for entry-types </h3>
-
-
-
-
 
 ```JSON
 {
@@ -1266,7 +1349,7 @@ This specification defines GET endpoints to request information about resources.
                 "id": "Individuals",
                 "name": "Individuals",
                 "ontologyTermForThisType": {
-                    "id": "NCIT:C25190"
+                    "id": "ncit:C25190"
                 },
                 "partOfSpecification": "v2.0",
                 "defaultSchema": {
@@ -1279,7 +1362,7 @@ This specification defines GET endpoints to request information about resources.
                 "id": "Biosamples",
                 "name": "Biosamples",
                 "ontologyTermForThisType": {
-                    "id": "NCIT:C43412"
+                    "id": "ncit:C43412"
                 },
                 "partOfSpecification": "v2.0",
                 "defaultSchema": {
@@ -1292,90 +1375,136 @@ This specification defines GET endpoints to request information about resources.
     }
 }
 ```
-<h3 id="filtering_terms-endpoint">Filtering_terms</h3>
+<h3 id="-filtering-terms-endpoint-">Filtering terms</h3>
 
 > **HTTP Request Method : GET**
 
-[/filtering_terms](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information about the Beacon.
+The `/filtering_terms` endpoint is used by the Beacon to inform the clients on the list of the terms supported to filter 
+the results.
 
 <h3 id="example-request-and-response-for-filtering_terms"> Example response for filtering_terms </h3>
 
-
-
-
+Here is an example response for the filtering terms enpoints
 
 ```JSON
 {
-    "meta": {
-        "beaconId": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
-        "apiVersion": "v2.0",
-        "returnedSchemas": [
-            {
-                "entityType": "individuals",
-                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/individuals/defaultSchema.json"
-            },
-            {
-                "entityType": "biosamples",
-                "schema": "https://raw.githubusercontent.com/ga4gh-beacon/beacon-v2/main/models/json/beacon-v2-default-model/biosamples/defaultSchema.json"
-            }
+  "meta": {
+    "beaconId": "BeaconAPI.cv2.rdnexusdev.molgeniscloud.org",
+    "apiVersion": "v2.0",
+    "returnedSchemas": []
+  },
+  "response": {
+    "resources": [
+      {
+        "id": "ordo",
+        "name": "Orphanet Ontology",
+        "url": "https://www.orphadata.com/data/ontologies/ordo/last_version/ORDO_en_4.4.owl",
+        "version": "4.4",
+        "namespacePrefix": "ordo",
+        "iriPrefix": "http://www.orpha.net/ORDO/"
+      },
+      {
+        "id": "dcat",
+        "name": "DCAT 2 Vocabulary",
+        "url": "https://www.w3.org/ns/dcat2.ttl",
+        "version": "2.0",
+        "namespacePrefix": "dcat",
+        "iriPrefix": "http://www.w3.org/ns/dcat#"
+      },
+      {
+        "id": "ncit",
+        "name": "NCIT",
+        "url": "http://purl.obolibrary.org/obo/ncit.owl",
+        "version": "2023-101-19",
+        "namespacePrefix": "obo",
+        "iriPrefix": "http://purl.obolibrary.org/obo/"
+      }
+    ],
+    "filteringTerms": [
+      {
+        "id": "ordo:Orphanet_589",
+        "label": "Disease or disorder",
+        "type": "ontology",
+        "scopes": [
+          "individuals",
+          "biosamples",
+          "catalogs"
         ]
-    },
-    "response": {
-        "filteringTerms": [
-            {
-                "id": "NCIT_C28421",
-                "label": "Sex. Permitted values: NCIT_C16576, NCIT_C20197, NCIT_C124294, NCIT_C17998",
-                "type": "alphanumeric"
-            },
-            {
-                "id": "A single value or an array of orphanet terms.",
-                "label": "Disease or disorder",
-                "type": "ontology"
-            },
-            {
-                "id": "A single value or an array of HPO terms.",
-                "label": "Phenotype",
-                "type": "ontology"
-            },
-            {
-                "id": "data_2295",
-                "label": "Causative genes. Permitted values: any HGNC gene symbol",
-                "type": "alphanumeric"
-            },
-            {
-                "id": "NCIT_C83164",
-                "label": "Age this year",
-                "type": "numeric"
-            },
-            {
-                "id": "NCIT_C124353",
-                "label": "Symptom Onset",
-                "type": "numeric"
-            },
-            {
-                "id": "NCIT_C156420",
-                "label": "Age at diagnosis",
-                "type": "numeric"
-            },
-            {
-                "id": "Available Materials",
-                "label": "Available materials",
-                "type": "alphanumeric"
-            }
+      },
+      {
+        "id": "ncit:C156420",
+        "label": "Age at diagnosis",
+        "type": "numeric",
+        "scopes": [
+          "individuals",
+          "biosamples"
         ]
-    }
+      },
+      {
+        "id": "dct:spatial",
+        "label": "Country",
+        "type": "alphanumeric",
+        "scopes": [
+          "catalogs"
+        ]
+      }
+    ]
+  }
 }
 ```
 
-<h3 id="map-endpoint">Map</h3>
+This response notifies the clients that this beacon supports three filtering terms, as defined in the filteringTerms items:
+ - ordo:Orphanet_589 filter by this code
+ - ncit:C156420: filters by age at diagnosis
+ - dct:spatial: filter by country
+
+Notice that each term may specify also a `"scopes"` attribute: this is used to specify for which type of enpoints the filter is supported. For example the `ncit:C156420` term can be used only for `/individuals` and `/biosamples` endpoint.
+
+The `"resource"` section of the endpoint is used the client how the CURIEs prefixes are interpreted by the beacon endpoint. 
+
+For example the item:
+
+```JSON
+{
+  "id": "ordo",
+  "name": "Orphanet Ontology",
+  "url": "https://www.orphadata.com/data/ontologies/ordo/last_version/ORDO_en_4.4.owl",
+  "version": "4.4",
+  "namespacePrefix": "ordo",
+  "iriPrefix": "http://www.orpha.net/ORDO/"
+}
+```
+
+means that the `ordo` prefix is used for the orphanet codes and terms starting with `ordo` (`"namespacePrefix"` attribute) are expanded to `"http://www.orpha.net/ORDO/"` ("iriPrefix").
+
+The following table shows the recommended prefixes used by the Virtual Platform. 
+
+| Ontology | Prefix | IRI | Example |
+| -------- | ------ | --- | ------- |
+| Orphanet | ordo   | http://www.orpha.net/ORDO/ | ordo:Orphanet_730 | 
+| DCAT | dcat | http://www.w3.org/ns/dcat# | dcat:Dataset |
+| DCMI Terms | dct | http://purl.org/dc/terms/ | dct:spatial |
+| Resource Description Framework | rdf | http://www.w3.org/1999/02/22-rdf-syntax-ns# | rdf:type |
+| EJP-RD Vocabulary | ejp-rd | https://w3id.org/ejp-rd/vocabulary# | ejp-rd:Biobank | 
+| Semanticscience Integrated Ontology (SIO) | sio | http://semanticscience.org/ontology/ | sio |
+| Human Phenotype Ontology | hp | http://purl.obolibrary.org/obo/HP_ | hp:0001251 |
+| NCI Thesaurus (NCIT) | ncit | http://purl.obolibrary.org/obo/ | ncit:C28421 |
+| Ontology for Biomedical Investigations (OBI) | obi | http://purl.obolibrary.org/obo/ | obi:0000655 |
+| Ontology for BIoBanking (OBIB) | obib | http://purl.obolibrary.org/obo/ | obib:0000036 |
+| Uber-anatomy ontology | uberon | http://purl.obolibrary.org/obo/ | uberon:0007795 |
+| Cell ontology | cl | http://purl.obolibrary.org/obo/ | cl:2000001 | 
+
+[ ^ Back to the top](#top)
+
+<hr>
+
+<h3 id="-map-endpoint-">Map</h3>
 
 > **HTTP Request Method : GET**
 
 [/map](https://github.com/ejp-rd-vp/vp-api-specs/blob/main/vp_api_v2.0.yml) returns the information related to the list of endpoints included in this Beacon instance.
 
 <h3 id="example-request-and-response-for-map"> Example response for map </h3>
-
-
 
 ```JSON
 {

@@ -8,59 +8,98 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: v2.0
+  version: v4.0
 servers:
-  - url: https://rdnexusdev.molgeniscloud.org/cv2/BeaconAPI/
+  - url: https://rdnexusdev.molgeniscloud.org/cv2/BeaconAPI
     description: Development server
+security: 
+  - oidcToken: []
+  - apiAuth: []
 paths:
   /info:
     get:
       summary: "Get information regarding this beacon."
+      operationId: info_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
-        200:
-          $ref: "#/components/schemas/InfoResponse"
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfoResponse"
   /filtering_terms:
     get:
       summary: "Get the valid filtering terms to be used in querying/handled by this beacon."
+      operationId: filtering_terms_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
-        200:
-          $ref: "#/components/schemas/FilteringTermsResponse"
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FilteringTermsResponse"
   /map:
     get:
-      summary: "Get the list of endpoints included in this beacon i.e., individuals."
+      summary: "Information about the response that could be relevant for the Beacon client in order to interpret the results"
+      operationId: map_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
-        200:
-          $ref: "#/components/schemas/MapResponse"
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MapResponse"
   /service-info:
     get:
       summary: "Get information about the beacon using GA4GH ServiceInfo format."
+      operationId: service-info_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
-        200:
-          $ref: "#/components/schemas/ServiceInfoResponse"
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Service"
   /configuration:
     get:
       summary: "Get the configuration of this beacon."
+      operationId: congifuration_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
-        200:
-          $ref: "#/components/schemas/ConfigurationResponse"
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConfigurationResponse"
   /entry_types:
     get:
       summary: "Get the list of beacon entry types."
+      operationId: entry_types_request
+      security: []
       tags:
         - Informational Endpoints
       responses:
-        200:
-          $ref: "#/components/schemas/EntryTypesResponse"
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConfigurationEntryTypesResponse"
   /individuals:
     post:
       summary: "Request to retrieve count of individuals from a data source (i.e. patients)."
@@ -74,16 +113,30 @@ paths:
               $ref: "#/components/schemas/IndividualRequest"
         required: true
       responses:
-        200:
-          $ref: "#/components/schemas/IndividualResponse"
-        400:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IndividualResponse"
+        "400":
           description: "Input data malformed"
           content: {}
-        403:
-          description: "The data source does not allow this API call"
+        "401":
+          description: "Token unacceptable"
+          headers:
+            WWW-Authenticate:
+              schema:
+                type: string
+                example: "Bearer realm"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        "403":
+          description: "Token rejected"
           content: {}
-      security:
-        - apiAuth: []
   /biosamples:
     post:
       summary: "Request to retrive count of biosamples from a data source."
@@ -97,16 +150,30 @@ paths:
               $ref: "#/components/schemas/BiosampleRequest"
         required: true
       responses:
-        200:
-          $ref: "#/components/schemas/IndividualResponse"
-        400:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/IndividualResponse"
+        "400":
           description: "Input data malformed"
           content: {}
-        403:
-          description: "The data source does not allow this API call"
+        "401":
+          description: "Token unacceptable"
+          headers:
+            WWW-Authenticate:
+              schema:
+                type: string
+                example: "Bearer realm"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        "403":
+          description: "Token rejected"
           content: {}
-      security:
-        - apiAuth: []
   /catalogs:
     post:
       summary: "Request to retrive record(s) of resource(s) within a catalog/biobank/registry."
@@ -120,16 +187,30 @@ paths:
               $ref: "#/components/schemas/CatalogRequest"
         required: true
       responses:
-        200:
-          $ref: "#/components/schemas/CatalogResponse"
-        400:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CatalogResponse"
+        "400":
           description: "Input data malformed"
           content: {}
-        403:
-          description: "The data source does not allow this API call"
+        "401":
+          description: "Token unacceptable"
+          headers:
+            WWW-Authenticate:
+              schema:
+                type: string
+                example: "Bearer realm"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        "403":
+          description: "Token rejected"
           content: {}
-      security:
-        - apiAuth: []
 components:
   schemas:
     IndividualRequest:
@@ -142,7 +223,7 @@ components:
           $ref: "#/components/schemas/MetaContent"
         query:
           $ref: "#/components/schemas/IndividualRequestQuery"
-      description: "Request to return individuals count for given CDEs as filters"
+      description: "Request to return individuals count for given filters"
     BiosampleRequest:
       required:
         - meta
@@ -153,7 +234,7 @@ components:
           $ref: "#/components/schemas/MetaContent"
         query:
           $ref: "#/components/schemas/BiosampleRequestQuery"
-      description: "Request to return individuals count for given CDEs as filters"
+      description: "Request to return individuals count for given  filters"
     CatalogRequest:
       required:
         - meta
@@ -164,7 +245,7 @@ components:
           $ref: "#/components/schemas/MetaContent"
         query:
           $ref: "#/components/schemas/CatalogRequestQuery"
-      description: "Request to return resources for given CDEs as filters"
+      description: "Request to return resources for given  filters"
     IndividualRequestQuery:
       type: object
       properties:
@@ -187,14 +268,14 @@ components:
         id:
           type: string
           description: >
-            Concept ID of CDEs. 
+            Concept ID. 
               Allowed terms:
-               * `NCIT_C28421` - Sex
-               * `data_2295` - Causative Gene(s)
-               * `NCIT_C83164` - Age this year
-               * `NCIT_C124353` - Symptom Onset
-               * `NCIT_C156420` - Age at diagnosis
-          example: "NCIT_C28421"
+               * `ncit:C28421` - Sex
+               * `edam:data_2295` - Causative Gene(s)
+               * `ncit:C83164` - Age this year
+               * `ncit:C124353` - Symptom Onset
+               * `ncit:C156420` - Age at diagnosis
+          example: "ncit:C28421"
         operator:
           type: string
           description: |
@@ -206,37 +287,37 @@ components:
           anyOf:
             - $ref: "#/components/schemas/IndividualStringValue"
             - $ref: "#/components/schemas/IndividualArrayValues"
-      description: "Query parameters to filter individuals based on CDEs."
+      description: "Query parameters to filter individuals "
     IndividualStringValue:
       type: string
-      example: '"NCIT_C17998"'
+      example: '"ncit:C17998"'
       description: |
-        The actual value of the CDE in string format. Allowed values:
-          * For `NCIT_C28421`(Sex): 
-            * `NCIT_C16576`, (Female)
-            * `NCIT_C20197`, (Male)
-            * `NCIT_C124294`, (Undetermined)
-            * `NCIT_C17998` (Unknown)
-              * Ex: \"NCIT_C16576\"
-          * For `data_2295`(Causative Gene): 
+        The actual value in string format. Allowed values:
+          * For `ncit:C28421`(Sex): 
+            * `ncit:C16576`, (Female)
+            * `ncit:C20197`, (Male)
+            * `ncit:C124294`, (Undetermined)
+            * `ncit:C17998` (Unknown)
+              * Ex: \"ncit:C16576\"
+          * For `edam:data_2295`(Causative Gene): 
             * Any HGNC Gene symbol or an array of HGNC Symbols. 
               * Ex: \"FOXRED1\"
-          * For `NCIT_C83164`(Age this year): 
+          * For `ncit:C83164`(Age this year): 
             * Any age as an integer
               * Ex: 13
-          * For `NCIT_C124353`(Symptom Onset): 
+          * For `ncit:C124353`(Symptom Onset): 
             * Any integer
               * Ex: 5
-          * For `NCIT_C156420`(Age at diagnosis):
+          * For `ncit:C156420`(Age at diagnosis):
             * Any integer
               * Ex: 8
     IndividualArrayValues:
       type: array
       items:
         type: string
-      example: '["NCIT_C16576","NCIT_C20197"]'
+      example: '["ncit:C16576","ncit:C20197"]'
       description: |
-        An array of allowed CDE value(s) in string format.
+        An array value(s) in string format.
     IndividualOntologyRequestArrayFilter:
       required:
         - id
@@ -251,7 +332,7 @@ components:
               description: "Array of string orpha ids."
           example: '"ordo:Orphanet_558" or ["ordo:Orphanet_558","ordo:Orphanet_773","ordo:Orphanet_12345"]'
           description: |
-            Concept ID of CDEs using Orpha ontology format. 
+            Concept ID  using Orpha ontology format. 
               Allowed values:
               * For `Disease or Disorder`: A single value or an array of orphanet terms. e.g. \"ordo:Orphanet_558\" or [\"ordo:Orphanet_558\", \"ordo:Orphanet_773\"]
     CatalogRequestQuery:
@@ -292,7 +373,7 @@ components:
           anyOf:
             - $ref: "#/components/schemas/CatalogStringValue"
             - $ref: "#/components/schemas/CatalogArrayValues"
-          description: "Query parameters to filter individuals based on CDEs."
+          description: "Query parameters to filter individuals."
     CatalogStringValue:
       type: string
       example: "ejprd:PatientRegistry"
@@ -356,11 +437,11 @@ components:
           description: >
             Concept ID for biosamples
               Allowed terms:
-               * `obo:NCIT_C28421` - Sex
-               * `obo:NCIT_C83164` - Year of birth
-               * `obo:NCIT_C156420` - Age at diagnosis
-               * `obo:NCIT_C70713` - Biospecimen type
-          example: "obo:NCIT_C70713"
+               * `ncit:C28421` - Sex
+               * `ncit:C83164` - Year of birth
+               * `ncit:C156420` - Age at diagnosis
+               * `ncit:C70713` - Biospecimen type
+          example: "ncit:C70713"
         operator:
           type: string
           description: "This is an advanced filter option to compare filter IDs with filter values using '=' operator in the query."
@@ -369,48 +450,48 @@ components:
           anyOf:
             - $ref: "#/components/schemas/BiosampleStringValue"
             - $ref: "#/components/schemas/BiosampleArrayValues"
-          description: "Query parameters to filter individuals based on CDEs."
+          description: "Query parameters to filter individuals"
     BiosampleStringValue:
       type: string
       description: |
-        The actual value of the CDE in string format. Allowed values:
-          * For `obo:NCIT_C28421`(Sex): 
-            * `NCIT_C16576`, (Female)
-            * `NCIT_C20197`, (Male)
-            * `NCIT_C124294`, (Undetermined)
-            * `NCIT_C17998` (Unknown)
-              * Ex: \"NCIT_C16576\"
-          * For `NCIT_C83164`(Year of birth): 
+        The actual value in string format. Allowed values:
+          * For `ncit:C28421`(Sex): 
+            * `ncit:C16576`, (Female)
+            * `ncit:C20197`, (Male)
+            * `ncit:C124294`, (Undetermined)
+            * `ncit:C17998` (Unknown)
+              * Ex: \"ncit:C16576\"
+          * For `ncit:C83164`(Year of birth): 
             * Any age as an integer
               * Ex: 13
-          * For `NCIT_C156420`(Age at diagnosis):
+          * For `ncit:C156420`(Age at diagnosis):
             * Any integer
               * Ex: 8
-          * For obo:NCIT_C70713 (Biospecimen type):
-            * OBI_0000655 (blood specimen)
-            * OBI_0002512 (bone marrow)
-            * OBIB_0000036 (buffy coat)
-            * CL_2000001 (peripheral blood mononuclear cell)
-            * OBI_0100016 (blood plasma specime)
-            * OBI_0100017 (blood serum)
-            * UBERON_0007795 (ascites fluid)
-            * OBI_0002502 (cerebrospinal fluid)
-            * OBI_0002507 (saliva)
-            * OBI_0002503 (feces)
-            * OBI_0000651 (urine)
-            * OBI_0002599 (swab)
-            * OBI_2000009 (bodily fluid specimen)
-            * OBI_1200000 (FFPE specimen)
-            * OBI_0000922 (frozen specimen)
-            * OBI_0001472 (specimen with known storage state)
-            * OBI_0001051 (DNA extract)
-            * OBI_0000880 (RNA extract)
-            * OBI_0001479 (specimen from organism)
+          * For ncit:C70713 (Biospecimen type):
+            * obi:0000655 (blood specimen)
+            * obi:0002512 (bone marrow)
+            * OBIB:0000036 (buffy coat)
+            * cl:"200"0001 (peripheral blood mononuclear cell)
+            * obi:0100016 (blood plasma specime)
+            * obi:0100017 (blood serum)
+            * uberon:0007795 (ascites fluid)
+            * obi:0002502 (cerebrospinal fluid)
+            * obi:0002507 (saliva)
+            * obi:0002503 (feces)
+            * obi:0000651 (urine)
+            * obi:0002599 (swab)
+            * obi:"200"0009 (bodily fluid specimen)
+            * obi:1"200"000 (FFPE specimen)
+            * obi:0000922 (frozen specimen)
+            * obi:0001472 (specimen with known storage state)
+            * obi:0001051 (DNA extract)
+            * obi:0000880 (RNA extract)
+            * obi:0001479 (specimen from organism)
     BiosampleArrayValues:
       type: array
       items:
         type: string
-      example: '["OBI_0000655", "OBI_0001051"]'
+      example: '["obi:0000655", "obi:0001051"]'
       description: |
         An array of possible string values for the specific filter
     BiosampleOntologyRequestArrayFilter:
@@ -454,38 +535,360 @@ components:
     FilterTermsResponseContent:
       required:
         - filteringTerms
+        - resources
       properties:
         filteringTerms:
           $ref: "#/components/schemas/FilterTermsResponse"
+        resources:
+           $ref: "#/components/schemas/FilterTermsResourceResponse"
     FilterTermsResponse:
+      type : array
       description: |
         List of filtering terms for querying this Beacon.
       required:
         - id
         - type
+      items:
+        type : object
+        properties:
+          id:
+            type: string
+            description: |
+              The field id in the case of numeric or alphanumeric fields, or the term id in the case of ontology or custom terms. CURIE syntax in the case of an ontology term.
+            example: ncit:C28421
+          type:
+            type: string
+            description: |
+              Either "custom", "alphanumeric" or ontology/terminology full name.
+            example: alphanumeric or ontology or custom
+          label:
+            type: string
+            description: |
+              This would be the "preferred Label" in the case of an ontology term.
+            example: Symptom Onset
+    FilterTermsResourceResponse:
+      type: array
+      description: |
+        Description of an ontology resource defined externally to this beacon implementation, such as MeSH or EFO, based on the phenopackets resource object (https://phenopacket-schema.readthedocs.io/en/latest/resource.html)
+      items:
+        type: object
+        required:
+          - id
+        properties:
+          id:
+            type: string
+            description: |
+              Preferably OBO ID representing the resource; alternatively a URI pointing towards the definitions may be used if not in OBO.
+          name:
+            type: string
+            description: |
+              The name of the ontology referred to by the id element
+          url:
+            type: string
+            description: |
+              Uniform Resource Locator of the resource
+            example: 'http://example.com/ontology'
+          version:
+            type: string
+            description: |
+              The version of the resource or ontology used to make the annotation
+          nameSpacePrefix:
+            type: string
+            description: |
+              The prefix used in the CURIE of an OntologyClass
+          iriPrefix:
+            type: string
+            description: |
+              The full Internationalized Resource Identifier (IRI) prefix
+    Service:
+      description: 'GA4GH service'
       type: object
+      required:
+        - id
+        - name
+        - type
+        - organization
+        - version
       properties:
         id:
           type: string
-          description: |
-            The field id in the case of numeric or alphanumeric fields, or the term id in the case of ontology or custom terms. CURIE syntax in the case of an ontology term.
-          example: NCIT_C28421
+          description: 'Unique ID of this service. Reverse domain name notation is recommended, though not required. The identifier should attempt to be globally unique so it can be used in downstream aggregator services e.g. Service Registry.'
+          example: 'org.ga4gh.myservice'
+        name:
+          type: string
+          description: 'Name of this service. Should be human readable.'
+          example: 'My project'
         type:
+          $ref: '#/components/schemas/ServiceType'
+        description:
           type: string
-          description: |
-            Either "custom", "alphanumeric" or ontology/terminology full name.
-          example: alphanumeric or ontology or custom
-        label:
+          description: 'Description of the service. Should be human readable and provide information about the service.'
+          example: 'This service provides...'
+        organization:
+          type: object
+          description: 'Organization providing the service'
+          required:
+            - name
+            - url
+          properties:
+            name:
+              type: string
+              description: 'Name of the organization responsible for the service'
+              example: 'My organization'
+            url:
+              type: string
+              format: uri
+              description: 'URL of the website of the organization (RFC 3986 format)'
+              example: 'https://example.com'
+        contactUrl:
           type: string
-          description: |
-            This would be the "preferred Label" in the case of an ontology term.
-          example: Symptom Onset
-    ServiceInfoResponse:
-      description: |
-        Respond with the Service Info of this Beacon.
+          format: uri
+          description: 'URL of the contact for the provider of this service, e.g. a link to a contact form (RFC 3986 format), or an email (RFC 2368 format).'
+          example: 'mailto:support@example.com'
+        documentationUrl:
+          type: string
+          format: uri
+          description: 'URL of the documentation of this service (RFC 3986 format). This should help someone learn how to use your service, including any specifics required to access data, e.g. authentication.'
+          example: 'https://docs.myservice.example.com'
+        createdAt:
+          type: string
+          format: date-time
+          description: 'Timestamp describing when the service was first deployed and available (RFC 3339 format)'
+          example: '2019-06-04T12:58:19Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: 'Timestamp describing when the service was last updated (RFC 3339 format)'
+          example: '2019-06-04T12:58:19Z'
+        environment:
+          type: string
+          description: 'Environment the service is running in. Use this to distinguish between production, development and testing/staging deployments. Suggested values are prod, test, dev, staging. However this is advised and not enforced.'
+          example: 'test'
+        version:
+          type: string
+          description: 'Version of the service being described. Semantic versioning is recommended, but other identifiers, such as dates or commit hashes, are also allowed. The version should be changed whenever the service is updated.'
+          example: '1.0.0'
+    ServiceType:
+      description: 'Type of a GA4GH service'
+      type: object
+      required:
+        - group
+        - artifact
+        - version
+      properties:
+        group:
+          type: string
+          description: 'Namespace in reverse domain name format. Use `org.ga4gh` for implementations compliant with official GA4GH specifications. For services with custom APIs not standardized by GA4GH, or implementations diverging from official GA4GH specifications, use a different namespace (e.g. your organization''s reverse domain name).'
+          example: 'org.ga4gh'
+        artifact:
+          type: string
+          description: 'Name of the API or GA4GH specification implemented. Official GA4GH types should be assigned as part of standards approval process. Custom artifacts are supported.'
+          example: 'beacon'
+        version:
+          type: string
+          description: 'Version of the API or specification. GA4GH specifications use semantic versioning.'
+          example: '1.0.0'
     MapResponse:
+      required:
+        - meta
+        - response
+      properties:
+        meta:
+          $ref: "#/components/schemas/MetaContent"
+        response:
+          $ref: "#/components/schemas/MapResponseContent"
+    MapResponseContent:
       description: |
-        Respond with the list of available query endpoints in this Beacon.
+        Returning the Beacon Map.
+      required:
+        - $schema
+        - endpointSets
+      properties:
+        $schema:
+          type : string
+        endpointSets:
+           $ref: "#/components/schemas/MapEndpointsSetsResponse"
+    MapEndpointsSetsResponse:
+      type: object
+      description: |
+        List of filtering terms for querying this Beacon.
+      required:
+        - entryType
+        - rootUrl
+      properties:
+        entryType:
+          type: string
+          description: "Specifies the type of entries this Beacon handles."
+        openAPIEndpointsDefinition:
+          type: string
+          description: |
+            Reference to the file that includes the OpenAPI definition of the endpoints implemented in this Beacon instance. The referenced file MUST BE a valid OpenAPI definition file, as it is expected that the Beacon clients (e.g. a Beacon Network) should be able to parse it to discover additional details on the supported verbs, parameters, etc.
+        rootUrl:
+          type: string
+          description: "The base URL for the Beacon endpoints."
+        singleEntryUrl:
+          type: string
+          description: "URL to access a single entry in this Beacon."
+        filteringTermsUrl:
+          type: string
+          description: "URL to access filtering terms supported by this Beacon."
+        endpoints:
+          type: object
+          additionalProperties: 
+            type: object
+            required:
+              - url
+              - returnedEntryType
+            properties:
+              url:
+                type: string
+                description: "The URL of a specific endpoint."
+              returnedEntryType:
+                type: string
+                description: "The type of entry returned by the endpoint."
+    MaturityAttributesResponse:
+      type: object
+      description: |
+       Declares the level of maturity of the Beacon instance.
+      properties:
+        productionStatus:
+          type: string
+    SecurityAttributesResponse:
+      type: object
+      properties:
+        defaultGranularity:
+          type: string
+        securityLevels:
+          type: array
+          items:
+            type: string
+    ConfigurationEntryTypesResponse:
+      type: object
+      description: Returning the Beacon Entry Types.
+      required:
+        - id
+        - name
+        - ontologyTermForThisType
+        - partOfSpecification
+        - defaultSchema
+      properties:
+        $schema:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        ontologyTermForThisType:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              description: "Unique identifier for the ontology term, preferably an OBO Foundry compliant ID."
+            label:
+              type: string
+              description: "Human-readable label for the ontology term."
+        partOfSpecification:
+          type: string
+        defaultSchema:
+          type: object
+          required:
+              - referenceToSchemaDefinition
+              - id
+              - name
+          properties:
+              referenceToSchemaDefinition:
+                type: string
+              schemaVersion:
+                type: string
+              id:
+                type: string
+              name:
+                type: string
+              description:
+                type: string  
+        additionallySupportedSchemas:
+          type: array
+          items:
+            type: object
+            required:
+              - referenceToSchemaDefinition
+              - id
+              - name
+            properties:
+              referenceToSchemaDefinition:
+                type: string
+              schemaVersion:
+                type: string
+              id:
+                type: string
+              name:
+                type: string
+              description:
+                type: string
+        aCollectionOf:
+          type: string
+        filteringTerms:
+          type: string
+        nonFilteredQueriesAllowed:
+          type: boolean
+    DefaultSchema:
+      type : object
+      required:
+        - referenceToSchemaDefinition
+        - id 
+        - name
+      items:
+        type : object
+        properties:
+          referenceToSchemaDefinition:
+            type: string
+          schemaVersion:
+            type: string
+          id:
+            type: string
+          name:
+            type: string
+          description:
+            type: string
+    AdditionallySupportedSchemas:
+      type : array
+      required:
+        - referenceToSchemaDefinition
+        - id 
+        - name
+      items:
+        type : object
+        properties:
+          referenceToSchemaDefinition:
+            type: string
+          schemaVersion:
+            type: string
+          id:
+            type: string
+          name:
+            type: string
+          description:
+            type: string
+    ConfigurationResponseContent:
+      description: |
+        Returning the Beacon Map.
+      required:
+        - $schema
+        - maturityAttributes
+        - entryTypes
+      properties:
+        $schema:
+          type : string
+        maturityAttributes:
+           $ref: "#/components/schemas/MaturityAttributesResponse"
+        securityAttributes:
+           $ref: "#/components/schemas/SecurityAttributesResponse"
+        entryTypes:
+           $ref: "#/components/schemas/ConfigurationEntryTypesResponse"
     EntryTypesResponse:
       required:
         - meta
@@ -499,13 +902,24 @@ components:
       description: |
         Respond with the entry types available  in this Beacon Implementation.
     ConfigurationResponse:
+      required:
+        - meta
+        - response
+      type: object
+      properties:
+        meta:
+          $ref: "#/components/schemas/MetaContent"
+        response:
+          $ref: "#/components/schemas/ConfigurationResponseContent"
       description: |
-        Respond with this Beacon's configuration information.
+        Information about the Beacon. Aimed to Beacon clients like web pages or Beacon networks.
     MetaContent:
       description: |
         Information about the response that could be relevant for the Beacon client in order to interpret the results.
       required:
         - apiVersion
+        - beaconId
+        - returnedSchemas
       type: object
       properties:
         apiVersion:
@@ -519,21 +933,16 @@ components:
             Identifier of the beacon, as defined in Beacon, in reverse domain name notation.
           example: BeaconAPI.cv2.rdnexusdev.molgeniscloud.org
         returnedSchemas:
-          type: object
+          type: array
           description: |
             Set of schemas used in the response to a request.
-          properties:
-            entityType:
-              type: string
-            schema:
-              type: string
-        requestedSchemas:
-          type: array
-          description: | 
-            ids of the schemas requested for the record in the response. For each type of entries there can be multiple schemas. 
-            Available schemas in the beacon are specified in the /entry_types endpoint. If not specified the default one is used
-          items: 
-            type: string
+          items:
+            type: object
+            properties:
+              entityType:
+                type: string
+              schema:
+                type: string
     IndividualsMetaResponseContent:
       description: |
         Information about the response that could be relevant for the Beacon client in order to interpret the results.
@@ -639,6 +1048,35 @@ components:
               type: string
               description: |
                 Name of the organization.
+        description:
+          type: string
+          description: |
+            Description of the Beacon.
+        version:
+          type: string
+          description: |
+            TODO: This is a legacy use / duplication?
+          example: v2.01
+        welcomeUrl:
+          type: string
+          description: |
+            URL to the welcome page for this Beacon (RFC 3986 format).
+        alternativeUrl:
+          type: string
+          description: |
+            Alternative URL to the API, e.g. a restricted version of this Beacon (RFC 3986 format).
+        createDateTime:
+          type: string
+          description: |
+            The date/time the Beacon was created (ISO 8601 format).
+        updateDateTime:
+          type: string
+          description: |
+           The time the Beacon was updated in (ISO 8601 format).
+        info:
+          type: object
+          description: |
+            Additional unspecified metadata about the Beacon service.
     ETResponseContent:
       required:
         - entryTypes
@@ -705,7 +1143,7 @@ components:
                     id:
                       description: |
                         A CURIE identifier as `id` for ontology term.
-                      example: NCIT:C25190
+                      example: ncit:C25190
                       type: string
                 partOfSpecification:
                   description: |
@@ -858,21 +1296,21 @@ components:
                 type: string
                 description: |
                   In an array of strings, any filter(s) that are unsupported by an implementation go here.
-                example: '"data_2295"'
+                example: '"edam:data_2295"'
             unsupportedFilterValues:
               type: array
               items:
                 type: string
                 description: |
-                  If an implementation does not support a filter value, let's say, for example, 'NCIT_C124294'(Undetermined) Sex, this unsupported value goes here as a string, and will be ignored while a partial query is performed with other supported filter(s) from the request body (if any).
-                example: '"NCIT_C124294","NCIT_C179980"'
+                  If an implementation does not support a filter value, let's say, for example, 'ncit:C124294'(Undetermined) Sex, this unsupported value goes here as a string, and will be ignored while a partial query is performed with other supported filter(s) from the request body (if any).
+                example: '"ncit:C124294","ncit:C179980"'
           description: |
             Respond with a list of (comma-separated) unsupported filter(s).
           example: |
             {
-            unsupportedFilters: ["NCIT_C156420"], 
+            unsupportedFilters: ["ncit:C156420"], 
 
-            unsupportedFilterValues:["NCIT_C124294"]
+            unsupportedFilterValues:["ncit:C124294"]
             }
     IndividualResponseContent:
       required:
@@ -884,7 +1322,7 @@ components:
           type: boolean
           description: |
             Indicator of whether any individual was observed in the
-            data source for the given query with CDEs parameter. This should be non-null, unless there was an error, in which case `error` has to be non-null.
+            data source for the given query parameter. This should be non-null, unless there was an error, in which case `error` has to be non-null.
         numTotalResults:
           type: integer
           description: |
@@ -899,7 +1337,7 @@ components:
           type: boolean
           description: |
             Indicator of whether any catalog was observed in the
-            data source for the given query with CDEs filters. This should be non-null, unless there was an error, in which case `error` has to be non-null.
+            data source for the given query filters. This should be non-null, unless there was an error, in which case `error` has to be non-null.
         numTotalResults:
           type: integer
       description: |
@@ -933,7 +1371,7 @@ components:
           type: boolean
           description: |
             Indicator of whether any catalog was observed in the
-            data source for the given query with CDEs filters. This should be non-null, unless there was an error, in which case `error` has to be non-null.
+            data source for the given query filters. This should be non-null, unless there was an error, in which case `error` has to be non-null.
         resultsCount:
           type: integer
           description: |
@@ -983,6 +1421,7 @@ components:
               - contactPoint
               - contactEmail
               - contactURL
+              - countType
             type: object
             properties:
               resultCountDescription:
@@ -1001,6 +1440,9 @@ components:
                     type: integer
                     description: |
                       Value of maximum range employed.
+              countType:
+                type: string
+                example : "VCF file"
               contactPoint:
                 type: string
                 description: |
@@ -1120,3 +1562,7 @@ components:
       type: apiKey
       in: header
       name: auth-key
+    oidcToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
