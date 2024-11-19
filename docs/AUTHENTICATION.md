@@ -10,10 +10,16 @@ Since the specification allows for record level queries of individuals, addition
 </thead>
 <tbody>
 <tr><td>auth-key</td><td>Token provided by resource</td><td>Indicates requester is authorised (required)</td></tr>
-<tr><td>auth-token</td><td>Bearer token, True, False</td><td>Indicates requesting user's logged in status (optional)</td></tr>
-<tr><td>authentication-url</td><td>Bearer token authentication provider</td><td>Enables validation of bearer token (optional)</td></tr>
+<tr><td>Authorization</td><td>Bearer Token</td><td>The access token issued by LS AAI</td></tr>
 </tbody>
 </table>
+
+For now, the auth key is still used for some resources, but it will soon be deprecated and replaced by Bearer tokens. The absence of a token indicates that a user has not logged in. The tokens are issued by LS AAI using the OIDC protocol. Resources should register themselves with LS AAI. To validate the token, both the VP Portal and the resources need to know each other's client IDs.
+
+Configuration URL: https://login.aai.lifescience-ri.eu/oidc/.well-known/openid-configuration
+VP Portal Client ID: 5c13620c-da38-4c9b-bb79-c4c278c2f64c
+OIDC realm: https://login.aai.lifescience-ri.eu/oidc/
+
 
 > **Note:** Presence of a bearer token is equivalent to auth-token:True
 

@@ -10,6 +10,7 @@ To provide flexibility for implementers between using a range, the `info` sectio
       "minRange": N,
       "maxRange": N
    },
+   "countType": "VCF file",
    "contactPoint": "Person/point of contact",
    "contactEmail": "Email for contact regarding this dataset/resource", 
    "contactURL": "URL of the implementer"
@@ -39,7 +40,7 @@ To provide flexibility for implementers between using a range, the `info` sectio
                "minRange": 71,
                "maxRange": 80
             },
-            "resultCountDescription": "This count refers to VCF files available in the dataset.",
+            "countType": "VCF file.",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org", 
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"

@@ -18,8 +18,8 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 
 <table>
 <thead>
-        <th>CDE Concept</th>
-        <th>CDE Term</th>
+        <th>Concept</th>
+        <th>Ontological Term</th>
         <th>Beacon Filter Type</th>
         <th>ID</th>
         <th>Operator</th>
@@ -31,7 +31,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
             <b>Sex</b>
         </td>
         <td rowspan="5">
-            obo:NCIT_C28421
+            ncit:C28421
         </td>
         <td rowspan="5">
             Alphanumerical
@@ -68,7 +68,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
     </tr>
     <tr>
         <td><b>Disease or Disorder</b>
-        </td><td>obo:NCIT_C2991</td>
+        </td><td>ncit:C2991</td>
         <td>Ontology</td>
         <td>A single value or an array of orphanet terms. <b>e.g. ordo:Orphanet_558 or [ordo:Orphanet_558, ordo:Orphanet_773]</b></td>
         <td colspan="2">NA</td>
@@ -84,26 +84,26 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
         <td><b>Causative Genes</b></td>
         <td>edam:data_2295</td>
         <td>Alphanumerical</td>
-        <td>data:2295 </td>
+        <td>edam:data_2295 </td>
         <td>=</td>
         <td>any HGNC gene symbol or array of HGNC symbols</td>
     </tr>
     <tr>
-      <td><b>Age this year</b></td><td>obo:NCIT_C83164</td>
+      <td><b>Age this year</b></td><td>ncit:C83164</td>
         <td>Numerical</td>
         <td>ncit:C83164 </td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
     <tr>
-      <td><b>Symptom Onset</b></td><td>obo:NCIT_C124353</td>
+      <td><b>Symptom Onset</b></td><td>ncit:C124353</td>
         <td>Numerical</td>
         <td>ncit:C124353</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
         <td>any integer</td>
     </tr>
     <tr>
-      <td><b>Age at diagnosis</b></td><td>obo:NCIT_C156420</td>
+      <td><b>Age at diagnosis</b></td><td>ncit:C156420</td>
         <td>Numerical</td>
         <td>ncit:C156420</td>
         <td>=, &gt;=, &gt;, &lt;=, &lt;</td>
@@ -112,7 +112,7 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
 </tbody>
 </table>
 
-[ ^ Back to the top](#individuals-endpoint)
+[ ^ Back to the top](#top)
 
 <hr>
 
@@ -152,8 +152,8 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
                 "includeDescendantTerms": true
               },
               {
-                "id": "data:2295",
-                "value": "LAMP2",
+                "id": "edam:data_2295",
+                "value": "ACTN4",
                 "operator": "="
               },
               {
@@ -187,9 +187,9 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
          "info": {
             "resultCountDescription": {
                "minRange": 71,
-               "maxRange": 80,
-               "resultCountDescription": "This count refers to VCF files available in the dataset."
+               "maxRange": 80  
             },
+            "countType": "VCF file",
             "contactPoint": "admin",
             "contactEmail": "admin@cafevariome.org", 
             "contactURL": "rdnexusdev.molgeniscloud.org/cv2/"
@@ -218,85 +218,83 @@ The "includeDescendantTerms" is used to query for entities associated with the s
 
 ```JSON
  {
-  "meta": {
-    "beaconId": "org.rd-connect.beacon",
-    "apiVersion": "v2.0.0-draft.4",
-    "returnedGranularity": "count",
-    "receivedRequestSummary": {
-      "apiVersion": "v2.0",
-      "requestedSchemas": [
-        {
-          "entityType": "individuals",
-          "schema": "beacon-individual-v2.0.0-draft.4"
-        }
-      ],
-      "filters": [
-        [
-          {
-            "id": [
-              "ordo:Orphanet_730",
-              "ordo:Orphanet_2730"
+    "meta": {
+        "beaconId": "org.rd-connect.beacon",
+        "apiVersion": "v2.0.0-draft.4",
+        "returnedGranularity": "count",
+        "receivedRequestSummary": {
+            "apiVersion": "v2.0",
+            "requestedSchemas": [
+                {
+                    "entityType": "individuals",
+                    "schema": "beacon-individual-v2.0.0-draft.4"
+                }
+            ],
+            "filters": [
+                [
+                    {
+                        "id": [
+                            "ordo:Orphanet_730",
+                            "ordo:Orphanet_2730"
+                        ]
+                    },
+                    {
+                        "id": "ncit:C28421",
+                        "operator": "=",
+                        "value": "ncit:C20197"
+                    },
+                    {
+                        "id": "edam:data_2295",
+                        "operator": "=",
+                        "value": "ACTN4"
+                    },
+                    {
+                        "id": "ncit:C83164",
+                        "operator": ">=",
+                        "value": "0"
+                    },
+                    {
+                        "id": "ncit:C124353",
+                        "operator": ">=",
+                        "value": "0"
+                    },
+                    {
+                        "id": "ncit:C156420",
+                        "operator": ">=",
+                        "value": "0"
+                    }
+                ]
             ]
-          },
-          {
-            "id": "ncit:C28421",
-            "operator": "=",
-            "value": "ncit:C20197"
-          },
-          {
-            "id": "data:2295",
-            "operator": "=",
-            "value": "100"
-          },
-          {
-            "id": "ncit:C83164",
-            "operator": ">=",
-            "value": "0"
-          },
-          {
-            "id": "ncit:C124353",
-            "operator": ">=",
-            "value": "0"
-          },
-          {
-            "id": "ncit:C156420",
-            "operator": ">=",
-            "value": "0"
-          }
+        },
+        "returnedSchemas": [
+            {
+                "entityType": "individuals",
+                "schema": "beacon-individual-v2.0.0-draft.4"
+            }
         ]
-      ]
     },
-    "returnedSchemas": [
-      {
-        "entityType": "individuals",
-        "schema": "beacon-individual-v2.0.0-draft.4"
-      }
-    ]
-  },
-  "responseSummary": {
-    "exists": false,
-    "numTotalResults": 0
-  },
-  "info": {
-    "warnings": {
-      "unsupportedFilters": [
-        "ncit:C83164",
-        "ncit:C124353",
-        "ncit:C156420"
-      ]
-    }
-  },
-  "response": {
-    "resultSets": [
-      {
-        "id": "datasetBeacon",
-        "type": "individuals",
+    "responseSummary": {
         "exists": false,
-        "resultCount": 0
-      }
-    ]
-  }
+        "numTotalResults": 0
+    },
+    "info": {
+        "warnings": {
+            "unsupportedFilters": [
+                "ncit:C83164",
+                "ncit:C124353",
+                "ncit:C156420"
+            ]
+        }
+    },
+    "response": {
+        "resultSets": [
+            {
+                "id": "datasetBeacon",
+                "type": "individuals",
+                "exists": false,
+                "resultCount": 0
+            }
+        ]
+    }
 }
 ```
-
-[ ^ Back to the top](#individuals-endpoint)

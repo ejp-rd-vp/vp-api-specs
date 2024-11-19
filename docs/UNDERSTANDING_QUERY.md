@@ -64,10 +64,10 @@ As shown above, different types of filters can be sent in a single query. These 
         {
           "id": "ordo:Orphanet_34587" 
         },
-        {
-          "id": "data:2295",
+       {
+          "id": "edam:data_2295",
           "operator": "=",
-          "value": "LAMP2"
+          "value": "ACTN4"
         }
       ]
     }
@@ -170,9 +170,9 @@ The warning messages will be provided within the [`info`](#partial-query-matches
           "id": "ordo:Orphanet_34587"
         },
         {
-          "id": "data:2295",
-          "value": "LAMP2",
-          "operator": "="
+          "id": "edam:data_2295",
+          "operator": "=",
+          "value": "ACTN4"
         },
         {
           "id": "ncit:C28421",
@@ -225,7 +225,7 @@ This request is sent to a resource which does not hold information about causati
   "info": { 
     "warnings":{
       "unsupportedFilters": [
-        "data:2295"
+         "edam:data_2295"
       ]
     }
   }
