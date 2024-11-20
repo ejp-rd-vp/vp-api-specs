@@ -48,4 +48,4 @@ The request and response conforms to the [Beacon Reference Framework](https://gi
 
 ## Try out the API
 
-Latest version (v4.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis/DVS6_1/virtual-platform_beacon_api/v4.0
+Latest version (v4.0) of this specification is available on Swagger here: https://app.swaggerhub.com/apis-docs/DVS6_1/virtual-platform_beacon_api/v4.0
