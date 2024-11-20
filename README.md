@@ -1,6 +1,4 @@
-# WARNING !!!
-
-This is Version 2 specifications and will soon be deprecated. We strongly recommend upgrading to [Version 4](https://github.com/ejp-rd-vp/vp-api-specs/tree/v4.0_spec) specifications to ensure compatibility and take advantage of the latest features and improvements. Please look at our [Wikki](https://github.com/ejp-rd-vp/vp-api-specs/wiki/Updates) page to see the latest updates.
+# Version4 Specifications
 
 # REST API specification for querying RD resources (Virtual Platform Level 2)
 

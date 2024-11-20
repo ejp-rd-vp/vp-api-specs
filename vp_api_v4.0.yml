@@ -1423,7 +1423,6 @@ components:
             minItems: 0
           info:
             required:
-              - resultCountDescription
               - contactPoint
               - contactEmail
               - contactURL
