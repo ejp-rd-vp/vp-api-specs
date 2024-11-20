@@ -181,9 +181,10 @@ Please **do not use HTTP GET method** to query the individuals endpoint, as it i
      "resultSets": [
       {
          "id": "Vivify",
-         "type": "dataset", 
+         "setType": "dataset", 
          "exists": true,
          "resultCount": 80,
+         "results":[{}],
          "info": {
             "resultCountDescription": {
                "minRange": 71,
@@ -290,9 +291,10 @@ The "includeDescendantTerms" is used to query for entities associated with the s
         "resultSets": [
             {
                 "id": "datasetBeacon",
-                "type": "individuals",
+                "setType": "individuals",
                 "exists": false,
-                "resultCount": 0
+                "resultCount": 0,
+                "results":[{}]  
             }
         ]
     }

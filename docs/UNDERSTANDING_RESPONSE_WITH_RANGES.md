@@ -32,9 +32,10 @@ To provide flexibility for implementers between using a range, the `info` sectio
      "resultSets": [
       {
          "id": "Vivify",
-         "type": "dataset", 
+         "setType": "dataset", 
          "exists": true,
          "resultCount": 80,
+         "results":[{}],
          "info": {
             "resultCountDescription": {
                "minRange": 71,

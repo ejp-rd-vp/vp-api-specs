@@ -1393,16 +1393,17 @@ components:
         type: object
         required:
           - id
-          - type
+          - setType
           - exists
           - resultCount
+          - results
         properties:
           id:
             type: string
             description: |
               id of the result
             example: "result0123"
-          type:
+          setType:
             type: string
             description: |
               Type of result
@@ -1415,6 +1416,11 @@ components:
             type: integer
             description: |
               Count of result, either exact or higher range of result. If employing ranges, 'info' attributre is required.
+          results:
+            type: array
+            items:
+              type: object
+            minItems: 0
           info:
             required:
               - resultCountDescription

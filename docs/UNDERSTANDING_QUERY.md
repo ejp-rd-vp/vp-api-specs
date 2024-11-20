@@ -202,9 +202,10 @@ This request is sent to a resource which does not hold information about causati
      "resultSets": [
       {
          "id": "Vivify",
-         "type": "dataset",
+         "setType": "dataset",
          "exists": true,
          "resultCount": 20,
+         "results":[{}],
          "info": {
             "resultCountDescription": {
                "minRange": 11,
